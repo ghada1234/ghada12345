@@ -48,26 +48,19 @@ const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI. Your task is to analyze the provided meal information and estimate its nutritional content.
+  prompt: `You are an expert nutritionist AI. Your task is to analyze the provided meal information and provide a detailed and accurate estimate of its nutritional content.
 
-You will be given either a text description, a photo, or both. The photo might be of a meal, or it could be a product's barcode.
-If a barcode is provided, identify the product and retrieve its nutritional information. Otherwise, use all available information to identify the meal and its components.
+Follow these steps for your analysis:
+1.  **Identify the Meal:** First, identify the meal and all its individual components from the provided description and/or photo. If a barcode is visible in the photo, prioritize identifying the product from the barcode.
+2.  **Estimate Portion Sizes:** For each component, estimate the portion size in grams or other standard units. Be realistic.
+3.  **Calculate Nutritional Information:** Based on the identified ingredients and their estimated portion sizes, calculate the total nutritional content for the entire meal. Provide estimations for calories, protein, carbohydrates, and fats.
+4.  **Assess Confidence:** Critically evaluate the quality of the input and the certainty of your analysis. Assign a confidence score ('High', 'Medium', or 'Low') based on the following criteria:
+    *   **High:** The image is clear, the meal is simple with distinct ingredients, and portion sizes are unambiguous (e.g., a single apple, a standard can of soda, a clearly labeled product). Or, a barcode was successfully identified.
+    *   **Medium:** There is some ambiguity. The meal might be complex, some ingredients may be obscured, or portion sizes are difficult to estimate precisely (e.g., a bowl of pasta with a mixed sauce, a large salad with many toppings).
+    *   **Low:** The input is very unclear. The image may be blurry or poorly lit, the description vague, or the meal is exceptionally complex, making an accurate analysis very difficult (e.g., a blurry photo of a casserole, a description like "had some soup").
+5.  **Provide Feedback:** Write a brief, helpful 'feedback' message explaining your confidence rating. This should clearly state what made the analysis difficult, if anything. For example: "Confidence is Medium because the exact portion size of the rice is an estimate." or "Confidence is High as the product was clearly identified from the barcode."
 
-Analyze the meal or product and provide the following estimations:
-- A descriptive name for the meal or product.
-- Total calories.
-- Grams of protein.
-- Grams of carbohydrates.
-- Grams of fat.
-
-Crucially, you must also assess your confidence in this analysis. The confidence level can be 'High', 'Medium', or 'Low'.
-- 'High' confidence means the meal is simple, clear, and portion sizes are obvious, or a barcode was successfully identified.
-- 'Medium' confidence means there is some ambiguity, like complex ingredients or unclear portion sizes.
-- 'Low' confidence means the image is blurry, the description is vague, or the meal is very complex and difficult to analyze accurately.
-
-Provide a brief 'feedback' string explaining your confidence level. For example, if confidence is 'Medium', you might say "Portion size is an estimate," or if 'Low', "Image is blurry and some ingredients are not identifiable."
-
-Source Information:
+Source Information to Analyze:
 {{#if description}}
 Description: {{{description}}}
 {{/if}}
