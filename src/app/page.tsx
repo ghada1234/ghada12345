@@ -41,7 +41,7 @@ export default function LandingPage() {
                 {translations.home.hero.subtitle}
               </p>
             </div>
-            <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:max-w-xs mx-auto">
+            <div className="mt-6 flex justify-center gap-4 max-w-xs mx-auto">
               <Link href="/dashboard" className="flex-1">
                 <Button className="w-full">
                   {translations.home.hero.getStarted}
@@ -282,5 +282,3 @@ export default function LandingPage() {
     </>
   );
 }
-
-    
