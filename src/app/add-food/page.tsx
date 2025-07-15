@@ -166,13 +166,13 @@ export default function AddFoodPage() {
   const handleShare = (result: AnalyzeMealOutput) => {
     const message = `🍽️ ${result.mealName}
 
-📊 MACRONUTRIENTS
+📊 *MACRONUTRIENTS*
 🔥 ${translations.addFood.analysisResult.calories}: ${result.calories.toFixed(0)} kcal
 💪 ${translations.addFood.analysisResult.protein}: ${result.protein.toFixed(1)}g
 🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs.toFixed(1)}g
 🥑 ${translations.addFood.analysisResult.fats}: ${result.fats.toFixed(1)}g
 
-🧪 MICRONUTRIENTS
+🧪 *MICRONUTRIENTS*
 🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar.toFixed(1)}g
 🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium.toFixed(0)}mg
 🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium.toFixed(0)}mg
