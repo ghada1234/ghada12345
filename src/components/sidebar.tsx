@@ -40,7 +40,7 @@ export function Sidebar() {
           </Link>
         </div>
         <div className="flex-1">
-          <nav className="grid items-start px-2 text-sm font-medium lg:px-4 space-y-1">
+          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             <NavLink href="/" icon={<Home className="h-4 w-4" />} label="Home" />
             <NavLink
               href="/dashboard"
@@ -69,8 +69,8 @@ export function Sidebar() {
             />
           </nav>
         </div>
-        <div className="mt-auto p-4 space-y-2">
-           <nav className="grid items-start text-sm font-medium space-y-1">
+        <div className="mt-auto p-4">
+           <nav className="grid items-start text-sm font-medium">
              <NavLink
               href="#"
               icon={<MessageSquare className="h-4 w-4" />}
