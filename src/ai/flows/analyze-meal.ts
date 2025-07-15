@@ -51,46 +51,6 @@ export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealO
   return analyzeMealFlow(input);
 }
 
-/**
- * Repairs the AI output to ensure it conforms to the schema.
- * This is a safeguard against the AI model not perfectly following instructions.
- */
-function repairOutput(output: any): AnalyzeMealOutput {
-    const repaired = { ...output };
-
-    const numericFields: (keyof AnalyzeMealOutput)[] = [
-        'calories', 'protein', 'carbs', 'fats', 'sugar', 'sodium', 
-        'potassium', 'calcium', 'iron', 'vitaminC'
-    ];
-
-    numericFields.forEach(field => {
-        const value = repaired[field];
-        if (typeof value !== 'number' || !isFinite(value)) {
-            repaired[field] = 0;
-        }
-    });
-
-    if (!Array.isArray(repaired.ingredients)) {
-        repaired.ingredients = [];
-    }
-
-    if (!['High', 'Medium', 'Low'].includes(repaired.confidence)) {
-        repaired.confidence = 'Low';
-        repaired.feedback = 'Confidence not provided by AI, defaulting to Low.';
-    }
-    
-    if (typeof repaired.mealName !== 'string') {
-        repaired.mealName = 'Unknown Meal';
-    }
-
-    if (typeof repaired.feedback !== 'string') {
-        repaired.feedback = 'No feedback provided.';
-    }
-
-    return repaired as AnalyzeMealOutput;
-}
-
-
 const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
   input: {schema: AnalyzeMealInputSchema},
@@ -130,18 +90,9 @@ const analyzeMealFlow = ai.defineFlow(
   async input => {
     try {
         const {output} = await prompt(input);
-        const repairedOutput = repairOutput(output);
-        
-        // Final validation after repair, just in case.
-        AnalyzeMealOutputSchema.parse(repairedOutput);
-
-        return repairedOutput;
+        return output!;
     } catch (error) {
-        if (error instanceof z.ZodError) {
-            console.error("AI output validation failed even after repair:", error.errors);
-        } else {
-            console.error("Error in analyzeMealFlow:", error);
-        }
+        console.error("Error in analyzeMealFlow:", error);
         // Re-throw the error to be handled by the calling action
         throw new Error("The AI returned an unexpected response. Please try again.");
     }
