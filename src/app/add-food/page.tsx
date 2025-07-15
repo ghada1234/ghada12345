@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,15 +14,28 @@ import { useLanguage } from "@/context/language-context";
 export default function AddFoodPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment');
   const videoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
   const { translations } = useLanguage();
 
   useEffect(() => {
+    // Stop any existing camera stream when the component unmounts or the selected option changes
+    const stopStream = () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+      }
+    };
+
     if (selectedOption === "camera" || selectedOption === "scan") {
       const getCameraPermission = async () => {
+        stopStream(); // Stop previous stream before starting a new one
         try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: facingMode } 
+          });
           setHasCameraPermission(true);
 
           if (videoRef.current) {
@@ -40,40 +53,54 @@ export default function AddFoodPage() {
       };
       getCameraPermission();
     } else {
-        // Stop camera stream when not in use
-        if (videoRef.current && videoRef.current.srcObject) {
-            const stream = videoRef.current.srcObject as MediaStream;
-            stream.getTracks().forEach(track => track.stop());
-            videoRef.current.srcObject = null;
-        }
+      stopStream();
     }
-  }, [selectedOption, toast, translations]);
+    
+    return () => {
+        stopStream();
+    }
+  }, [selectedOption, facingMode, toast, translations]);
+    
+  const handleSwitchCamera = () => {
+    setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user'));
+  };
 
   const renderContent = () => {
+    const cameraView = (title: string, buttonText: string, buttonIcon: React.ReactNode) => (
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center relative">
+             <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+             {hasCameraPermission && (
+                <Button variant="outline" size="icon" className="absolute top-2 right-2 z-10" onClick={handleSwitchCamera}>
+                    <SwitchCamera />
+                </Button>
+             )}
+          </div>
+           {hasCameraPermission === false && (
+            <Alert variant="destructive">
+              <AlertTitle>{translations.addFood.cameraAccessRequired}</AlertTitle>
+              <AlertDescription>
+                {translations.addFood.cameraPermission}
+              </AlertDescription>
+            </Alert>
+          )}
+          <Button disabled={!hasCameraPermission} className="w-full">
+            {buttonIcon} {buttonText}
+          </Button>
+        </CardContent>
+      </Card>
+    );
+
     switch (selectedOption) {
       case "camera":
-        return (
-          <Card className="w-full">
-            <CardHeader>
-              <CardTitle>{translations.addFood.useCamera}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center">
-                 <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
-              </div>
-               {hasCameraPermission === false && (
-                <Alert variant="destructive">
-                  <AlertTitle>{translations.addFood.cameraAccessRequired}</AlertTitle>
-                  <AlertDescription>
-                    {translations.addFood.cameraPermission}
-                  </AlertDescription>
-                </Alert>
-              )}
-              <Button disabled={!hasCameraPermission} className="w-full">
-                <Camera className="mr-2" /> {translations.addFood.snapPhotoButton}
-              </Button>
-            </CardContent>
-          </Card>
+        return cameraView(
+            translations.addFood.useCamera,
+            translations.addFood.snapPhotoButton,
+            <Camera className="mr-2" />
         );
       case "describe":
         return (
@@ -88,28 +115,10 @@ export default function AddFoodPage() {
           </Card>
         );
       case "scan":
-        return (
-            <Card className="w-full">
-            <CardHeader>
-                <CardTitle>{translations.addFood.scanBarcodeTitle}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center">
-                  <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
-                </div>
-                {hasCameraPermission === false && (
-                  <Alert variant="destructive">
-                    <AlertTitle>{translations.addFood.cameraAccessRequired}</AlertTitle>
-                    <AlertDescription>
-                      {translations.addFood.cameraPermissionBarcode}
-                    </AlertDescription>
-                  </Alert>
-                )}
-                <Button className="w-full" disabled={!hasCameraPermission}>
-                    <ScanBarcode className="mr-2" /> {translations.addFood.startScanning}
-                </Button>
-            </CardContent>
-            </Card>
+        return cameraView(
+            translations.addFood.scanBarcodeTitle,
+            translations.addFood.startScanning,
+            <ScanBarcode className="mr-2" />
         );
       case "upload":
         return (
