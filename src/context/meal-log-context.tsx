@@ -8,7 +8,7 @@ export interface LoggedMeal extends AnalyzeMealOutput {
   id: string;
   date: string; // ISO string for date
   mealType: string;
-  portionSize: string;
+  portionSize?: string;
 }
 
 interface MealLogContextType {

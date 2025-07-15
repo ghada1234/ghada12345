@@ -28,7 +28,7 @@ export type AnalyzeMealInput = z.infer<typeof AnalyzeMealInputSchema>;
 
 const AnalyzeMealOutputSchema = z.object({
   mealName: z.string().optional().default('').describe('A descriptive name for the meal.'),
-  portionSize: z.string().optional().default('').describe('The estimated portion size of the meal, e.g., "1 cup", "100g", "1 slice".'),
+  portionSize: z.string().optional().describe('The estimated portion size of the meal, e.g., "1 cup", "100g", "1 slice".'),
   calories: z.number().optional().default(0).describe('Estimated total calories.'),
   protein: z.number().optional().default(0).describe('Estimated grams of protein.'),
   carbs: z.number().optional().default(0).describe('Estimated grams of carbohydrates.'),
@@ -104,7 +104,6 @@ const analyzeMealFlow = ai.defineFlow(
         return {
             error: (e as Error).message,
             mealName: "",
-            portionSize: "",
             calories: 0,
             protein: 0,
             carbs: 0,
