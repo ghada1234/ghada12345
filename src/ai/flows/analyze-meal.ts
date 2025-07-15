@@ -54,6 +54,7 @@ export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealO
 
 const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
+  model: 'googleai/gemini-2.0-flash-preview',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
   prompt: `You are an expert nutritionist AI with a specialization in global cuisines, including a deep understanding of Middle Eastern, Indian, and Iraqi dishes. Your task is to analyze the provided meal information and provide a detailed and accurate estimate of its nutritional content, including both macronutrients and key micronutrients.
