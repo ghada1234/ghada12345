@@ -45,6 +45,23 @@ const AnalyzeMealOutputSchema = z.object({
 });
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
 
+export async function handleAnalyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
+  try {
+    const result = await analyzeMeal(input);
+    return result;
+  } catch (error) {
+    console.error("Error analyzing meal:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    return { 
+        error: `Failed to get meal analysis from AI: ${errorMessage}`,
+        mealName: "Analysis Failed",
+        calories: 0, protein: 0, carbs: 0, fats: 0, sugar: 0, sodium: 0, 
+        potassium: 0, calcium: 0, iron: 0, vitaminC: 0,
+        ingredients: [], confidence: 'Low', feedback: 'An error occurred during analysis.'
+    };
+  }
+}
+
 export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
   if (!input.description && !input.photoDataUri) {
     throw new Error('Either a description or a photo must be provided.');
@@ -57,7 +74,7 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
+  prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Middle Eastern and Asian dishes. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
 
 You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
