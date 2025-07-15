@@ -44,9 +44,6 @@ const AnalyzeMealOutputSchema = z.object({
 });
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
 
-export async function handleAnalyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
-  return analyzeMeal(input);
-}
 
 export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
   if (!input.description && !input.photoDataUri) {
@@ -60,35 +57,23 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
+  config: {
+    safetySettings: [
+        {
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            threshold: 'BLOCK_ONLY_HIGH',
+        },
+        {
+            category: 'HARM_CATEGORY_HATE_SPEECH',
+            threshold: 'BLOCK_ONLY_HIGH',
+        }
+    ]
+  },
   prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Iraqi, Middle Eastern, and Asian dishes.
 
-Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content in JSON format.
+Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
 
-Your response MUST conform to the following JSON schema:
-\`\`\`json
-{
-  "type": "object",
-  "properties": {
-    "mealName": { "type": "string", "description": "A descriptive name for the meal." },
-    "calories": { "type": "number", "description": "Estimated total calories." },
-    "protein": { "type": "number", "description": "Estimated grams of protein." },
-    "carbs": { "type": "number", "description": "Estimated grams of carbohydrates." },
-    "fats": { "type": "number", "description": "Estimated grams of fat." },
-    "sugar": { "type": "number", "description": "Estimated grams of sugar." },
-    "sodium": { "type": "number", "description": "Estimated milligrams of sodium." },
-    "potassium": { "type": "number", "description": "Estimated milligrams of potassium." },
-    "calcium": { "type": "number", "description": "Estimated milligrams of calcium." },
-    "iron": { "type": "number", "description": "Estimated milligrams of iron." },
-    "vitaminC": { "type": "number", "description": "Estimated milligrams of Vitamin C." },
-    "ingredients": { "type": "array", "items": { "type": "string" }, "description": "A list of identified ingredients in the meal." },
-    "confidence": { "type": "string", "enum": ["High", "Medium", "Low"], "description": "The confidence level of the analysis." },
-    "feedback": { "type": "string", "description": "A brief explanation for the confidence score, highlighting any ambiguities." }
-  },
-  "required": ["mealName", "calories", "protein", "carbs", "fats", "sugar", "sodium", "potassium", "calcium", "iron", "vitaminC", "ingredients", "confidence", "feedback"]
-}
-\`\`\`
-
-IMPORTANT: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
+Your response MUST conform to the output JSON schema. IMPORTANT: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
 Analyze the following meal:
 {{#if description}}

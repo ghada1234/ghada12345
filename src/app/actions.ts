@@ -2,7 +2,7 @@
 "use server";
 
 import { suggestRecipes, type SuggestRecipesInput, type SuggestRecipesOutput } from "@/ai/flows/suggest-recipes";
-import { handleAnalyzeMeal as handleAnalyzeMealFlow, type AnalyzeMealInput, type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
+import { analyzeMeal, type AnalyzeMealInput, type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
 import { generateMealPlan, type GenerateMealPlanInput, type GenerateMealPlanOutput } from "@/ai/flows/generate-meal-plan";
 
 export async function handleSuggestRecipes(
@@ -20,7 +20,7 @@ export async function handleSuggestRecipes(
 export async function handleAnalyzeMeal(
   input: AnalyzeMealInput
 ): Promise<AnalyzeMealOutput> {
-  return handleAnalyzeMealFlow(input);
+  return analyzeMeal(input);
 }
 
 export async function handleGenerateMealPlan(
