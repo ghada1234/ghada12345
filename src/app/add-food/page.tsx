@@ -113,7 +113,16 @@ export default function AddFoodPage() {
     setAnalysisResult(null);
     try {
         const result = await handleAnalyzeMeal(input);
-        setAnalysisResult(result);
+        if (result.error) {
+            toast({
+                variant: "destructive",
+                title: translations.addFood.analysisError.title,
+                description: result.error,
+            });
+            setAnalysisResult(null);
+        } else {
+            setAnalysisResult(result);
+        }
     } catch (error) {
       toast({
         variant: "destructive",
@@ -166,7 +175,7 @@ export default function AddFoodPage() {
      toast({
         title: translations.addFood.logSuccess.title,
         description: translations.addFood.logSuccess.description
-            .replace('{mealName}', mealName)
+            .replace('{mealName}', mealName ?? 'Meal')
             .replace('{mealType}', mealTypeText)
             .replace('{date}', format(logDate, 'PPP'))
      });
@@ -178,18 +187,18 @@ export default function AddFoodPage() {
     const message = `🍽️ *${result.mealName}*
 
 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
-🔥 ${translations.addFood.analysisResult.calories}: ${result.calories.toFixed(0)} kcal
-💪 ${translations.addFood.analysisResult.protein}: ${result.protein.toFixed(1)}g
-🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs.toFixed(1)}g
-🥑 ${translations.addFood.analysisResult.fats}: ${result.fats.toFixed(1)}g
+🔥 ${translations.addFood.analysisResult.calories}: ${result.calories?.toFixed(0)} kcal
+💪 ${translations.addFood.analysisResult.protein}: ${result.protein?.toFixed(1)}g
+🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs?.toFixed(1)}g
+🥑 ${translations.addFood.analysisResult.fats}: ${result.fats?.toFixed(1)}g
 
 *${translations.addFood.analysisResult.microsTitle.toUpperCase()}*
-🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar.toFixed(1)}g
-🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium.toFixed(0)}mg
-🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium.toFixed(0)}mg
-🦴 ${translations.addFood.analysisResult.calcium}: ${result.calcium.toFixed(0)}mg
-⚡ ${translations.addFood.analysisResult.iron}: ${result.iron.toFixed(1)}mg
-🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC.toFixed(1)}mg
+🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar?.toFixed(1)}g
+🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium?.toFixed(0)}mg
+🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium?.toFixed(0)}mg
+🦴 ${translations.addFood.analysisResult.calcium}: ${result.calcium?.toFixed(0)}mg
+⚡ ${translations.addFood.analysisResult.iron}: ${result.iron?.toFixed(1)}mg
+🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC?.toFixed(1)}mg
 
 📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
@@ -283,12 +292,15 @@ export default function AddFoodPage() {
     Low: "bg-red-500 hover:bg-red-600",
   }
 
-  const NutrientRow = ({ label, value, unit }: { label: string; value: number; unit: string; }) => (
-    <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium">{value.toFixed(value > 10 ? 0 : 1)} {unit}</span>
-    </div>
-  )
+  const NutrientRow = ({ label, value, unit }: { label: string; value?: number; unit: string; }) => {
+    if (typeof value !== 'number') return null;
+    return (
+        <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">{label}</span>
+            <span className="font-medium">{value.toFixed(value > 10 ? 0 : 1)} {unit}</span>
+        </div>
+    )
+  }
 
   const AnalysisResultCard = () => (
     <Card className="w-full max-w-md">
@@ -319,22 +331,26 @@ export default function AddFoodPage() {
                 <>
                     <div className="flex items-baseline justify-between">
                         <h3 className="text-2xl font-bold">{analysisResult.mealName}</h3>
-                        <Badge className={confidenceColor[analysisResult.confidence]}>
-                            {translations.addFood.analysisResult.confidence}: {translations.addFood.analysisResult.confidenceLevels[analysisResult.confidence]}
-                        </Badge>
+                        {analysisResult.confidence && (
+                             <Badge className={confidenceColor[analysisResult.confidence]}>
+                                {translations.addFood.analysisResult.confidence}: {translations.addFood.analysisResult.confidenceLevels[analysisResult.confidence]}
+                            </Badge>
+                        )}
                     </div>
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
                     
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="ingredients">
-                            <AccordionTrigger>{translations.addFood.analysisResult.ingredientsTitle}</AccordionTrigger>
-                            <AccordionContent>
-                                <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                                    {analysisResult.ingredients.map((item, index) => <li key={index}>{item}</li>)}
-                                </ul>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                    {analysisResult.ingredients && analysisResult.ingredients.length > 0 && (
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="ingredients">
+                                <AccordionTrigger>{translations.addFood.analysisResult.ingredientsTitle}</AccordionTrigger>
+                                <AccordionContent>
+                                    <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                                        {analysisResult.ingredients.map((item, index) => <li key={index}>{item}</li>)}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    )}
                     
                     <div className="space-y-2">
                         <h4 className="font-semibold">{translations.addFood.analysisResult.macrosTitle}</h4>
