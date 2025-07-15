@@ -19,42 +19,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { DashboardHeader } from '@/components/dashboard-header';
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
-        <div className="container mx-auto flex h-14 items-center px-4 md:px-6">
-          <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-            <Leaf className="h-6 w-6 text-primary" />
-            <span className="font-bold">NutriSnap</span>
-          </Link>
-          <nav className="ml-auto hidden items-center gap-4 sm:flex">
-            <Link
-              href="#features"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              prefetch={false}
-            >
-              Features
-            </Link>
-            <Link
-              href="#testimonials"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              prefetch={false}
-            >
-              Testimonials
-            </Link>
-            <Link
-              href="#faq"
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              prefetch={false}
-            >
-              FAQ
-            </Link>
-          </nav>
-        </div>
-      </header>
-
+    <>
+      <DashboardHeader />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-muted/20">
@@ -69,10 +39,12 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
-              <Button size="lg">
-                Get Started Free
-                <ArrowRight className="ml-2" />
-              </Button>
+              <Link href="/dashboard">
+                <Button size="lg">
+                  Get Started Free
+                  <ArrowRight className="ml-2" />
+                </Button>
+              </Link>
               <Button size="lg" variant="outline">
                 How It Works
               </Button>
@@ -271,37 +243,37 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-      </main>
 
-      <footer className="bg-muted/60 py-8 mt-12">
-        <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="space-y-2">
-                <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-                    <Leaf className="h-6 w-6 text-primary" />
-                    <span className="font-bold text-lg">NutriSnap</span>
-                </Link>
-                <p className="text-sm text-muted-foreground">Your AI-powered companion for smart and simple nutrition tracking.</p>
-            </div>
-            <div>
-                <h4 className="font-semibold mb-2">Product</h4>
-                <ul className="space-y-1">
-                    <li><Link href="#features" className="text-sm text-muted-foreground hover:text-foreground">Features</Link></li>
-                    <li><Link href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground">Testimonials</Link></li>
-                    <li><Link href="#faq" className="text-sm text-muted-foreground hover:text-foreground">FAQ</Link></li>
-                </ul>
-            </div>
-             <div>
-                <h4 className="font-semibold mb-2">Company</h4>
-                <ul className="space-y-1">
-                    <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">About</Link></li>
-                    <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">Feedback</Link></li>
-                </ul>
-            </div>
-        </div>
-        <div className="container mx-auto px-4 md:px-6 mt-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} NutriSnap. All rights reserved.
-        </div>
-      </footer>
-    </div>
+        <footer className="bg-muted/60 py-8 mt-12">
+          <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div className="space-y-2">
+                  <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
+                      <Leaf className="h-6 w-6 text-primary" />
+                      <span className="font-bold text-lg">NutriSnap</span>
+                  </Link>
+                  <p className="text-sm text-muted-foreground">Your AI-powered companion for smart and simple nutrition tracking.</p>
+              </div>
+              <div>
+                  <h4 className="font-semibold mb-2">Product</h4>
+                  <ul className="space-y-1">
+                      <li><Link href="#features" className="text-sm text-muted-foreground hover:text-foreground">Features</Link></li>
+                      <li><Link href="#testimonials" className="text-sm text-muted-foreground hover:text-foreground">Testimonials</Link></li>
+                      <li><Link href="#faq" className="text-sm text-muted-foreground hover:text-foreground">FAQ</Link></li>
+                  </ul>
+              </div>
+              <div>
+                  <h4 className="font-semibold mb-2">Company</h4>
+                  <ul className="space-y-1">
+                      <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">About</Link></li>
+                      <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">Feedback</Link></li>
+                  </ul>
+              </div>
+          </div>
+          <div className="container mx-auto px-4 md:px-6 mt-8 text-center text-sm text-muted-foreground">
+              © {new Date().getFullYear()} NutriSnap. All rights reserved.
+          </div>
+        </footer>
+      </main>
+    </>
   );
 }
