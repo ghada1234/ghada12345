@@ -256,5 +256,51 @@
       "w3": "Week 3",
       "w4": "Week 4"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your daily nutritional goals and profile.",
+    "saveButton": "Save Changes",
+    "profile": {
+      "title": "Profile Settings",
+      "name": "Name",
+      "namePlaceholder": "Choose a username",
+      "weight": "Weight (kg)",
+      "height": "Height (cm)",
+      "bmi": "Body Mass Index (BMI)",
+      "notApplicable": "N/A",
+      "gender": {
+        "title": "Gender",
+        "male": "Male",
+        "female": "Female"
+      },
+      "avatar": "Choose your Avatar",
+      "uploadButton": "Upload a Photo",
+      "dietaryPreference": "Dietary Preference",
+      "dietaryPreferencePlaceholder": "e.g. Vegetarian, Low-Carb, Gluten-Free",
+      "allergies": "Allergies",
+      "allergiesPlaceholder": "e.g. Peanuts, Shellfish, Dairy",
+      "likes": "Likes",
+      "likesPlaceholder": "e.g. Spicy food, Salmon, Avocado",
+      "dislikes": "Dislikes",
+      "dislikesPlaceholder": "e.g. Cilantro, Olives, Tofu"
+    },
+    "macros": {
+      "title": "Macronutrient Goals",
+      "calories": { "label": "Calories", "unit": "kcal" },
+      "protein": { "label": "Protein", "unit": "g" },
+      "carbs": { "label": "Carbs", "unit": "g" },
+      "fats": { "label": "Fats", "unit": "g" },
+      "fiber": { "label": "Fiber", "unit": "g" }
+    },
+    "micros": {
+      "title": "Micronutrient Goals",
+      "sugar": { "label": "Sugar", "unit": "g" },
+      "sodium": { "label": "Sodium", "unit": "mg" },
+      "potassium": { "label": "Potassium", "unit": "mg" },
+      "calcium": { "label": "Calcium", "unit": "mg" },
+      "iron": { "label": "Iron", "unit": "mg" },
+      "vitaminC": { "label": "Vitamin C", "unit": "mg" }
+    }
   }
 }

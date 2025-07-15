@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Upload } from "lucide-react";
+import { useLanguage } from "@/context/language-context";
 
 function SettingInput({
   label,
@@ -50,6 +51,7 @@ function SettingInput({
 }
 
 export default function SettingsPage() {
+    const { translations } = useLanguage();
     const [weight, setWeight] = useState(70);
     const [height, setHeight] = useState(175);
     const [bmi, setBmi] = useState<string>("N/A");
@@ -60,7 +62,7 @@ export default function SettingsPage() {
             const bmiValue = w / (heightInMeters * heightInMeters);
             setBmi(bmiValue.toFixed(2));
         } else {
-            setBmi("N/A");
+            setBmi(translations.settings.profile.notApplicable);
         }
     }
 
@@ -76,77 +78,81 @@ export default function SettingsPage() {
         calculateBmi(weight, newHeight);
     }
 
+    // Set initial BMI on mount
+    useState(() => {
+        calculateBmi(weight, height);
+    });
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
       <div className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{translations.settings.title}</h1>
           <p className="text-muted-foreground mt-2">
-            Customize your daily nutritional goals and profile.
+            {translations.settings.subtitle}
           </p>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Profile Settings</CardTitle>
+            <CardTitle>{translations.settings.profile.title}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Choose a username" />
+                <Label htmlFor="name">{translations.settings.profile.name}</Label>
+                <Input id="name" placeholder={translations.settings.profile.namePlaceholder} />
               </div>
                 <div className="space-y-2">
-                    <Label htmlFor="weight">Weight (kg)</Label>
+                    <Label htmlFor="weight">{translations.settings.profile.weight}</Label>
                      <Input id="weight" type="number" defaultValue={weight} onChange={handleWeightChange} />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="height">Height (cm)</Label>
+                    <Label htmlFor="height">{translations.settings.profile.height}</Label>
                     <Input id="height" type="number" defaultValue={height} onChange={handleHeightChange}/>
                 </div>
                 <div className="space-y-2">
-                    <Label>Body Mass Index (BMI)</Label>
+                    <Label>{translations.settings.profile.bmi}</Label>
                     <p className="p-2 border rounded-md bg-muted text-muted-foreground">{bmi}</p>
                 </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-2">
-                    <Label>Gender</Label>
+                    <Label>{translations.settings.profile.gender.title}</Label>
                     <RadioGroup defaultValue="male" className="flex gap-4 pt-2">
                         <div className="flex items-center space-x-2">
                         <RadioGroupItem value="male" id="male" />
-                        <Label htmlFor="male">Male</Label>
+                        <Label htmlFor="male">{translations.settings.profile.gender.male}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
                         <RadioGroupItem value="female" id="female" />
-                        <Label htmlFor="female">Female</Label>
+                        <Label htmlFor="female">{translations.settings.profile.gender.female}</Label>
                         </div>
                     </RadioGroup>
                 </div>
                 <div className="space-y-2">
-                    <Label>Choose your Avatar</Label>
-                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> Upload a Photo</Button>
+                    <Label>{translations.settings.profile.avatar}</Label>
+                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> {translations.settings.profile.uploadButton}</Button>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                  <div className="space-y-2">
-                    <Label htmlFor="dietary-preference">Dietary Preference</Label>
-                    <Input id="dietary-preference" placeholder="e.g. Vegetarian, Low-Carb, Gluten-Free" />
+                    <Label htmlFor="dietary-preference">{translations.settings.profile.dietaryPreference}</Label>
+                    <Input id="dietary-preference" placeholder={translations.settings.profile.dietaryPreferencePlaceholder} />
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="allergies">Allergies</Label>
-                    <Input id="allergies" placeholder="e.g. Peanuts, Shellfish, Dairy" />
+                    <Label htmlFor="allergies">{translations.settings.profile.allergies}</Label>
+                    <Input id="allergies" placeholder={translations.settings.profile.allergiesPlaceholder} />
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="likes">Likes</Label>
-                    <Input id="likes" placeholder="e.g. Spicy food, Salmon, Avocado" />
+                    <Label htmlFor="likes">{translations.settings.profile.likes}</Label>
+                    <Input id="likes" placeholder={translations.settings.profile.likesPlaceholder} />
                 </div>
                  <div className="space-y-2">
-                    <Label htmlFor="dislikes">Dislikes</Label>
-                    <Input id="dislikes" placeholder="e.g. Cilantro, Olives, Tofu" />
+                    <Label htmlFor="dislikes">{translations.settings.profile.dislikes}</Label>
+                    <Input id="dislikes" placeholder={translations.settings.profile.dislikesPlaceholder} />
                 </div>
             </div>
           </CardContent>
@@ -154,33 +160,33 @@ export default function SettingsPage() {
 
         <Card>
             <CardHeader>
-                <CardTitle>Macronutrient Goals</CardTitle>
+                <CardTitle>{translations.settings.macros.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <SettingInput label="Calories" id="calories" unit="kcal" defaultValue="2000" />
-                <SettingInput label="Protein" id="protein" unit="g" defaultValue="120" />
-                <SettingInput label="Carbs" id="carbs" unit="g" defaultValue="250" />
-                <SettingInput label="Fats" id="fats" unit="g" defaultValue="70" />
-                <SettingInput label="Fiber" id="fiber" unit="g" defaultValue="30" />
+                <SettingInput label={translations.settings.macros.calories.label} id="calories" unit={translations.settings.macros.calories.unit} defaultValue="2000" />
+                <SettingInput label={translations.settings.macros.protein.label} id="protein" unit={translations.settings.macros.protein.unit} defaultValue="120" />
+                <SettingInput label={translations.settings.macros.carbs.label} id="carbs" unit={translations.settings.macros.carbs.unit} defaultValue="250" />
+                <SettingInput label={translations.settings.macros.fats.label} id="fats" unit={translations.settings.macros.fats.unit} defaultValue="70" />
+                <SettingInput label={translations.settings.macros.fiber.label} id="fiber" unit={translations.settings.macros.fiber.unit} defaultValue="30" />
             </CardContent>
         </Card>
 
         <Card>
             <CardHeader>
-                <CardTitle>Micronutrient Goals</CardTitle>
+                <CardTitle>{translations.settings.micros.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <SettingInput label="Sugar" id="sugar" unit="g" defaultValue="50" />
-                <SettingInput label="Sodium" id="sodium" unit="mg" defaultValue="2300" />
-                <SettingInput label="Potassium" id="potassium" unit="mg" defaultValue="3500" />
-                <SettingInput label="Calcium" id="calcium" unit="mg" defaultValue="1000" />
-                <SettingInput label="Iron" id="iron" unit="mg" defaultValue="18" />
-                <SettingInput label="Vitamin C" id="vitaminc" unit="mg"defaultValue="90" />
+                <SettingInput label={translations.settings.micros.sugar.label} id="sugar" unit={translations.settings.micros.sugar.unit} defaultValue="50" />
+                <SettingInput label={translations.settings.micros.sodium.label} id="sodium" unit={translations.settings.micros.sodium.unit} defaultValue="2300" />
+                <SettingInput label={translations.settings.micros.potassium.label} id="potassium" unit={translations.settings.micros.potassium.unit} defaultValue="3500" />
+                <SettingInput label={translations.settings.micros.calcium.label} id="calcium" unit={translations.settings.micros.calcium.unit} defaultValue="1000" />
+                <SettingInput label={translations.settings.micros.iron.label} id="iron" unit={translations.settings.micros.iron.unit} defaultValue="18" />
+                <SettingInput label={translations.settings.micros.vitaminC.label} id="vitaminc" unit={translations.settings.micros.vitaminC.unit} defaultValue="90" />
             </CardContent>
         </Card>
         
         <div className="flex justify-end">
-            <Button size="lg">Save Changes</Button>
+            <Button size="lg">{translations.settings.saveButton}</Button>
         </div>
       </div>
     </main>

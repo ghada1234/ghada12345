@@ -256,5 +256,51 @@
       "w3": "الأسبوع 3",
       "w4": "الأسبوع 4"
     }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "subtitle": "خصص أهدافك الغذائية اليومية وملفك الشخصي.",
+    "saveButton": "حفظ التغييرات",
+    "profile": {
+      "title": "إعدادات الملف الشخصي",
+      "name": "الاسم",
+      "namePlaceholder": "اختر اسم مستخدم",
+      "weight": "الوزن (كجم)",
+      "height": "الطول (سم)",
+      "bmi": "مؤشر كتلة الجسم",
+      "notApplicable": "غير متاح",
+      "gender": {
+        "title": "الجنس",
+        "male": "ذكر",
+        "female": "أنثى"
+      },
+      "avatar": "اختر صورتك الرمزية",
+      "uploadButton": "تحميل صورة",
+      "dietaryPreference": "التفضيلات الغذائية",
+      "dietaryPreferencePlaceholder": "مثال: نباتي، منخفض الكربوهيدرات، خالي من الغلوتين",
+      "allergies": "الحساسية",
+      "allergiesPlaceholder": "مثال: فول سوداني، محار، ألبان",
+      "likes": "الأطعمة المفضلة",
+      "likesPlaceholder": "مثال: طعام حار، سلمون، أفوكادو",
+      "dislikes": "الأطعمة غير المفضلة",
+      "dislikesPlaceholder": "مثال: كزبرة، زيتون، توفو"
+    },
+    "macros": {
+      "title": "أهداف العناصر الغذائية الكبرى",
+      "calories": { "label": "السعرات الحرارية", "unit": "سعرة" },
+      "protein": { "label": "البروتين", "unit": "غ" },
+      "carbs": { "label": "الكربوهيدرات", "unit": "غ" },
+      "fats": { "label": "الدهون", "unit": "غ" },
+      "fiber": { "label": "الألياف", "unit": "غ" }
+    },
+    "micros": {
+      "title": "أهداف العناصر الغذائية الصغرى",
+      "sugar": { "label": "السكر", "unit": "غ" },
+      "sodium": { "label": "الصوديوم", "unit": "ملغ" },
+      "potassium": { "label": "البوتاسيوم", "unit": "ملغ" },
+      "calcium": { "label": "الكالسيوم", "unit": "ملغ" },
+      "iron": { "label": "الحديد", "unit": "ملغ" },
+      "vitaminC": { "label": "فيتامين ج", "unit": "ملغ" }
+    }
   }
 }
