@@ -221,5 +221,40 @@
     "prompt": "Ready to plan your day?",
     "generateButton": "Generate Meal Plan",
     "contentPlaceholder": "Meal plan content goes here."
+  },
+  "reports": {
+    "title": "Progress Reports",
+    "subtitle": "Track your nutritional journey and celebrate your progress.",
+    "streak": {
+      "title": "Your Progress Streak",
+      "description": "Log your meals every day to build up your streak!",
+      "unit": "days"
+    },
+    "consistency": {
+      "title": "Consistency Report",
+      "description": "How consistently you've logged meals.",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
+    },
+    "share": {
+      "button": "Share Report on WhatsApp",
+      "message": "Check out my progress on NutriSnap! I'm on a {streak}-day streak."
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "weeks": {
+      "w1": "Week 1",
+      "w2": "Week 2",
+      "w3": "Week 3",
+      "w4": "Week 4"
+    }
   }
 }

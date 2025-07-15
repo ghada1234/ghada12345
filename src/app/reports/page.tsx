@@ -8,24 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
-
-const weeklyData = [
-  { day: "Mon", value: 85 },
-  { day: "Tue", value: 92 },
-  { day: "Wed", value: 78 },
-  { day: "Thu", value: 88 },
-  { day: "Fri", value: 95 },
-  { day: "Sat", value: 100 },
-  { day: "Sun", value: 60 },
-];
-
-const monthlyData = [
-    { week: "Week 1", value: 80 },
-    { week: "Week 2", value: 85 },
-    { week: "Week 3", value: 90 },
-    { week: "Week 4", value: 75 },
-];
-
+import { useLanguage } from "@/context/language-context";
 
 const chartConfig = {
   value: {
@@ -64,8 +47,28 @@ function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: s
 
 
 export default function ReportsPage() {
+    const { translations } = useLanguage();
+    const streakDays = 0;
+
+    const weeklyData = [
+        { day: translations.reports.days.mon, value: 85 },
+        { day: translations.reports.days.tue, value: 92 },
+        { day: translations.reports.days.wed, value: 78 },
+        { day: translations.reports.days.thu, value: 88 },
+        { day: translations.reports.days.fri, value: 95 },
+        { day: translations.reports.days.sat, value: 100 },
+        { day: translations.reports.days.sun, value: 60 },
+    ];
+
+    const monthlyData = [
+        { week: translations.reports.weeks.w1, value: 80 },
+        { week: translations.reports.weeks.w2, value: 85 },
+        { week: translations.reports.weeks.w3, value: 90 },
+        { week: translations.reports.weeks.w4, value: 75 },
+    ];
+
     const handleShare = () => {
-        const message = `Check out my progress on NutriSnap! I'm on a 0-day streak.`;
+        const message = translations.reports.share.message.replace("{streak}", streakDays.toString());
         const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
@@ -74,35 +77,35 @@ export default function ReportsPage() {
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
       <div className="space-y-6 max-w-4xl mx-auto">
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Progress Reports</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{translations.reports.title}</h1>
           <p className="text-muted-foreground mt-2">
-            Track your nutritional journey and celebrate your progress.
+            {translations.reports.subtitle}
           </p>
         </div>
 
         <Card className="w-full max-w-sm mx-auto">
             <CardHeader className="text-center">
-                <CardTitle>Your Progress Streak</CardTitle>
-                <CardDescription>Log your meals every day to build up your streak!</CardDescription>
+                <CardTitle>{translations.reports.streak.title}</CardTitle>
+                <CardDescription>{translations.reports.streak.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center gap-2">
                  <Flame className="h-16 w-16 text-primary" />
-                 <p className="text-6xl font-bold">0</p>
-                 <p className="text-muted-foreground">days</p>
+                 <p className="text-6xl font-bold">{streakDays}</p>
+                 <p className="text-muted-foreground">{translations.reports.streak.unit}</p>
             </CardContent>
         </Card>
 
         <Card>
             <CardHeader>
-                <CardTitle>Consistency Report</CardTitle>
-                <CardDescription>How consistently you've logged meals.</CardDescription>
+                <CardTitle>{translations.reports.consistency.title}</CardTitle>
+                <CardDescription>{translations.reports.consistency.description}</CardDescription>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="weekly" className="w-full">
                     <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="daily">Daily</TabsTrigger>
-                        <TabsTrigger value="weekly">Weekly</TabsTrigger>
-                        <TabsTrigger value="monthly">Monthly</TabsTrigger>
+                        <TabsTrigger value="daily">{translations.reports.consistency.daily}</TabsTrigger>
+                        <TabsTrigger value="weekly">{translations.reports.consistency.weekly}</TabsTrigger>
+                        <TabsTrigger value="monthly">{translations.reports.consistency.monthly}</TabsTrigger>
                     </TabsList>
                     <TabsContent value="daily" className="flex flex-col items-center justify-center text-center text-muted-foreground py-12">
                          <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
@@ -115,7 +118,7 @@ export default function ReportsPage() {
                     </TabsContent>
                 </Tabs>
                  <div className="mt-6 flex justify-center">
-                    <Button variant="outline" onClick={handleShare}>Share Report on WhatsApp</Button>
+                    <Button variant="outline" onClick={handleShare}>{translations.reports.share.button}</Button>
                 </div>
             </CardContent>
         </Card>
