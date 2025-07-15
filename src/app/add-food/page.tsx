@@ -114,21 +114,14 @@ export default function AddFoodPage() {
     try {
         const result = await handleAnalyzeMeal(input);
         if (result.error) {
-          toast({
-              variant: "destructive",
-              title: translations.addFood.analysisError.title,
-              description: result.error,
-          });
+          // Error toast removed as requested
           setAnalysisResult(null);
         } else {
           setAnalysisResult(result);
         }
     } catch (error) {
-        toast({
-            variant: "destructive",
-            title: translations.addFood.analysisError.title,
-            description: translations.addFood.analysisError.description,
-        });
+      // Error toast removed as requested
+      console.error("Error analyzing meal:", error);
     } finally {
         setIsLoading(false);
     }
