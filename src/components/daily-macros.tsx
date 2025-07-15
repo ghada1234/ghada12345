@@ -64,7 +64,7 @@ export function DailyMacros() {
 🍞 ${translations.dashboard.macros.carbs}: ${totals.carbs.toFixed(0)} / ${goals.carbs}g
 🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
 
-📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨`;
+📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.location.href = whatsappUrl;

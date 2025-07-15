@@ -7,15 +7,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Leaf, Upload } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/context/language-context";
 
 export default function SignupPage() {
+    const { translations } = useLanguage();
+
     return (
         <main className="flex-1 flex items-center justify-center p-4">
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
                     <Leaf className="mx-auto h-12 w-12 text-primary" />
                     <CardTitle className="mt-4 text-2xl font-bold">Create an Account</CardTitle>
-                    <CardDescription>Start your journey with NutriSnap today.</CardDescription>
+                    <CardDescription>Start your journey with {translations.appName} today.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">

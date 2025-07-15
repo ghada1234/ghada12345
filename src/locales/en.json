@@ -1,6 +1,6 @@
 
 {
-  "appName": "NutriSnap",
+  "appName": "snaprisnaps",
   "sidebar": {
     "home": "Home",
     "dashboard": "Dashboard",
@@ -75,7 +75,7 @@
         "author": "ghada rabee"
       },
       "testimonial2": {
-        "quote": "NutriSnap has revolutionized how I track my meals. The photo analysis is incredibly accurate and saves me so much time!",
+        "quote": "snaprisnaps has revolutionized how I track my meals. The photo analysis is incredibly accurate and saves me so much time!",
         "author": "Sarah K."
       },
       "testimonial3": {
@@ -87,15 +87,15 @@
       "title": "Frequently Asked Questions",
       "subtitle": "Have questions? We have answers. If you can't find what you're looking for, feel free to contact us.",
       "q1": {
-        "question": "Is NutriSnap free to use?",
-        "answer": "Yes, NutriSnap offers a free version with core features like meal logging and basic nutritional analysis. We also have a premium subscription with advanced features like personalized meal plans, detailed reports, and priority support."
+        "question": "Is snaprisnaps free to use?",
+        "answer": "Yes, snaprisnaps offers a free version with core features like meal logging and basic nutritional analysis. We also have a premium subscription with advanced features like personalized meal plans, detailed reports, and priority support."
       },
       "q2": {
         "question": "How accurate is the nutritional analysis?",
         "answer": "Our AI is trained on a massive database of food items and provides highly accurate estimates. While it's a powerful tool for guidance, for medical purposes, you should always consult with a registered dietitian or doctor."
       },
       "q3": {
-        "question": "Can I use NutriSnap for special diets like keto or vegan?",
+        "question": "Can I use snaprisnaps for special diets like keto or vegan?",
         "answer": "Absolutely! You can set your dietary preferences, including keto, vegan, vegetarian, gluten-free, and more. The app will tailor its analysis and suggestions to fit your specific needs."
       },
       "q4": {
@@ -294,7 +294,7 @@
     },
     "share": {
       "button": "Share Report on WhatsApp",
-      "message": "Check out my progress on NutriSnap! I'm on a {streak}-day streak."
+      "message": "Check out my progress on snaprisnaps! I'm on a {streak}-day streak."
     },
     "days": {
       "mon": "Mon",
@@ -360,7 +360,7 @@
   },
   "feedback": {
     "title": "Share Your Feedback",
-    "description": "We'd love to hear your thoughts. Your feedback helps us improve NutriSnap for everyone. Your review might even be featured on our home page!",
+    "description": "We'd love to hear your thoughts. Your feedback helps us improve snaprisnaps for everyone. Your review might even be featured on our home page!",
     "ratingQuestion": "How would you rate your experience?",
     "commentsLabel": "Any comments or suggestions?",
     "commentsPlaceholder": "Tell us what you think...",
@@ -372,16 +372,16 @@
       },
       "success": {
         "title": "Feedback Submitted!",
-        "description": "Thank you for helping us improve NutriSnap."
+        "description": "Thank you for helping us improve snaprisnaps."
       }
     }
   },
   "about": {
-    "title": "About NutriSnap",
+    "title": "About snaprisnaps",
     "subtitle": "A celebration of global cuisine and a commitment to personalized nutrition.",
     "missionTitle": "Our Mission",
-    "missionP1": "NutriSnap was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.",
+    "missionP1": "snaprisnaps was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.",
     "missionP2": "While living abroad, she noticed a critical flaw in popular health and wellness apps: they struggled to accurately analyze diverse, international dishes. As an engineer, she saw a technical challenge and an opportunity.",
-    "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
+    "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. snaprisnaps is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
   }
 }

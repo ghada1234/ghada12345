@@ -9,12 +9,12 @@ import { DashboardHeader } from '@/components/dashboard-header';
 import { MealLogProvider } from '@/context/meal-log-context';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
-  const { language, direction } = useLanguage();
+  const { language, direction, translations } = useLanguage();
 
   return (
     <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }}>
       <head>
-        <title>NutriSnap</title>
+        <title>{translations.appName}</title>
         <meta name="description" content="Track your nutrition and get AI-powered recipe suggestions." />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -39,7 +39,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.Node;
 }>) {
   return (
     <LanguageProvider>

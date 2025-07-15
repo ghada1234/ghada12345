@@ -412,16 +412,16 @@ export default function AddFoodPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("camera")}>
+          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("camera")}>
             <Camera className="mr-2" /> {translations.addFood.snapPhoto}
           </Button>
-          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("describe")}>
+          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("describe")}>
             <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
-          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("scan")}>
+          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("scan")}>
             <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
-          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("upload")}>
+          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("upload")}>
             <Upload className="mr-2" /> {translations.addFood.uploadDevice}
           </Button>
         </div>
