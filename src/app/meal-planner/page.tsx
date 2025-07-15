@@ -9,7 +9,8 @@ import { BrainCircuit, Loader2, Salad, Flame, CheckCircle, Info } from "lucide-r
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
 import { handleGenerateMealPlan } from "@/app/actions";
-import { type GenerateMealPlanOutput, type Meal } from "@/ai/flows/generate-meal-plan";
+import { type GenerateMealPlanOutput } from "@/ai/flows/generate-meal-plan";
+import { type Meal } from "@/ai/flows/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
@@ -137,7 +138,7 @@ export default function MealPlannerPage() {
     } catch (error) {
         toast({
             variant: "destructive",
-            title: translations.dashboard.recipeSuggester.error.title, // This was the bug
+            title: translations.mealPlanner.error.lowCalTitle,
             description: (error as Error).message,
         });
     }
