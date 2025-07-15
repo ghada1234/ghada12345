@@ -68,12 +68,12 @@ export function Sidebar() {
               label="Settings"
             />
              <NavLink
-              href="#"
+              href="/feedback"
               icon={<MessageSquare className="h-4 w-4" />}
               label="Feedback"
             />
              <NavLink
-              href="#"
+              href="/about"
               icon={<Info className="h-4 w-4" />}
               label="About"
             />
