@@ -228,7 +228,8 @@
       "protein": "البروتين",
       "carbs": "الكربوهيدرات",
       "fats": "الدهون",
-      "logButton": "تسجيل هذه الوجبة"
+      "logButton": "تسجيل هذه الوجبة",
+      "shareButton": "مشاركة"
     }
   },
   "mealPlanner": {

@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -138,6 +138,22 @@ export default function AddFoodPage() {
     }
   };
 
+  const handleShare = (result: AnalyzeMealOutput) => {
+    const message = `
+🍽️ ${result.mealName}
+
+📊 MACRONUTRIENTS
+🔥 Calories: ${result.calories.toFixed(0)} kcal
+💪 Protein: ${result.protein.toFixed(1)}g
+🍞 Carbs: ${result.carbs.toFixed(1)}g
+🥑 Fat: ${result.fats.toFixed(1)}g
+
+📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   const renderContent = () => {
     const cameraView = (title: string, buttonText: string, buttonIcon: React.ReactNode, onButtonClick: () => void) => (
@@ -263,7 +279,13 @@ export default function AddFoodPage() {
                         <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.carbs}</span><span>{analysisResult.carbs.toFixed(1)} g</span></div>
                         <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.fats}</span><span>{analysisResult.fats.toFixed(1)} g</span></div>
                     </div>
-                    <Button className="w-full">{translations.addFood.analysisResult.logButton}</Button>
+                    <div className="flex gap-2">
+                        <Button className="w-full">{translations.addFood.analysisResult.logButton}</Button>
+                        <Button variant="outline" className="w-full" onClick={() => handleShare(analysisResult)}>
+                            <Share2 className="mr-2" />
+                            {translations.addFood.analysisResult.shareButton}
+                        </Button>
+                    </div>
                 </>
              )}
         </CardContent>

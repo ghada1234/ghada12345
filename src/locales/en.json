@@ -228,7 +228,8 @@
       "protein": "Protein",
       "carbs": "Carbs",
       "fats": "Fats",
-      "logButton": "Log This Meal"
+      "logButton": "Log This Meal",
+      "shareButton": "Share"
     }
   },
   "mealPlanner": {
