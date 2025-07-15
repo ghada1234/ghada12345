@@ -20,6 +20,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useMealLog } from "@/context/meal-log-context";
 
 
 export default function AddFoodPage() {
@@ -37,6 +38,7 @@ export default function AddFoodPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const { translations } = useLanguage();
+  const { addMeal } = useMealLog();
 
   const resetState = () => {
     setIsLoading(false);
@@ -150,6 +152,13 @@ export default function AddFoodPage() {
 
   const handleLogMeal = () => {
      if (!analysisResult) return;
+     
+     addMeal({
+        ...analysisResult,
+        date: logDate.toISOString(),
+        mealType: mealType,
+     })
+
      const mealName = analysisResult.mealName;
      const mealTypeText = translations.addFood.mealTypes[mealType as keyof typeof translations.addFood.mealTypes] || mealType;
      toast({
@@ -430,7 +439,3 @@ export default function AddFoodPage() {
     </main>
   );
 }
-
-    
-
-    

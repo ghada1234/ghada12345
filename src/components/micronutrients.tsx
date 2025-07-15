@@ -1,9 +1,11 @@
 
 "use client";
 
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/language-context";
+import { useMealLog } from "@/context/meal-log-context";
 
 interface MicroProgressProps {
   label: string;
@@ -13,7 +15,7 @@ interface MicroProgressProps {
 }
 
 function MicroProgress({ label, current, goal, unit }: MicroProgressProps) {
-  const percentage = Math.min((current / goal) * 100, 100);
+  const percentage = goal > 0 ? Math.min((current / goal) * 100, 100) : 0;
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-between gap-2 text-xs">
@@ -27,13 +29,29 @@ function MicroProgress({ label, current, goal, unit }: MicroProgressProps) {
 
 export function Micronutrients() {
   const { translations } = useLanguage();
-  const micros = {
-    sodium: { current: 0, goal: 2300 },
-    sugar: { current: 0, goal: 50 },
-    potassium: { current: 0, goal: 3500 },
-    vitaminC: { current: 0, goal: 90 },
-    calcium: { current: 0, goal: 1000 },
-    iron: { current: 0, goal: 18 },
+  const { getMealsForDate } = useMealLog();
+
+  const todaysMeals = getMealsForDate(new Date());
+
+  const totals = useMemo(() => {
+      return todaysMeals.reduce((acc, meal) => {
+          acc.sodium += meal.sodium;
+          acc.sugar += meal.sugar;
+          acc.potassium += meal.potassium;
+          acc.vitaminC += meal.vitaminC;
+          acc.calcium += meal.calcium;
+          acc.iron += meal.iron;
+          return acc;
+      }, { sodium: 0, sugar: 0, potassium: 0, vitaminC: 0, calcium: 0, iron: 0 });
+  }, [todaysMeals]);
+
+  const goals = {
+    sodium: 2300,
+    sugar: 50,
+    potassium: 3500,
+    vitaminC: 90,
+    calcium: 1000,
+    iron: 18,
   };
 
   return (
@@ -45,38 +63,38 @@ export function Micronutrients() {
       <CardContent className="grid grid-cols-2 gap-x-6 gap-y-4">
         <MicroProgress
           label={translations.dashboard.micros.sodium}
-          current={micros.sodium.current}
-          goal={micros.sodium.goal}
+          current={totals.sodium}
+          goal={goals.sodium}
           unit="mg"
         />
         <MicroProgress
           label={translations.dashboard.micros.sugar}
-          current={micros.sugar.current}
-          goal={micros.sugar.goal}
+          current={totals.sugar}
+          goal={goals.sugar}
           unit="g"
         />
         <MicroProgress
           label={translations.dashboard.micros.potassium}
-          current={micros.potassium.current}
-          goal={micros.potassium.goal}
+          current={totals.potassium}
+          goal={goals.potassium}
           unit="mg"
         />
         <MicroProgress
           label={translations.dashboard.micros.vitaminC}
-          current={micros.vitaminC.current}
-          goal={micros.vitaminC.goal}
+          current={totals.vitaminC}
+          goal={goals.vitaminC}
           unit="mg"
         />
         <MicroProgress
           label={translations.dashboard.micros.calcium}
-          current={micros.calcium.current}
-          goal={micros.calcium.goal}
+          current={totals.calcium}
+          goal={goals.calcium}
           unit="mg"
         />
         <MicroProgress
           label={translations.dashboard.micros.iron}
-          current={micros.iron.current}
-          goal={micros.iron.goal}
+          current={totals.iron}
+          goal={goals.iron}
           unit="mg"
         />
       </CardContent>

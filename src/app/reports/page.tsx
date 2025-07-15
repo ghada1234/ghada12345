@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { useLanguage } from "@/context/language-context";
+import { useMealLog } from "@/context/meal-log-context";
+import { subDays, format, eachDayOfInterval, isSameDay } from "date-fns";
 
 const chartConfig = {
   value: {
@@ -18,6 +20,9 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: string, categoryKey: string }) {
+    const maxY = Math.max(...data.map(item => item[dataKey]), 0);
+    const domainMax = maxY > 0 ? Math.ceil(maxY / 10) * 10 : 10;
+
     return (
         <ChartContainer config={chartConfig} className="h-64 w-full">
             <BarChart data={data} accessibilityLayer>
@@ -33,7 +38,7 @@ function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: s
                     axisLine={false}
                     tickMargin={10}
                     width={30}
-                    domain={[0, 100]}
+                    domain={[0, domainMax]}
                 />
                 <ChartTooltip
                     cursor={false}
@@ -45,27 +50,75 @@ function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: s
     );
 }
 
-
 export default function ReportsPage() {
     const { translations } = useLanguage();
-    const streakDays = 0;
+    const { loggedMeals } = useMealLog();
 
-    const weeklyData = [
-        { day: translations.reports.days.mon, value: 85 },
-        { day: translations.reports.days.tue, value: 92 },
-        { day: translations.reports.days.wed, value: 78 },
-        { day: translations.reports.days.thu, value: 88 },
-        { day: translations.reports.days.fri, value: 95 },
-        { day: translations.reports.days.sat, value: 100 },
-        { day: translations.reports.days.sun, value: 60 },
-    ];
+    const streakDays = useMemo(() => {
+        if (loggedMeals.length === 0) return 0;
 
-    const monthlyData = [
-        { week: translations.reports.weeks.w1, value: 80 },
-        { week: translations.reports.weeks.w2, value: 85 },
-        { week: translations.reports.weeks.w3, value: 90 },
-        { week: translations.reports.weeks.w4, value: 75 },
-    ];
+        const uniqueLogDays = [...new Set(loggedMeals.map(meal => meal.date.split('T')[0]))].sort().reverse();
+        
+        let streak = 0;
+        let today = new Date();
+        
+        // If there's a log today, start streak from today. Otherwise, start from yesterday.
+        const hasLogToday = uniqueLogDays.some(d => isSameDay(new Date(d), today));
+        if (!hasLogToday) {
+            today = subDays(today, 1);
+        }
+
+        for (let i = 0; i < uniqueLogDays.length; i++) {
+            const logDate = new Date(uniqueLogDays[i]);
+            const expectedDate = subDays(today, streak);
+            if (isSameDay(logDate, expectedDate)) {
+                streak++;
+            } else {
+                break;
+            }
+        }
+        return streak;
+    }, [loggedMeals]);
+
+    const weeklyData = useMemo(() => {
+        const today = new Date();
+        const last7Days = eachDayOfInterval({ start: subDays(today, 6), end: today });
+        return last7Days.map(day => {
+            const mealsOnDay = loggedMeals.filter(meal => isSameDay(new Date(meal.date), day));
+            const totalCalories = mealsOnDay.reduce((sum, meal) => sum + meal.calories, 0);
+            return {
+                day: format(day, 'E'), // e.g., 'Mon'
+                value: totalCalories
+            }
+        });
+    }, [loggedMeals]);
+
+     const monthlyData = useMemo(() => {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const weeks = [];
+        let currentDay = startOfMonth;
+
+        while(currentDay.getMonth() === today.getMonth()) {
+            const weekEnd = new Date(currentDay);
+            weekEnd.setDate(currentDay.getDate() + 6);
+            const weekNumber = Math.ceil(currentDay.getDate() / 7);
+
+            const mealsInWeek = loggedMeals.filter(meal => {
+                const mealDate = new Date(meal.date);
+                return mealDate >= currentDay && mealDate <= weekEnd;
+            });
+            const totalCalories = mealsInWeek.reduce((sum, meal) => sum + meal.calories, 0);
+            
+            weeks.push({
+                week: `${translations.reports.weeks.w}${weekNumber}`,
+                value: totalCalories,
+            });
+
+            currentDay.setDate(currentDay.getDate() + 7);
+        }
+        return weeks;
+    }, [loggedMeals, translations]);
 
     const handleShare = () => {
         const message = translations.reports.share.message.replace("{streak}", streakDays.toString());
@@ -102,14 +155,10 @@ export default function ReportsPage() {
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="weekly" className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger value="daily">{translations.reports.consistency.daily}</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="weekly">{translations.reports.consistency.weekly}</TabsTrigger>
                         <TabsTrigger value="monthly">{translations.reports.consistency.monthly}</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="daily" className="flex flex-col items-center justify-center text-center text-muted-foreground py-12">
-                         <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
-                    </TabsContent>
                     <TabsContent value="weekly">
                         <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
                     </TabsContent>

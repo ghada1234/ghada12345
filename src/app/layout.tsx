@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Sidebar } from '@/components/sidebar';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { DashboardHeader } from '@/components/dashboard-header';
+import { MealLogProvider } from '@/context/meal-log-context';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction } = useLanguage();
@@ -42,7 +43,9 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <SiteBody>{children}</SiteBody>
+      <MealLogProvider>
+        <SiteBody>{children}</SiteBody>
+      </MealLogProvider>
     </LanguageProvider>
   );
 }
