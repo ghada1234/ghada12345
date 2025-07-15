@@ -66,25 +66,6 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-
-         <Card className="text-center">
-            <CardHeader>
-                <CardTitle>Join Our Community</CardTitle>
-                <CardDescription>
-                    Have feedback or an idea? We'd love to hear from you.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="text-muted-foreground mb-4">
-                    NutriSnap is constantly evolving, and your input is invaluable. Share your thoughts and help us build the future of nutrition.
-                </p>
-                <Link href="/feedback">
-                    <button className="bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-2 rounded-md font-semibold">
-                        Give Feedback
-                    </button>
-                </Link>
-            </CardContent>
-        </Card>
       </div>
     </main>
   );
