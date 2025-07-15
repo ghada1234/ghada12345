@@ -33,7 +33,7 @@ export default function DashboardPage() {
             <div className="space-y-2">
                 <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
                     <Leaf className="h-6 w-6 text-primary" />
-                    <span className="font-bold text-lg">NutriSnap</span>
+                    <span className="font-bold text-lg">{translations.appName}</span>
                 </Link>
                 <p className="text-sm text-muted-foreground">{translations.dashboard.footer.tagline}</p>
             </div>
@@ -54,7 +54,7 @@ export default function DashboardPage() {
             </div>
         </div>
         <div className="container mx-auto px-4 md:px-6 mt-8 text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} NutriSnap. {translations.dashboard.footer.rights}
+            © {new Date().getFullYear()} {translations.appName}. {translations.dashboard.footer.rights}
         </div>
       </footer>
     </>

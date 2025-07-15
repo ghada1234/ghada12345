@@ -1,5 +1,6 @@
 
 {
+  "appName": "NutriSnap",
   "sidebar": {
     "home": "Home",
     "dashboard": "Dashboard",
@@ -374,5 +375,3 @@
     "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
   }
 }
-
-    
