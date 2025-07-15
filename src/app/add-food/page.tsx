@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2 } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +15,12 @@ import { type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+
 
 export default function AddFoodPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -23,6 +29,9 @@ export default function AddFoodPage() {
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalyzeMealOutput | null>(null);
+  const [logDate, setLogDate] = useState<Date>(new Date());
+  const [mealType, setMealType] = useState<string>("lunch");
+
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -138,6 +147,21 @@ export default function AddFoodPage() {
       performAnalysis({ photoDataUri: dataUri });
     }
   };
+
+  const handleLogMeal = () => {
+     if (!analysisResult) return;
+     const mealName = analysisResult.mealName;
+     const mealTypeText = translations.addFood.mealTypes[mealType as keyof typeof translations.addFood.mealTypes] || mealType;
+     toast({
+        title: translations.addFood.logSuccess.title,
+        description: translations.addFood.logSuccess.description
+            .replace('{mealName}', mealName)
+            .replace('{mealType}', mealTypeText)
+            .replace('{date}', format(logDate, 'PPP'))
+     });
+     resetState();
+     handleOptionChange(null);
+  }
 
   const handleShare = (result: AnalyzeMealOutput) => {
     const message = `🍽️ ${result.mealName}
@@ -317,8 +341,45 @@ export default function AddFoodPage() {
 
                     <Separator />
 
+                    <div className="grid grid-cols-2 gap-4 pt-2">
+                        <Select value={mealType} onValueChange={setMealType}>
+                            <SelectTrigger>
+                                <SelectValue placeholder={translations.addFood.logOptions.mealTypePlaceholder} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="breakfast">{translations.addFood.mealTypes.breakfast}</SelectItem>
+                                <SelectItem value="lunch">{translations.addFood.mealTypes.lunch}</SelectItem>
+                                <SelectItem value="dinner">{translations.addFood.mealTypes.dinner}</SelectItem>
+                                <SelectItem value="snack">{translations.addFood.mealTypes.snack}</SelectItem>
+                                <SelectItem value="dessert">{translations.addFood.mealTypes.dessert}</SelectItem>
+                            </SelectContent>
+                        </Select>
+                         <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "justify-start text-left font-normal",
+                                    !logDate && "text-muted-foreground"
+                                )}
+                                >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {logDate ? format(logDate, "PPP") : <span>{translations.addFood.logOptions.datePlaceholder}</span>}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                                <Calendar
+                                mode="single"
+                                selected={logDate}
+                                onSelect={(date) => setLogDate(date || new Date())}
+                                initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
                     <div className="flex gap-2 pt-2">
-                        <Button className="w-full">{translations.addFood.analysisResult.logButton}</Button>
+                        <Button className="w-full" onClick={handleLogMeal}>{translations.addFood.analysisResult.logButton}</Button>
                         <Button variant="outline" className="w-full" onClick={() => handleShare(analysisResult)}>
                             <Share2 className="mr-2" />
                             {translations.addFood.analysisResult.shareButton}
@@ -368,3 +429,5 @@ export default function AddFoodPage() {
     </main>
   );
 }
+
+    

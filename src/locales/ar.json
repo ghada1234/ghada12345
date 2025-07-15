@@ -184,7 +184,7 @@
         "about": "حول",
         "feedback": "شاركنا رأيك"
       },
-      "rights": "جميع الحقوق محفوظة."
+      "rights": "All rights reserved."
     }
   },
   "addFood": {
@@ -207,6 +207,21 @@
     "uploadDeviceTitle": "تحميل من الجهاز",
     "uploadAndAnalyze": "تحميل وتحليل",
     "analyzing": "جارٍ التحليل...",
+    "logSuccess": {
+        "title": "تم تسجيل الوجبة بنجاح!",
+        "description": "تم تسجيل '{mealName}' كـ {mealType} ليوم {date}."
+    },
+    "logOptions": {
+        "mealTypePlaceholder": "اختر نوع الوجبة",
+        "datePlaceholder": "اختر تاريخًا"
+    },
+    "mealTypes": {
+        "breakfast": "فطور",
+        "lunch": "غداء",
+        "dinner": "عشاء",
+        "snack": "وجبة خفيفة",
+        "dessert": "تحلية"
+    },
     "toast": {
       "title": "تم رفض الوصول إلى الكاميرا",
       "description": "يرجى تمكين أذونات الكاميرا في إعدادات متصفحك لاستخدام هذه الميزة."
@@ -359,3 +374,5 @@
     "missionP3": "مدفوعة لحل هذه المشكلة، استفادت غادة من خبرتها الهندسية لإنشاء أداة متقدمة تقنيًا وذكية ثقافيًا. NutriSnap هو احتفال بالمطبخ العالمي والتزام بجعل التغذية الشخصية في متناول الجميع، لقطة تلو الأخرى."
   }
 }
+
+    

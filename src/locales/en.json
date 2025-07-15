@@ -207,6 +207,21 @@
     "uploadDeviceTitle": "Upload from Device",
     "uploadAndAnalyze": "Upload and Analyze",
     "analyzing": "Analyzing...",
+    "logSuccess": {
+      "title": "Meal Logged Successfully!",
+      "description": "'{mealName}' has been logged as {mealType} for {date}."
+    },
+    "logOptions": {
+      "mealTypePlaceholder": "Select meal type",
+      "datePlaceholder": "Select a date"
+    },
+    "mealTypes": {
+      "breakfast": "Breakfast",
+      "lunch": "Lunch",
+      "dinner": "Dinner",
+      "snack": "Snack",
+      "dessert": "Dessert"
+    },
     "toast": {
       "title": "Camera Access Denied",
       "description": "Please enable camera permissions in your browser settings to use this feature."
@@ -359,3 +374,5 @@
     "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
   }
 }
+
+    
