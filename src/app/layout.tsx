@@ -12,7 +12,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction, translations } = useLanguage();
 
   return (
-    <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }}>
+    <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }} suppressHydrationWarning>
       <head>
         <title>{translations.appName}</title>
         <meta name="description" content="Track your nutrition and get AI-powered recipe suggestions." />
