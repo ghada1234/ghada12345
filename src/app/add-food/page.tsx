@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useLanguage } from "@/context/language-context";
-import { handleAnalyzeMeal } from "@/app/actions";
+import { handleAnalyzeMeal } from "@/ai/flows/analyze-meal";
 import { type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -114,13 +114,21 @@ export default function AddFoodPage() {
     try {
         const result = await handleAnalyzeMeal(input);
         if (result.error) {
-          // Error toast removed as requested
+          toast({
+            variant: "destructive",
+            title: translations.addFood.analysisError.title,
+            description: result.error,
+          });
           setAnalysisResult(null);
         } else {
           setAnalysisResult(result);
         }
     } catch (error) {
-      // Error toast removed as requested
+      toast({
+        variant: "destructive",
+        title: translations.addFood.analysisError.title,
+        description: (error instanceof Error ? error.message : translations.addFood.analysisError.description)
+      });
       console.error("Error analyzing meal:", error);
     } finally {
         setIsLoading(false);
