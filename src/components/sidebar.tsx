@@ -48,7 +48,7 @@ export function Sidebar() {
               label="Dashboard"
             />
             <NavLink
-              href="#"
+              href="/add-food"
               icon={<PlusCircle className="h-4 w-4" />}
               label="Add Food"
             />
