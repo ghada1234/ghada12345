@@ -117,5 +117,74 @@
       },
       "rights": "All rights reserved."
     }
+  },
+  "dashboard": {
+    "title": "Daily Dashboard",
+    "macros": {
+      "title": "Macronutrients",
+      "description": "Your main energy sources for today.",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fats": "Fats",
+      "fiber": "Fiber",
+      "share": "Share on WhatsApp"
+    },
+    "micros": {
+      "title": "Micronutrients",
+      "description": "Essential vitamins and minerals.",
+      "sodium": "Sodium",
+      "sugar": "Sugar",
+      "potassium": "Potassium",
+      "vitaminC": "Vitamin C",
+      "calcium": "Calcium",
+      "iron": "Iron"
+    },
+    "todaysLog": {
+      "title": "Today's Log",
+      "noFood": "No food logged yet",
+      "prompt": "Let's log your first meal to get started!",
+      "addMeal": "Add Meal"
+    },
+    "mealEntry": {
+      "title": "Add a Meal",
+      "description": "Log your meal to track your calories and macros.",
+      "meal": "Meal",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fats": "Fats",
+      "save": "Save Meal"
+    },
+    "recipeSuggester": {
+      "title": "Smart Meal Ideas",
+      "description": "Personalized meal ideas based on your preferences and remaining calories.",
+      "prompt": "Ready for some inspiration?",
+      "generating": "Generating...",
+      "generateButton": "Generate New Ideas",
+      "cuisine": "Cuisine",
+      "suitability": "Dietary Suitability",
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "error": {
+        "title": "Oh no! Something went wrong.",
+        "description": "There was a problem with the recipe suggestion."
+      }
+    },
+    "footer": {
+      "tagline": "Your AI-powered companion for smart and simple nutrition tracking.",
+      "product": {
+        "title": "Product",
+        "features": "Features",
+        "testimonials": "Testimonials",
+        "faq": "FAQ"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About",
+        "feedback": "Feedback"
+      },
+      "rights": "All rights reserved."
+    }
   }
 }

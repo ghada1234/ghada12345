@@ -23,6 +23,7 @@ import {
 import { handleSuggestRecipes } from "@/app/actions";
 import { type SuggestRecipesOutput } from "@/ai/flows/suggest-recipes";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/context/language-context";
 
 const formSchema = z.object({
   dietaryRestrictions: z.string(),
@@ -34,6 +35,7 @@ export function RecipeSuggester() {
   const [isLoading, setIsLoading] = useState(false);
   const [recipes, setRecipes] = useState<SuggestRecipesOutput["recipes"]>([]);
   const { toast } = useToast();
+  const { translations } = useLanguage();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,8 +59,8 @@ export function RecipeSuggester() {
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Oh no! Something went wrong.",
-        description: "There was a problem with the recipe suggestion.",
+        title: translations.dashboard.recipeSuggester.error.title,
+        description: translations.dashboard.recipeSuggester.error.description,
       });
     } finally {
       setIsLoading(false);
@@ -70,24 +72,24 @@ export function RecipeSuggester() {
       <CardHeader>
         <div className="flex items-center gap-2">
           <BrainCircuit className="h-6 w-6 text-primary" />
-          <CardTitle>Smart Meal Ideas</CardTitle>
+          <CardTitle>{translations.dashboard.recipeSuggester.title}</CardTitle>
         </div>
         <CardDescription>
-          Personalized meal ideas based on your preferences and remaining calories.
+          {translations.dashboard.recipeSuggester.description}
         </CardDescription>
       </CardHeader>
       <CardContent>
         {recipes.length === 0 && !isLoading && (
           <div className="text-center text-muted-foreground py-8">
-            <p className="mb-4">Ready for some inspiration?</p>
+            <p className="mb-4">{translations.dashboard.recipeSuggester.prompt}</p>
              <Button onClick={() => onSubmit({})} disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating...
+                  {translations.dashboard.recipeSuggester.generating}
                 </>
               ) : (
-                "Generate New Ideas"
+                translations.dashboard.recipeSuggester.generateButton
               )}
             </Button>
           </div>
@@ -128,11 +130,11 @@ export function RecipeSuggester() {
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="prose prose-sm max-w-none text-muted-foreground">
-                      <p><strong>Cuisine:</strong> {recipe.cuisine}</p>
-                      <p><strong>Dietary Suitability:</strong> {recipe.dietarySuitability}</p>
-                      <h4 className="font-semibold text-foreground">Ingredients:</h4>
+                      <p><strong>{translations.dashboard.recipeSuggester.cuisine}:</strong> {recipe.cuisine}</p>
+                      <p><strong>{translations.dashboard.recipeSuggester.suitability}:</strong> {recipe.dietarySuitability}</p>
+                      <h4 className="font-semibold text-foreground">{translations.dashboard.recipeSuggester.ingredients}:</h4>
                       <p>{recipe.ingredients}</p>
-                      <h4 className="font-semibold text-foreground">Instructions:</h4>
+                      <h4 className="font-semibold text-foreground">{translations.dashboard.recipeSuggester.instructions}:</h4>
                       <p className="whitespace-pre-line">{recipe.instructions}</p>
                     </AccordionContent>
                   </AccordionItem>
@@ -144,10 +146,10 @@ export function RecipeSuggester() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generating...
+                    {translations.dashboard.recipeSuggester.generating}
                   </>
                 ) : (
-                  "Generate New Ideas"
+                  translations.dashboard.recipeSuggester.generateButton
                 )}
               </Button>
             </div>

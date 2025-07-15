@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/context/language-context";
 
 interface MacroProgressProps {
   label: string;
@@ -26,6 +27,7 @@ function MacroProgress({ label, current, goal, unit, className }: MacroProgressP
 }
 
 export function DailyMacros() {
+  const { translations } = useLanguage();
   const macros = {
     calories: { current: 0, goal: 2000 },
     protein: { current: 0, goal: 120 },
@@ -43,36 +45,36 @@ export function DailyMacros() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium">Macronutrients</CardTitle>
-        <CardDescription>Your main energy sources for today.</CardDescription>
+        <CardTitle className="text-lg font-medium">{translations.dashboard.macros.title}</CardTitle>
+        <CardDescription>{translations.dashboard.macros.description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <MacroProgress
-          label="Calories"
+          label={translations.dashboard.macros.calories}
           current={macros.calories.current}
           goal={macros.calories.goal}
           unit="kcal"
         />
         <MacroProgress
-          label="Protein"
+          label={translations.dashboard.macros.protein}
           current={macros.protein.current}
           goal={macros.protein.goal}
           unit="g"
         />
         <MacroProgress
-          label="Carbs"
+          label={translations.dashboard.macros.carbs}
           current={macros.carbs.current}
           goal={macros.carbs.goal}
           unit="g"
         />
         <MacroProgress
-          label="Fats"
+          label={translations.dashboard.macros.fats}
           current={macros.fats.current}
           goal={macros.fats.goal}
           unit="g"
         />
         <MacroProgress
-          label="Fiber"
+          label={translations.dashboard.macros.fiber}
           current={macros.fiber.current}
           goal={macros.fiber.goal}
           unit="g"
@@ -80,7 +82,7 @@ export function DailyMacros() {
       </CardContent>
        <CardFooter>
         <Button variant="outline" className="w-full" onClick={handleShare}>
-          Share on WhatsApp
+          {translations.dashboard.macros.share}
         </Button>
       </CardFooter>
     </Card>

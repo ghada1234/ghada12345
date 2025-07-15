@@ -1,5 +1,9 @@
+
+"use client";
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useLanguage } from "@/context/language-context";
 
 interface MicroProgressProps {
   label: string;
@@ -22,6 +26,7 @@ function MicroProgress({ label, current, goal, unit }: MicroProgressProps) {
 }
 
 export function Micronutrients() {
+  const { translations } = useLanguage();
   const micros = {
     sodium: { current: 0, goal: 2300 },
     sugar: { current: 0, goal: 50 },
@@ -34,42 +39,42 @@ export function Micronutrients() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium">Micronutrients</CardTitle>
-        <CardDescription>Essential vitamins and minerals.</CardDescription>
+        <CardTitle className="text-lg font-medium">{translations.dashboard.micros.title}</CardTitle>
+        <CardDescription>{translations.dashboard.micros.description}</CardDescription>
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-x-6 gap-y-4">
         <MicroProgress
-          label="Sodium"
+          label={translations.dashboard.micros.sodium}
           current={micros.sodium.current}
           goal={micros.sodium.goal}
           unit="mg"
         />
         <MicroProgress
-          label="Sugar"
+          label={translations.dashboard.micros.sugar}
           current={micros.sugar.current}
           goal={micros.sugar.goal}
           unit="g"
         />
         <MicroProgress
-          label="Potassium"
+          label={translations.dashboard.micros.potassium}
           current={micros.potassium.current}
           goal={micros.potassium.goal}
           unit="mg"
         />
         <MicroProgress
-          label="Vitamin C"
+          label={translations.dashboard.micros.vitaminC}
           current={micros.vitaminC.current}
           goal={micros.vitaminC.goal}
           unit="mg"
         />
         <MicroProgress
-          label="Calcium"
+          label={translations.dashboard.micros.calcium}
           current={micros.calcium.current}
           goal={micros.calcium.goal}
           unit="mg"
         />
         <MicroProgress
-          label="Iron"
+          label={translations.dashboard.micros.iron}
           current={micros.iron.current}
           goal={micros.iron.goal}
           unit="mg"
