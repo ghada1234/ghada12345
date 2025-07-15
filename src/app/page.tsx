@@ -41,16 +41,18 @@ export default function LandingPage() {
                 {translations.home.hero.subtitle}
               </p>
             </div>
-            <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:max-w-md mx-auto">
+            <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:max-w-xs mx-auto">
               <Link href="/dashboard" className="flex-1">
                 <Button className="w-full">
                   {translations.home.hero.getStarted}
                   <ArrowRight className="ml-2" />
                 </Button>
               </Link>
-              <Button variant="outline" className="flex-1">
-                {translations.home.hero.howItWorks}
-              </Button>
+              <Link href="#how-it-works" className="flex-1">
+                <Button variant="outline" className="w-full">
+                  {translations.home.hero.howItWorks}
+                </Button>
+              </Link>
             </div>
           </div>
         </section>
@@ -267,8 +269,8 @@ export default function LandingPage() {
               <div>
                   <h4 className="font-semibold mb-2">{translations.home.footer.company.title}</h4>
                   <ul className="space-y-1">
-                      <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">{translations.home.footer.company.about}</Link></li>
-                      <li><Link href="#" className="text-sm text-muted-foreground hover:text-foreground">{translations.home.footer.company.feedback}</Link></li>
+                      <li><Link href="/about" className="text-sm text-muted-foreground hover:text-foreground">{translations.home.footer.company.about}</Link></li>
+                      <li><Link href="/feedback" className="text-sm text-muted-foreground hover:text-foreground">{translations.home.footer.company.feedback}</Link></li>
                   </ul>
               </div>
           </div>
