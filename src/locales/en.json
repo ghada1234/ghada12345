@@ -320,7 +320,13 @@
         "description": "Thank you for helping us improve NutriSnap."
       }
     }
+  },
+  "about": {
+    "title": "About NutriSnap",
+    "subtitle": "A celebration of global cuisine and a commitment to personalized nutrition.",
+    "missionTitle": "Our Mission",
+    "missionP1": "NutriSnap was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.",
+    "missionP2": "While living abroad, she noticed a critical flaw in popular health and wellness apps: they struggled to accurately analyze diverse, international dishes. As an engineer, she saw a technical challenge and an opportunity.",
+    "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
   }
 }
-
-    
