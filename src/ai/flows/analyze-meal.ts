@@ -21,7 +21,7 @@ const AnalyzeMealInputSchema = z.object({
     .string()
     .optional()
     .describe(
-      "A photo of the meal, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+      "A photo of the meal, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'"
     ),
 });
 export type AnalyzeMealInput = z.infer<typeof AnalyzeMealInputSchema>;
@@ -54,26 +54,16 @@ export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealO
 
 const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
-  model: 'googleai/gemini-2.0-flash-preview',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI with a specialization in global cuisines, including a deep understanding of Middle Eastern, Indian, and Iraqi dishes. Your task is to analyze the provided meal information and provide a detailed and accurate estimate of its nutritional content, including both macronutrients and key micronutrients.
+  prompt: `You are an expert nutritionist AI. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
 
-Follow these steps for your analysis:
-1.  **Identify the Meal:** First, identify the meal and all its individual components from the provided description and/or photo. If a barcode is visible in the photo, prioritize identifying the product from the barcode. Be specific, especially with regional dishes (e.g., 'Iraqi Dolma', 'Chicken Biryani', 'Hummus with Tahini').
-2.  **List Ingredients:** Based on your identification, create a list of all the ingredients present in the meal.
-3.  **Estimate Portion Sizes:** For each component, estimate the portion size in grams or other standard units. Be realistic.
-4.  **Calculate Nutritional Information:** Based on the identified ingredients and their estimated portion sizes, calculate the total nutritional content for the entire meal. Provide estimations for:
-    *   Macronutrients: Calories, Protein, Carbohydrates, Fats.
-    *   Micronutrients: Sugar, Sodium, Potassium, Calcium, Iron, and Vitamin C.
-    *   **CRITICAL RULE**: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0. DO NOT use 'N/A', strings, or leave any field blank. For example, if you are unsure about the vitamin C content of a cooked meal, you MUST output 0 for vitaminC.
-5.  **Assess Confidence:** Critically evaluate the quality of the input and the certainty of your analysis. Assign a confidence score ('High', 'Medium', or 'Low') based on the following criteria:
-    *   **High:** The image is clear, the meal is simple with distinct ingredients, and portion sizes are unambiguous (e.g., a single apple, a standard can of soda, a clearly labeled product). Or, a barcode was successfully identified.
-    *   **Medium:** There is some ambiguity. The meal might be complex, some ingredients may be obscured, or portion sizes are difficult to estimate precisely (e.g., a bowl of pasta with a mixed sauce, a large salad with many toppings, a mixed plate of various items).
-    *   **Low:** The input is very unclear. The image may be blurry or poorly lit, the description vague, or the meal is exceptionally complex, making an accurate analysis very difficult (e.g., a blurry photo of a casserole, a description like "had some soup").
-6.  **Provide Feedback:** Write a brief, helpful 'feedback' message explaining your confidence rating. This should clearly state what made the analysis difficult, if anything. For example: "Confidence is Medium because the exact portion size of the rice is an estimate." or "Confidence is High as the product was clearly identified from the barcode."
+You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
-Source Information to Analyze:
+Your analysis must also include a confidence score ('High', 'Medium', or 'Low') and a brief feedback message explaining the score.
+
+Analyze the following meal:
 {{#if description}}
 Description: {{{description}}}
 {{/if}}
@@ -90,7 +80,15 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+      const {output} = await prompt(input);
+      if (!output) {
+        return { error: 'The AI model did not return a valid analysis. Please try again.' };
+      }
+      return output;
+    } catch (e: any) {
+      console.error('Error in analyzeMealFlow:', e);
+      return { error: `An unexpected error occurred during AI analysis: ${e.message}` };
+    }
   }
 );

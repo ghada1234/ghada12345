@@ -24,7 +24,9 @@ export async function handleAnalyzeMeal(
     return result;
   } catch (error) {
     console.error("Error analyzing meal:", error);
-    throw new Error("Failed to get meal analysis from AI.");
+    // Construct a more specific error message if possible
+    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+    throw new Error(`Failed to get meal analysis from AI: ${errorMessage}`);
   }
 }
 
