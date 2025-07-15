@@ -41,7 +41,6 @@ const AnalyzeMealOutputSchema = z.object({
   ingredients: z.array(z.string()).optional().default([]).describe('A list of identified ingredients in the meal.'),
   confidence: z.enum(['High', 'Medium', 'Low']).optional().default('Low').describe('The confidence level of the analysis.'),
   feedback: z.string().optional().default('').describe('A brief explanation for the confidence score, highlighting any ambiguities.'),
-  error: z.string().optional().describe('An optional error message if the analysis failed.'),
 });
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
 
@@ -61,11 +60,35 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Iraqi, Middle Eastern, and Asian dishes. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
+  prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Iraqi, Middle Eastern, and Asian dishes.
 
-You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
+Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content in JSON format.
 
-Your analysis must also include a confidence score ('High', 'Medium', or 'Low') and a brief feedback message explaining the score.
+Your response MUST conform to the following JSON schema:
+\`\`\`json
+{
+  "type": "object",
+  "properties": {
+    "mealName": { "type": "string", "description": "A descriptive name for the meal." },
+    "calories": { "type": "number", "description": "Estimated total calories." },
+    "protein": { "type": "number", "description": "Estimated grams of protein." },
+    "carbs": { "type": "number", "description": "Estimated grams of carbohydrates." },
+    "fats": { "type": "number", "description": "Estimated grams of fat." },
+    "sugar": { "type": "number", "description": "Estimated grams of sugar." },
+    "sodium": { "type": "number", "description": "Estimated milligrams of sodium." },
+    "potassium": { "type": "number", "description": "Estimated milligrams of potassium." },
+    "calcium": { "type": "number", "description": "Estimated milligrams of calcium." },
+    "iron": { "type": "number", "description": "Estimated milligrams of iron." },
+    "vitaminC": { "type": "number", "description": "Estimated milligrams of Vitamin C." },
+    "ingredients": { "type": "array", "items": { "type": "string" }, "description": "A list of identified ingredients in the meal." },
+    "confidence": { "type": "string", "enum": ["High", "Medium", "Low"], "description": "The confidence level of the analysis." },
+    "feedback": { "type": "string", "description": "A brief explanation for the confidence score, highlighting any ambiguities." }
+  },
+  "required": ["mealName", "calories", "protein", "carbs", "fats", "sugar", "sodium", "potassium", "calcium", "iron", "vitaminC", "ingredients", "confidence", "feedback"]
+}
+\`\`\`
+
+IMPORTANT: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
 Analyze the following meal:
 {{#if description}}
@@ -84,29 +107,7 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    try {
-        const {output} = await prompt(input);
-        return output!;
-    } catch(e) {
-        console.error("Error in analyzeMealFlow:", e);
-        const errorMessage = e instanceof Error ? e.message : "An unknown error occurred during AI analysis.";
-        return {
-            mealName: "Analysis Failed",
-            calories: 0,
-            protein: 0,
-            carbs: 0,
-            fats: 0,
-            sugar: 0,
-            sodium: 0,
-            potassium: 0,
-            calcium: 0,
-            iron: 0,
-            vitaminC: 0,
-            ingredients: [],
-            confidence: 'Low',
-            feedback: "Could not analyze the meal due to a system error.",
-            error: errorMessage,
-        }
-    }
+    const {output} = await prompt(input);
+    return output!;
   }
 );

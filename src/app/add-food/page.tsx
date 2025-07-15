@@ -113,16 +113,7 @@ export default function AddFoodPage() {
     setAnalysisResult(null);
     try {
         const result = await handleAnalyzeMeal(input);
-        if (result.error) {
-          toast({
-            variant: "destructive",
-            title: translations.addFood.analysisError.title,
-            description: result.error,
-          });
-          setAnalysisResult(null);
-        } else {
-          setAnalysisResult(result);
-        }
+        setAnalysisResult(result);
     } catch (error) {
       toast({
         variant: "destructive",
