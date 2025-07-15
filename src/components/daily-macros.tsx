@@ -43,8 +43,14 @@ export function DailyMacros() {
         acc.fats += meal.fats;
         // You might need to add fiber to your AnalyzeMealOutput if it's not there
         // acc.fiber += meal.fiber || 0; 
+        acc.sugar += meal.sugar;
+        acc.sodium += meal.sodium;
+        acc.potassium += meal.potassium;
+        acc.calcium += meal.calcium;
+        acc.iron += meal.iron;
+        acc.vitaminC += meal.vitaminC;
         return acc;
-    }, { calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0 });
+    }, { calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0, sugar: 0, sodium: 0, potassium: 0, calcium: 0, iron: 0, vitaminC: 0 });
   }, [todaysMeals]);
   
   // These should eventually come from user settings
@@ -53,16 +59,31 @@ export function DailyMacros() {
     protein: 120,
     carbs: 250,
     fats: 70,
-    fiber: 30
+    fiber: 30,
+    sugar: 50,
+    sodium: 2300,
+    potassium: 3500,
+    calcium: 1000,
+    iron: 18,
+    vitaminC: 90
   };
 
   const handleShare = () => {
-    const message = `📊 *My Daily Nutrition Goals*
+    const message = `📊 *My Daily Nutrition Summary*
 
+*${translations.dashboard.macros.title.toUpperCase()}*
 🔥 ${translations.dashboard.macros.calories}: ${totals.calories.toFixed(0)} / ${goals.calories} kcal
 💪 ${translations.dashboard.macros.protein}: ${totals.protein.toFixed(0)} / ${goals.protein}g
 🍞 ${translations.dashboard.macros.carbs}: ${totals.carbs.toFixed(0)} / ${goals.carbs}g
 🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
+
+*${translations.dashboard.micros.title.toUpperCase()}*
+🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${goals.sugar}g
+🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${goals.sodium}mg
+🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${goals.potassium}mg
+🦴 ${translations.dashboard.micros.calcium}: ${totals.calcium.toFixed(0)} / ${goals.calcium}mg
+⚡ ${translations.dashboard.micros.iron}: ${totals.iron.toFixed(1)} / ${goals.iron}mg
+🍊 ${translations.dashboard.micros.vitaminC}: ${totals.vitaminC.toFixed(1)} / ${goals.vitaminC}mg
 
 📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
