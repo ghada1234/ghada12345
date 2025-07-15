@@ -14,6 +14,7 @@ import { handleAnalyzeMeal } from "@/app/actions";
 import { type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 export default function AddFoodPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -139,21 +140,28 @@ export default function AddFoodPage() {
   };
 
   const handleShare = (result: AnalyzeMealOutput) => {
-    const message = `
-🍽️ ${result.mealName}
+    const message = `🍽️ ${result.mealName}
 
 📊 MACRONUTRIENTS
-🔥 Calories: ${result.calories.toFixed(0)} kcal
-💪 Protein: ${result.protein.toFixed(1)}g
-🍞 Carbs: ${result.carbs.toFixed(1)}g
-🥑 Fat: ${result.fats.toFixed(1)}g
+🔥 ${translations.addFood.analysisResult.calories}: ${result.calories.toFixed(0)} kcal
+💪 ${translations.addFood.analysisResult.protein}: ${result.protein.toFixed(1)}g
+🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs.toFixed(1)}g
+🥑 ${translations.addFood.analysisResult.fats}: ${result.fats.toFixed(1)}g
 
-📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨
-    `.trim();
+🧪 MICRONUTRIENTS
+🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar.toFixed(1)}g
+🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium.toFixed(0)}mg
+🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium.toFixed(0)}mg
+🦴 ${translations.addFood.analysisResult.calcium}: ${result.calcium.toFixed(0)}mg
+⚡ ${translations.addFood.analysisResult.iron}: ${result.iron.toFixed(1)}mg
+🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC.toFixed(1)}mg
+
+📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl);
   };
+
 
   const renderContent = () => {
     const cameraView = (title: string, buttonText: string, buttonIcon: React.ReactNode, onButtonClick: () => void) => (
@@ -239,6 +247,13 @@ export default function AddFoodPage() {
     Low: "bg-red-500 hover:bg-red-600",
   }
 
+  const NutrientRow = ({ label, value, unit }: { label: string; value: number; unit: string; }) => (
+    <div className="flex justify-between text-sm">
+        <span className="text-muted-foreground">{label}</span>
+        <span className="font-medium">{value.toFixed(value > 10 ? 0 : 1)} {unit}</span>
+    </div>
+  )
+
   const AnalysisResultCard = () => (
     <Card className="w-full max-w-md">
         <CardHeader>
@@ -273,13 +288,36 @@ export default function AddFoodPage() {
                         </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-2 pt-4">
-                        <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.calories}</span><span>{analysisResult.calories.toFixed(0)} kcal</span></div>
-                        <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.protein}</span><span>{analysisResult.protein.toFixed(1)} g</span></div>
-                        <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.carbs}</span><span>{analysisResult.carbs.toFixed(1)} g</span></div>
-                        <div className="flex justify-between"><span className="font-semibold">{translations.addFood.analysisResult.fats}</span><span>{analysisResult.fats.toFixed(1)} g</span></div>
+                    
+                    <Separator />
+                    
+                    <div className="space-y-2">
+                        <h4 className="font-semibold">{translations.addFood.analysisResult.macrosTitle}</h4>
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                           <NutrientRow label={translations.addFood.analysisResult.calories} value={analysisResult.calories} unit="kcal" />
+                           <NutrientRow label={translations.addFood.analysisResult.protein} value={analysisResult.protein} unit="g" />
+                           <NutrientRow label={translations.addFood.analysisResult.carbs} value={analysisResult.carbs} unit="g" />
+                           <NutrientRow label={translations.addFood.analysisResult.fats} value={analysisResult.fats} unit="g" />
+                        </div>
                     </div>
-                    <div className="flex gap-2">
+                    
+                    <Separator />
+
+                    <div className="space-y-2">
+                         <h4 className="font-semibold">{translations.addFood.analysisResult.microsTitle}</h4>
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                           <NutrientRow label={translations.addFood.analysisResult.sugar} value={analysisResult.sugar} unit="g" />
+                           <NutrientRow label={translations.addFood.analysisResult.sodium} value={analysisResult.sodium} unit="mg" />
+                           <NutrientRow label={translations.addFood.analysisResult.potassium} value={analysisResult.potassium} unit="mg" />
+                           <NutrientRow label={translations.addFood.analysisResult.calcium} value={analysisResult.calcium} unit="mg" />
+                           <NutrientRow label={translations.addFood.analysisResult.iron} value={analysisResult.iron} unit="mg" />
+                           <NutrientRow label={translations.addFood.analysisResult.vitaminC} value={analysisResult.vitaminC} unit="mg" />
+                        </div>
+                    </div>
+
+                    <Separator />
+
+                    <div className="flex gap-2 pt-2">
                         <Button className="w-full">{translations.addFood.analysisResult.logButton}</Button>
                         <Button variant="outline" className="w-full" onClick={() => handleShare(analysisResult)}>
                             <Share2 className="mr-2" />

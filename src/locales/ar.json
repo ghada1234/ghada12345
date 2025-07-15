@@ -218,6 +218,8 @@
     "analysisResult": {
       "title": "نتيجة التحليل",
       "description": "إليك التقدير الغذائي لوجبتك.",
+      "macrosTitle": "العناصر الغذائية الكبرى",
+      "microsTitle": "العناصر الغذائية الصغرى",
       "confidence": "الثقة",
       "confidenceLevels": {
         "High": "عالية",
@@ -228,6 +230,12 @@
       "protein": "البروتين",
       "carbs": "الكربوهيدرات",
       "fats": "الدهون",
+      "sugar": "السكر",
+      "sodium": "الصوديوم",
+      "potassium": "البوتاسيوم",
+      "calcium": "الكالسيوم",
+      "iron": "الحديد",
+      "vitaminC": "فيتامين ج",
       "logButton": "تسجيل هذه الوجبة",
       "shareButton": "مشاركة"
     }

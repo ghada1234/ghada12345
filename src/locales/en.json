@@ -218,6 +218,8 @@
     "analysisResult": {
       "title": "Analysis Result",
       "description": "Here's the nutritional estimate for your meal.",
+      "macrosTitle": "Macronutrients",
+      "microsTitle": "Micronutrients",
       "confidence": "Confidence",
       "confidenceLevels": {
         "High": "High",
@@ -228,6 +230,12 @@
       "protein": "Protein",
       "carbs": "Carbs",
       "fats": "Fats",
+      "sugar": "Sugar",
+      "sodium": "Sodium",
+      "potassium": "Potassium",
+      "calcium": "Calcium",
+      "iron": "Iron",
+      "vitaminC": "Vitamin C",
       "logButton": "Log This Meal",
       "shareButton": "Share"
     }

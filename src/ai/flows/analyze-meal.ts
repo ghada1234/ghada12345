@@ -32,6 +32,12 @@ const AnalyzeMealOutputSchema = z.object({
   protein: z.number().describe('Estimated grams of protein.'),
   carbs: z.number().describe('Estimated grams of carbohydrates.'),
   fats: z.number().describe('Estimated grams of fat.'),
+  sugar: z.number().describe('Estimated grams of sugar.'),
+  sodium: z.number().describe('Estimated milligrams of sodium.'),
+  potassium: z.number().describe('Estimated milligrams of potassium.'),
+  calcium: z.number().describe('Estimated milligrams of calcium.'),
+  iron: z.number().describe('Estimated milligrams of iron.'),
+  vitaminC: z.number().describe('Estimated milligrams of Vitamin C.'),
   confidence: z.enum(['High', 'Medium', 'Low']).describe('The confidence level of the analysis.'),
   feedback: z.string().describe('A brief explanation for the confidence score, highlighting any ambiguities.'),
 });
@@ -48,12 +54,14 @@ const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI. Your task is to analyze the provided meal information and provide a detailed and accurate estimate of its nutritional content.
+  prompt: `You are an expert nutritionist AI. Your task is to analyze the provided meal information and provide a detailed and accurate estimate of its nutritional content, including both macronutrients and key micronutrients.
 
 Follow these steps for your analysis:
 1.  **Identify the Meal:** First, identify the meal and all its individual components from the provided description and/or photo. If a barcode is visible in the photo, prioritize identifying the product from the barcode.
 2.  **Estimate Portion Sizes:** For each component, estimate the portion size in grams or other standard units. Be realistic.
-3.  **Calculate Nutritional Information:** Based on the identified ingredients and their estimated portion sizes, calculate the total nutritional content for the entire meal. Provide estimations for calories, protein, carbohydrates, and fats.
+3.  **Calculate Nutritional Information:** Based on the identified ingredients and their estimated portion sizes, calculate the total nutritional content for the entire meal. Provide estimations for:
+    *   Macronutrients: Calories, Protein, Carbohydrates, Fats.
+    *   Micronutrients: Sugar, Sodium, Potassium, Calcium, Iron, and Vitamin C.
 4.  **Assess Confidence:** Critically evaluate the quality of the input and the certainty of your analysis. Assign a confidence score ('High', 'Medium', or 'Low') based on the following criteria:
     *   **High:** The image is clear, the meal is simple with distinct ingredients, and portion sizes are unambiguous (e.g., a single apple, a standard can of soda, a clearly labeled product). Or, a barcode was successfully identified.
     *   **Medium:** There is some ambiguity. The meal might be complex, some ingredients may be obscured, or portion sizes are difficult to estimate precisely (e.g., a bowl of pasta with a mixed sauce, a large salad with many toppings).
