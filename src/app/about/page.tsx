@@ -17,9 +17,9 @@ export default function AboutPage() {
         </div>
 
         <Card>
-          <CardContent className="p-6 grid md:grid-cols-2 gap-8 items-center">
+          <CardContent className="p-6">
             <div>
-              <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
+              <h2 className="text-2xl font-bold mb-4 text-center">Our Mission</h2>
               <p className="text-muted-foreground mb-4">
                 NutriSnap was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.
               </p>
@@ -29,16 +29,6 @@ export default function AboutPage() {
               <p className="text-muted-foreground">
                 Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time.
               </p>
-            </div>
-            <div className="rounded-lg overflow-hidden">
-                <Image 
-                    src="https://placehold.co/600x400.png"
-                    data-ai-hint="Iraqi food"
-                    alt="Iraqi food" 
-                    width={600} 
-                    height={400}
-                    className="object-cover w-full h-full"
-                />
             </div>
           </CardContent>
         </Card>
