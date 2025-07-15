@@ -43,29 +43,6 @@ export default function AboutPage() {
           </CardContent>
         </Card>
 
-        <div className="grid md:grid-cols-3 gap-8 text-center">
-          <div className="p-6 border rounded-lg">
-            <Sparkles className="mx-auto h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Culturally Intelligent</h3>
-            <p className="text-muted-foreground">
-              We use cutting-edge AI to provide accurate analysis for diverse, international dishes.
-            </p>
-          </div>
-          <div className="p-6 border rounded-lg">
-            <Users className="mx-auto h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Founder-Led</h3>
-            <p className="text-muted-foreground">
-              Built by an engineer passionate about solving real-world problems in nutrition.
-            </p>
-          </div>
-          <div className="p-6 border rounded-lg">
-            <Leaf className="mx-auto h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Holistic Wellness</h3>
-            <p className="text-muted-foreground">
-              Beyond just counting calories, we support your overall health goals and traditions.
-            </p>
-          </div>
-        </div>
       </div>
     </main>
   );
