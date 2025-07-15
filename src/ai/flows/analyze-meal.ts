@@ -54,7 +54,7 @@ export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealO
 
 const prompt = ai.definePrompt({
   name: 'analyzeMealPrompt',
-  model: 'googleai/gemini-2.0-flash-preview',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
   config: {

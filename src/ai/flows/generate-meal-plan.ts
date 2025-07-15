@@ -17,7 +17,7 @@ export async function generateMealPlan(input: GenerateMealPlanInput): Promise<Ge
 
 const prompt = ai.definePrompt({
   name: 'generateMealPlanPrompt',
-  model: 'googleai/gemini-2.0-flash-preview',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: GenerateMealPlanInputSchema},
   output: {schema: GenerateMealPlanOutputSchema},
   prompt: `You are a world-class AI nutritionist. Your task is to create a one-day meal plan based on the user's remaining calorie target and preferences.
