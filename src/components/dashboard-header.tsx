@@ -1,3 +1,6 @@
+
+"use client";
+
 import { Leaf, Menu, Globe } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
@@ -9,9 +12,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { useLanguage } from "@/context/language-context";
 
 export function DashboardHeader() {
+  const { translations, setLanguage } = useLanguage();
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 sm:px-6 lg:px-8 backdrop-blur">
       <div className="md:hidden">
@@ -40,19 +45,19 @@ export function DashboardHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              English
+            <DropdownMenuItem onClick={() => setLanguage('en')}>
+              {translations.header.english}
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              العربية
+            <DropdownMenuItem onClick={() => setLanguage('ar')}>
+              {translations.header.arabic}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
         <Link href="/login" passHref>
-          <Button variant="outline">Login</Button>
+          <Button variant="outline">{translations.header.login}</Button>
         </Link>
         <Link href="/signup" passHref>
-          <Button>Sign Up</Button>
+          <Button>{translations.header.signup}</Button>
         </Link>
       </div>
     </header>

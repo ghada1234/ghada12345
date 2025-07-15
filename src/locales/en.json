@@ -1,0 +1,19 @@
+
+{
+  "sidebar": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "add_food": "Add Food",
+    "meal_planner": "Meal Planner",
+    "reports": "Reports",
+    "settings": "Settings",
+    "feedback": "Feedback",
+    "about": "About"
+  },
+  "header": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "english": "English",
+    "arabic": "العربية"
+  }
+}

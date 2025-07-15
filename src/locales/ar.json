@@ -1,0 +1,19 @@
+
+{
+  "sidebar": {
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "add_food": "إضافة طعام",
+    "meal_planner": "مخطط الوجبات",
+    "reports": "التقارير",
+    "settings": "الإعدادات",
+    "feedback": "شاركنا رأيك",
+    "about": "حول التطبيق"
+  },
+  "header": {
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "english": "English",
+    "arabic": "العربية"
+  }
+}
