@@ -62,12 +62,8 @@ export function Sidebar() {
               icon={<BarChart className="h-4 w-4" />}
               label="Reports"
             />
-          </nav>
-        </div>
-        <div className="mt-auto p-4">
-           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
              <NavLink
-              href="#"
+              href="/settings"
               icon={<Settings className="h-4 w-4" />}
               label="Settings"
             />
@@ -81,7 +77,7 @@ export function Sidebar() {
               icon={<Info className="h-4 w-4" />}
               label="About"
             />
-           </nav>
+          </nav>
         </div>
       </div>
     </div>
