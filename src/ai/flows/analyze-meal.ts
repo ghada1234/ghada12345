@@ -50,17 +50,18 @@ const prompt = ai.definePrompt({
   output: {schema: AnalyzeMealOutputSchema},
   prompt: `You are an expert nutritionist AI. Your task is to analyze the provided meal information and estimate its nutritional content.
 
-You will be given either a text description, a photo, or both. Use all available information to identify the meal and its components.
+You will be given either a text description, a photo, or both. The photo might be of a meal, or it could be a product's barcode.
+If a barcode is provided, identify the product and retrieve its nutritional information. Otherwise, use all available information to identify the meal and its components.
 
-Analyze the meal and provide the following estimations:
-- A descriptive name for the meal.
+Analyze the meal or product and provide the following estimations:
+- A descriptive name for the meal or product.
 - Total calories.
 - Grams of protein.
 - Grams of carbohydrates.
 - Grams of fat.
 
 Crucially, you must also assess your confidence in this analysis. The confidence level can be 'High', 'Medium', or 'Low'.
-- 'High' confidence means the meal is simple, clear, and portion sizes are obvious.
+- 'High' confidence means the meal is simple, clear, and portion sizes are obvious, or a barcode was successfully identified.
 - 'Medium' confidence means there is some ambiguity, like complex ingredients or unclear portion sizes.
 - 'Low' confidence means the image is blurry, the description is vague, or the meal is very complex and difficult to analyze accurately.
 

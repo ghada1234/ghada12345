@@ -196,7 +196,7 @@ export default function AddFoodPage() {
             translations.addFood.scanBarcodeTitle,
             translations.addFood.startScanning,
             <ScanBarcode className="mr-2" />,
-            () => {} // Placeholder for future scan functionality
+            handleSnapPhoto
         );
       case "upload":
         return (
@@ -287,7 +287,7 @@ export default function AddFoodPage() {
           <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => handleOptionChange("describe")}>
             <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
-          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => handleOptionChange("scan")} disabled>
+          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => handleOptionChange("scan")}>
             <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
           <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => handleOptionChange("upload")}>
