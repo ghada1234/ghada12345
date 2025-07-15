@@ -43,12 +43,12 @@ export default function LandingPage() {
             </div>
             <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row sm:max-w-md mx-auto">
               <Link href="/dashboard" className="flex-1">
-                <Button size="lg" className="w-full">
+                <Button className="w-full">
                   {translations.home.hero.getStarted}
                   <ArrowRight className="ml-2" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="flex-1">
+              <Button variant="outline" className="flex-1">
                 {translations.home.hero.howItWorks}
               </Button>
             </div>
