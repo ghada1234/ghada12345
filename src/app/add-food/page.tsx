@@ -184,13 +184,7 @@ export default function AddFoodPage() {
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     
-    // Create a temporary anchor element and click it to open WhatsApp
-    const link = document.createElement('a');
-    link.href = whatsappUrl;
-    // No target needed, let the browser handle switching to the app
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.location.href = whatsappUrl;
   };
 
 
