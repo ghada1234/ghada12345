@@ -186,5 +186,29 @@
       },
       "rights": "All rights reserved."
     }
+  },
+  "addFood": {
+    "title": "Log Your Meal",
+    "subtitle": "Add a meal by snapping a photo, describing it, or scanning a barcode. Our AI will handle the rest.",
+    "snapPhoto": "Snap a Photo",
+    "describeMeal": "Describe Meal",
+    "scanBarcode": "Scan Barcode",
+    "uploadDevice": "Upload from Device",
+    "useCamera": "Use Camera",
+    "cameraAccessRequired": "Camera Access Required",
+    "cameraPermission": "Please allow camera access in your browser settings to use this feature.",
+    "cameraPermissionBarcode": "Please allow camera access to scan barcodes.",
+    "snapPhotoButton": "Snap Photo",
+    "describeMealTitle": "Describe Meal",
+    "describePlaceholder": "e.g., 'A bowl of oatmeal with blueberries, almonds, and a drizzle of honey'",
+    "analyzeDescription": "Analyze Meal Description",
+    "scanBarcodeTitle": "Scan Barcode",
+    "startScanning": "Start Scanning",
+    "uploadDeviceTitle": "Upload from Device",
+    "uploadAndAnalyze": "Upload and Analyze",
+    "toast": {
+      "title": "Camera Access Denied",
+      "description": "Please enable camera permissions in your browser settings to use this feature."
+    }
   }
 }

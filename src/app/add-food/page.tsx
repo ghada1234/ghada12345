@@ -9,12 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { useLanguage } from "@/context/language-context";
 
 export default function AddFoodPage() {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
+  const { translations } = useLanguage();
 
   useEffect(() => {
     if (selectedOption === "camera" || selectedOption === "scan") {
@@ -31,8 +33,8 @@ export default function AddFoodPage() {
           setHasCameraPermission(false);
           toast({
             variant: "destructive",
-            title: "Camera Access Denied",
-            description: "Please enable camera permissions in your browser settings to use this feature.",
+            title: translations.addFood.toast.title,
+            description: translations.addFood.toast.description,
           });
         }
       };
@@ -45,7 +47,7 @@ export default function AddFoodPage() {
             videoRef.current.srcObject = null;
         }
     }
-  }, [selectedOption, toast]);
+  }, [selectedOption, toast, translations]);
 
   const renderContent = () => {
     switch (selectedOption) {
@@ -53,7 +55,7 @@ export default function AddFoodPage() {
         return (
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>Use Camera</CardTitle>
+              <CardTitle>{translations.addFood.useCamera}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center">
@@ -61,14 +63,14 @@ export default function AddFoodPage() {
               </div>
                {hasCameraPermission === false && (
                 <Alert variant="destructive">
-                  <AlertTitle>Camera Access Required</AlertTitle>
+                  <AlertTitle>{translations.addFood.cameraAccessRequired}</AlertTitle>
                   <AlertDescription>
-                    Please allow camera access in your browser settings to use this feature.
+                    {translations.addFood.cameraPermission}
                   </AlertDescription>
                 </Alert>
               )}
               <Button disabled={!hasCameraPermission} className="w-full">
-                <Camera className="mr-2" /> Snap Photo
+                <Camera className="mr-2" /> {translations.addFood.snapPhotoButton}
               </Button>
             </CardContent>
           </Card>
@@ -77,11 +79,11 @@ export default function AddFoodPage() {
         return (
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>Describe Meal</CardTitle>
+              <CardTitle>{translations.addFood.describeMealTitle}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Textarea placeholder="e.g., 'A bowl of oatmeal with blueberries, almonds, and a drizzle of honey'" rows={4} />
-              <Button className="w-full">Analyze Meal Description</Button>
+              <Textarea placeholder={translations.addFood.describePlaceholder} rows={4} />
+              <Button className="w-full">{translations.addFood.analyzeDescription}</Button>
             </CardContent>
           </Card>
         );
@@ -89,7 +91,7 @@ export default function AddFoodPage() {
         return (
             <Card className="w-full">
             <CardHeader>
-                <CardTitle>Scan Barcode</CardTitle>
+                <CardTitle>{translations.addFood.scanBarcodeTitle}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center">
@@ -97,14 +99,14 @@ export default function AddFoodPage() {
                 </div>
                 {hasCameraPermission === false && (
                   <Alert variant="destructive">
-                    <AlertTitle>Camera Access Required</AlertTitle>
+                    <AlertTitle>{translations.addFood.cameraAccessRequired}</AlertTitle>
                     <AlertDescription>
-                      Please allow camera access to scan barcodes.
+                      {translations.addFood.cameraPermissionBarcode}
                     </AlertDescription>
                   </Alert>
                 )}
                 <Button className="w-full" disabled={!hasCameraPermission}>
-                    <ScanBarcode className="mr-2" /> Start Scanning
+                    <ScanBarcode className="mr-2" /> {translations.addFood.startScanning}
                 </Button>
             </CardContent>
             </Card>
@@ -113,12 +115,12 @@ export default function AddFoodPage() {
         return (
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>Upload from Device</CardTitle>
+              <CardTitle>{translations.addFood.uploadDeviceTitle}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Input type="file" accept="image/*" />
               <Button className="w-full">
-                <Upload className="mr-2" /> Upload and Analyze
+                <Upload className="mr-2" /> {translations.addFood.uploadAndAnalyze}
               </Button>
             </CardContent>
           </Card>
@@ -132,24 +134,24 @@ export default function AddFoodPage() {
     <main className="flex-1 p-4 sm:p-6 lg:p-8 flex flex-col items-center">
       <div className="w-full max-w-4xl space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Log Your Meal</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{translations.addFood.title}</h1>
           <p className="text-muted-foreground mt-2">
-            Add a meal by snapping a photo, describing it, or scanning a barcode. Our AI will handle the rest.
+            {translations.addFood.subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => setSelectedOption("camera")}>
-            <Camera className="mr-2" /> Snap a Photo
+            <Camera className="mr-2" /> {translations.addFood.snapPhoto}
           </Button>
           <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => setSelectedOption("describe")}>
-            <Type className="mr-2" /> Describe Meal
+            <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
           <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => setSelectedOption("scan")}>
-            <ScanBarcode className="mr-2" /> Scan Barcode
+            <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
           <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-20" onClick={() => setSelectedOption("upload")}>
-            <Upload className="mr-2" /> Upload from Device
+            <Upload className="mr-2" /> {translations.addFood.uploadDevice}
           </Button>
         </div>
 
