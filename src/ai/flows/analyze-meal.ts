@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -11,7 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
-export const AnalyzeMealInputSchema = z.object({
+const AnalyzeMealInputSchema = z.object({
   description: z
     .string()
     .optional()
@@ -25,7 +26,7 @@ export const AnalyzeMealInputSchema = z.object({
 });
 export type AnalyzeMealInput = z.infer<typeof AnalyzeMealInputSchema>;
 
-export const AnalyzeMealOutputSchema = z.object({
+const AnalyzeMealOutputSchema = z.object({
   mealName: z.string().describe('A descriptive name for the meal.'),
   calories: z.number().describe('Estimated total calories.'),
   protein: z.number().describe('Estimated grams of protein.'),
