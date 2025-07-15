@@ -26,7 +26,7 @@ export function DashboardHeader() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-[260px] flex flex-col">
+        <SheetContent side="left" className="p-0 w-[260px]">
            <Sidebar isSheet={true} />
         </SheetContent>
       </Sheet>
