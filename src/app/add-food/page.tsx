@@ -17,7 +17,7 @@ export default function AddFoodPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (selectedOption === "camera") {
+    if (selectedOption === "camera" || selectedOption === "scan") {
       const getCameraPermission = async () => {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -93,9 +93,17 @@ export default function AddFoodPage() {
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="w-full bg-muted rounded-md overflow-hidden aspect-video flex items-center justify-center">
-                    <p className="text-muted-foreground">Camera preview for scanning</p>
+                  <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
                 </div>
-                <Button className="w-full">
+                {hasCameraPermission === false && (
+                  <Alert variant="destructive">
+                    <AlertTitle>Camera Access Required</AlertTitle>
+                    <AlertDescription>
+                      Please allow camera access to scan barcodes.
+                    </AlertDescription>
+                  </Alert>
+                )}
+                <Button className="w-full" disabled={!hasCameraPermission}>
                     <ScanBarcode className="mr-2" /> Start Scanning
                 </Button>
             </CardContent>
