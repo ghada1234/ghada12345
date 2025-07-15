@@ -46,20 +46,7 @@ const AnalyzeMealOutputSchema = z.object({
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
 
 export async function handleAnalyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
-  try {
-    const result = await analyzeMeal(input);
-    return result;
-  } catch (error) {
-    console.error("Error analyzing meal:", error);
-    const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
-    return { 
-        error: `Failed to get meal analysis from AI: ${errorMessage}`,
-        mealName: "Analysis Failed",
-        calories: 0, protein: 0, carbs: 0, fats: 0, sugar: 0, sodium: 0, 
-        potassium: 0, calcium: 0, iron: 0, vitaminC: 0,
-        ingredients: [], confidence: 'Low', feedback: 'An error occurred during analysis.'
-    };
-  }
+  return analyzeMeal(input);
 }
 
 export async function analyzeMeal(input: AnalyzeMealInput): Promise<AnalyzeMealOutput> {
@@ -97,15 +84,7 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    try {
-      const {output} = await prompt(input);
-      if (!output) {
-        return { error: 'The AI model did not return a valid analysis. Please try again.' };
-      }
-      return output;
-    } catch (e: any) {
-      console.error('Error in analyzeMealFlow:', e);
-      return { error: `An unexpected error occurred during AI analysis: ${e.message}` };
-    }
+    const {output} = await prompt(input);
+    return output!;
   }
 );

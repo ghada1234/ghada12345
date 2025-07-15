@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { useLanguage } from "@/context/language-context";
-import { handleAnalyzeMeal } from "@/ai/flows/analyze-meal";
+import { handleAnalyzeMeal } from "@/app/actions";
 import { type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
