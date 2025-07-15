@@ -15,5 +15,107 @@
     "signup": "Sign Up",
     "english": "English",
     "arabic": "العربية"
+  },
+  "home": {
+    "hero": {
+      "title": "Instant Nutritional Analysis at Your Fingertips",
+      "subtitle": "The smart way to track your nutrition. Snap a photo or describe your meal to get an instant, AI-powered nutritional analysis. Take control of your health today.",
+      "getStarted": "Get Started Free",
+      "howItWorks": "How It Works"
+    },
+    "howItWorksSection": {
+      "title": "Achieve your health goals in three simple steps.",
+      "step1": {
+        "title": "1. Snap or Describe",
+        "description": "Take a picture of your meal, scan a barcode, or simply type in what you ate."
+      },
+      "step2": {
+        "title": "2. AI Analysis",
+        "description": "Our advanced AI instantly analyzes the food and provides a detailed nutritional breakdown."
+      },
+      "step3": {
+        "title": "3. Track & Improve",
+        "description": "Log your meals, track your progress against your goals, and get smart suggestions."
+      }
+    },
+    "features": {
+      "title": "All-In-One Wellness Tracker",
+      "subtitle": "Everything you need to understand and improve your diet.",
+      "mealPlans": {
+        "title": "Personalized Meal Plans",
+        "description": "Get AI-generated meal plans tailored to your goals, preferences, and allergies."
+      },
+      "progressTracking": {
+        "title": "Track Your Progress",
+        "description": "Visualize your nutritional intake with daily, weekly, and monthly reports."
+      },
+      "barcodeScanner": {
+        "title": "Barcode Scanner",
+        "description": "Quickly log packaged foods by scanning the barcode with your phone's camera."
+      },
+      "foodDatabase": {
+        "title": "Extensive Food Database",
+        "description": "Access nutritional info for millions of food items, including international cuisines."
+      },
+      "community": {
+        "title": "Community & Support",
+        "description": "Share your progress and get motivated with our community features."
+      },
+      "multiLanguage": {
+        "title": "Multi-language Support",
+        "description": "Available in both English and Arabic, with culturally-aware food analysis."
+      }
+    },
+    "testimonials": {
+      "title": "Loved by Users Worldwide",
+      "subtitle": "Don't just take our word for it. Here's what our users have to say.",
+      "testimonial1": {
+        "quote": "excellent app",
+        "author": "ghada rabee"
+      },
+      "testimonial2": {
+        "quote": "NutriSnap has revolutionized how I track my meals. The photo analysis is incredibly accurate and saves me so much time!",
+        "author": "Sarah K."
+      },
+      "testimonial3": {
+        "quote": "As someone with specific dietary goals, the personalized meal suggestions are a game-changer. The Iraqi dish recognition is a huge plus!",
+        "author": "Ahmed M."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Have questions? We have answers. If you can't find what you're looking for, feel free to contact us.",
+      "q1": {
+        "question": "Is NutriSnap free to use?",
+        "answer": "Yes, NutriSnap offers a free version with core features like meal logging and basic nutritional analysis. We also have a premium subscription with advanced features like personalized meal plans, detailed reports, and priority support."
+      },
+      "q2": {
+        "question": "How accurate is the nutritional analysis?",
+        "answer": "Our AI is trained on a massive database of food items and provides highly accurate estimates. While it's a powerful tool for guidance, for medical purposes, you should always consult with a registered dietitian or doctor."
+      },
+      "q3": {
+        "question": "Can I use NutriSnap for special diets like keto or vegan?",
+        "answer": "Absolutely! You can set your dietary preferences, including keto, vegan, vegetarian, gluten-free, and more. The app will tailor its analysis and suggestions to fit your specific needs."
+      },
+      "q4": {
+        "question": "Does the app work for non-Western cuisines?",
+        "answer": "Yes. We've put a special emphasis on supporting a wide range of international cuisines, including culturally-aware analysis for Middle Eastern, Asian, and other global foods."
+      }
+    },
+    "footer": {
+      "tagline": "Your AI-powered companion for smart and simple nutrition tracking.",
+      "product": {
+        "title": "Product",
+        "features": "Features",
+        "testimonials": "Testimonials",
+        "faq": "FAQ"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About",
+        "feedback": "Feedback"
+      },
+      "rights": "All rights reserved."
+    }
   }
 }
