@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { useMealLog } from "@/context/meal-log-context";
+import { Label } from "@/components/ui/label";
 
 
 export default function AddFoodPage() {
@@ -33,6 +34,7 @@ export default function AddFoodPage() {
   const [analysisResult, setAnalysisResult] = useState<AnalyzeMealOutput | null>(null);
   const [logDate, setLogDate] = useState<Date>(new Date());
   const [mealType, setMealType] = useState<string>("lunch");
+  const [manualPortionSize, setManualPortionSize] = useState("");
 
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -45,6 +47,7 @@ export default function AddFoodPage() {
     setIsLoading(false);
     setAnalysisResult(null);
     setDescription("");
+    setManualPortionSize("");
     if (fileInputRef.current) {
         fileInputRef.current.value = "";
     }
@@ -122,6 +125,7 @@ export default function AddFoodPage() {
             setAnalysisResult(null);
         } else {
             setAnalysisResult(result);
+            setManualPortionSize(result.portionSize || "");
         }
     } catch (error) {
       toast({
@@ -166,6 +170,7 @@ export default function AddFoodPage() {
      
      addMeal({
         ...analysisResult,
+        portionSize: manualPortionSize,
         date: logDate.toISOString(),
         mealType: mealType,
      })
@@ -184,7 +189,7 @@ export default function AddFoodPage() {
   }
 
   const handleShare = (result: AnalyzeMealOutput) => {
-    const message = `🍽️ *${result.mealName}* (${result.portionSize || 'N/A'})
+    const message = `🍽️ *${result.mealName}* (${manualPortionSize || 'N/A'})
 
 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
 🔥 ${translations.addFood.analysisResult.calories}: ${result.calories?.toFixed(0)} kcal
@@ -337,12 +342,20 @@ export default function AddFoodPage() {
                             </Badge>
                         )}
                     </div>
-                     {analysisResult.portionSize && (
-                        <div className="flex items-center text-sm text-muted-foreground gap-2">
-                           <Scale className="h-4 w-4" />
-                           <span>{translations.addFood.analysisResult.portionSize}: {analysisResult.portionSize}</span>
-                        </div>
-                    )}
+
+                    <div className="space-y-2">
+                        <Label htmlFor="portion-size" className="flex items-center gap-2 text-muted-foreground">
+                            <Scale className="h-4 w-4" />
+                            {translations.addFood.analysisResult.portionSize}
+                        </Label>
+                        <Input
+                            id="portion-size"
+                            value={manualPortionSize}
+                            onChange={(e) => setManualPortionSize(e.target.value)}
+                            placeholder={translations.addFood.analysisResult.portionSizePlaceholder}
+                        />
+                    </div>
+
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
                     
                     {analysisResult.ingredients && analysisResult.ingredients.length > 0 && (

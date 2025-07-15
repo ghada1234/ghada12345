@@ -244,6 +244,7 @@
         "Low": "Low"
       },
       "portionSize": "Portion Size",
+      "portionSizePlaceholder": "e.g., 1 cup, 250g, 1 serving",
       "calories": "Calories",
       "protein": "Protein",
       "carbs": "Carbs",

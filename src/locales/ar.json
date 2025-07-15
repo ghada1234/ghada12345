@@ -244,6 +244,7 @@
         "Low": "منخفضة"
       },
       "portionSize": "حجم الحصة",
+      "portionSizePlaceholder": "مثال: 1 كوب، 250 جرام، 1 حصة",
       "calories": "السعرات الحرارية",
       "protein": "البروتين",
       "carbs": "الكربوهيدرات",
