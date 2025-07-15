@@ -12,7 +12,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction, translations } = useLanguage();
 
   return (
-    <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }} suppressHydrationWarning>
+    <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }}>
       <head>
         <title>{translations.appName}</title>
         <meta name="description" content="Track your nutrition and get AI-powered recipe suggestions." />
@@ -22,7 +22,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased" suppressHydrationWarning={true}>
         <div className="flex min-h-screen w-full bg-background">
           <Sidebar />
           <div className="flex flex-col flex-1">
