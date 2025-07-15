@@ -15,7 +15,7 @@ import {
 import { useLanguage } from "@/context/language-context";
 
 export function DashboardHeader() {
-  const { translations, setLanguage } = useLanguage();
+  const { translations, setLanguage, direction } = useLanguage();
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 sm:px-6 lg:px-8 backdrop-blur">
@@ -26,7 +26,7 @@ export function DashboardHeader() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-[260px]">
+        <SheetContent side={direction === 'rtl' ? 'right' : 'left'} className="p-0 w-[260px]">
            <Sidebar isSheet={true} />
         </SheetContent>
       </Sheet>
