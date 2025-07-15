@@ -137,7 +137,7 @@ export default function MealPlannerPage() {
     } catch (error) {
         toast({
             variant: "destructive",
-            title: translations.dashboard.recipeSuggester.error.title,
+            title: translations.dashboard.recipeSuggester.error.title, // This was the bug
             description: (error as Error).message,
         });
     }
