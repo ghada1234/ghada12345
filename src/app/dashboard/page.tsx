@@ -7,7 +7,7 @@ import { Micronutrients } from "@/components/micronutrients";
 import { TodaysLog } from "@/components/todays-log";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UtensilsCrossed } from "lucide-react";
+import { Leaf } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
@@ -35,7 +35,7 @@ export default function DashboardPage() {
           <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="space-y-2">
                   <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-                      <UtensilsCrossed className="h-6 w-6 text-primary" />
+                      <Leaf className="h-6 w-6 text-primary" />
                       <span className="font-bold text-lg">NutriSnap</span>
                   </Link>
                   <p className="text-sm text-muted-foreground">Your AI-powered companion for smart and simple nutrition tracking.</p>

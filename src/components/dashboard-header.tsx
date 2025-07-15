@@ -1,8 +1,6 @@
-import { UtensilsCrossed } from "lucide-react";
-import { MealEntry } from "./meal-entry";
+import { Leaf, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
 import { Sidebar } from "./sidebar";
 
 export function DashboardHeader() {
@@ -22,11 +20,10 @@ export function DashboardHeader() {
         </Sheet>
       </div>
       <div className="flex items-center gap-2 md:hidden">
-        <UtensilsCrossed className="h-6 w-6 text-primary" />
+        <Leaf className="h-6 w-6 text-primary" />
         <h1 className="text-xl font-bold text-foreground">NutriSnap</h1>
       </div>
       <div className="ml-auto">
-        <MealEntry />
       </div>
     </header>
   );

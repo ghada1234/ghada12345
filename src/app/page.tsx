@@ -7,7 +7,7 @@ import {
   Heart,
   Users,
   Languages,
-  UtensilsCrossed,
+  Leaf,
   CheckCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ export default function LandingPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
         <div className="container mx-auto flex h-14 items-center px-4 md:px-6">
           <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-            <UtensilsCrossed className="h-6 w-6 text-primary" />
+            <Leaf className="h-6 w-6 text-primary" />
             <span className="font-bold">NutriSnap</span>
           </Link>
           <nav className="ml-auto hidden items-center gap-4 sm:flex">
@@ -135,7 +135,7 @@ export default function LandingPage() {
             </div>
             <div className="mx-auto grid max-w-sm items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3 mt-12">
               <div className="grid gap-1">
-                <h3 className="text-lg font-bold flex items-center gap-2"><UtensilsCrossed className="text-primary"/>Personalized Meal Plans</h3>
+                <h3 className="text-lg font-bold flex items-center gap-2"><Leaf className="text-primary"/>Personalized Meal Plans</h3>
                 <p className="text-sm text-muted-foreground">
                   Get AI-generated meal plans tailored to your goals, preferences, and allergies.
                 </p>
@@ -277,7 +277,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-2">
                 <Link href="#" className="flex items-center gap-2 font-semibold" prefetch={false}>
-                    <UtensilsCrossed className="h-6 w-6 text-primary" />
+                    <Leaf className="h-6 w-6 text-primary" />
                     <span className="font-bold text-lg">NutriSnap</span>
                 </Link>
                 <p className="text-sm text-muted-foreground">Your AI-powered companion for smart and simple nutrition tracking.</p>

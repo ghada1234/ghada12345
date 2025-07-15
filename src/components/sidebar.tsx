@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  UtensilsCrossed,
+  Leaf,
   Home,
   LayoutGrid,
   PlusCircle,
@@ -35,7 +35,7 @@ export function Sidebar() {
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
-            <UtensilsCrossed className="h-6 w-6 text-primary" />
+            <Leaf className="h-6 w-6 text-primary" />
             <span className="">NutriSnap</span>
           </Link>
         </div>
