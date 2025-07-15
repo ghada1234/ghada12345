@@ -210,5 +210,16 @@
       "title": "Camera Access Denied",
       "description": "Please enable camera permissions in your browser settings to use this feature."
     }
+  },
+  "mealPlanner": {
+    "title": "Meal Planner",
+    "subtitle": "Generate personalized daily meal plans with our AI.",
+    "cardTitle": "Your Meal Plan",
+    "cardDescriptionGenerated": "Here is your personalized meal plan.",
+    "cardDescriptionPrompt": "Click the button to generate a new meal plan.",
+    "loadingText": "Generating your meal plan...",
+    "prompt": "Ready to plan your day?",
+    "generateButton": "Generate Meal Plan",
+    "contentPlaceholder": "Meal plan content goes here."
   }
 }
