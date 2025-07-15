@@ -84,7 +84,29 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+        const {output} = await prompt(input);
+        return output!;
+    } catch(e) {
+        console.error("Error in analyzeMealFlow:", e);
+        const errorMessage = e instanceof Error ? e.message : "An unknown error occurred during AI analysis.";
+        return {
+            mealName: "Analysis Failed",
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fats: 0,
+            sugar: 0,
+            sodium: 0,
+            potassium: 0,
+            calcium: 0,
+            iron: 0,
+            vitaminC: 0,
+            ingredients: [],
+            confidence: 'Low',
+            feedback: "Could not analyze the meal due to a system error.",
+            error: errorMessage,
+        }
+    }
   }
 );
