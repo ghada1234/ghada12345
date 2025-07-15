@@ -17,7 +17,7 @@ export function UserProfileCard() {
         <UserCircle className="h-5 w-5 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 text-sm pt-4">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Name</span>
             <span>{user.name}</span>
@@ -35,7 +35,6 @@ export function UserProfileCard() {
             <span>{user.height}</span>
           </div>
         </div>
-        <Button variant="link" className="px-0">Go to Dashboard</Button>
       </CardContent>
     </Card>
   );

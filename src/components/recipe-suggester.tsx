@@ -8,15 +8,6 @@ import { BrainCircuit, Loader2, Salad } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
   Card,
   CardContent,
   CardHeader,
@@ -34,8 +25,8 @@ import { type SuggestRecipesOutput } from "@/ai/flows/suggest-recipes";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
-  dietaryRestrictions: z.string().min(2, "Please enter your dietary restrictions."),
-  availableIngredients: z.string().min(3, "Please list some available ingredients."),
+  dietaryRestrictions: z.string(),
+  availableIngredients: z.string(),
   cuisinePreferences: z.string().optional(),
 });
 
@@ -47,9 +38,9 @@ export function RecipeSuggester() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      dietaryRestrictions: "",
-      availableIngredients: "",
-      cuisinePreferences: "",
+      dietaryRestrictions: "healthy",
+      availableIngredients: "any",
+      cuisinePreferences: "any",
     },
   });
 
@@ -58,7 +49,8 @@ export function RecipeSuggester() {
     setRecipes([]);
     try {
       const result = await handleSuggestRecipes({
-        ...values,
+        dietaryRestrictions: "healthy, balanced",
+        availableIngredients: "common ingredients",
         numberOfRecipes: 3,
       });
       setRecipes(result.recipes);
@@ -78,75 +70,40 @@ export function RecipeSuggester() {
       <CardHeader>
         <div className="flex items-center gap-2">
           <BrainCircuit className="h-6 w-6 text-primary" />
-          <CardTitle>AI Recipe Helper</CardTitle>
+          <CardTitle>Smart Meal Ideas</CardTitle>
         </div>
         <CardDescription>
-          Get recipe ideas based on what you have and your diet.
+          Personalized meal ideas based on your preferences and remaining calories.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="dietaryRestrictions"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Dietary Needs</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Vegetarian, Gluten-Free" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="cuisinePreferences"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Cuisine (Optional)</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Italian, Mexican" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <FormField
-              control={form.control}
-              name="availableIngredients"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Available Ingredients</FormLabel>
-                  <FormControl>
-                    <Input placeholder="e.g., chicken breast, rice, broccoli, soy sauce" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
+        {recipes.length === 0 && !isLoading && (
+          <div className="text-center text-muted-foreground py-8">
+            <p className="mb-4">Ready for some inspiration?</p>
+             <Button onClick={() => onSubmit({})} disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Thinking...
+                  Generating...
                 </>
               ) : (
-                "Suggest Recipes"
+                "Generate New Ideas"
               )}
             </Button>
-          </form>
-        </Form>
-
+          </div>
+        )}
+        
         {(isLoading || recipes.length > 0) && (
-          <div className="mt-8">
-            <h3 className="text-lg font-semibold mb-4">Suggestions</h3>
+          <div className="mt-2">
             {isLoading && (
-                <div className="space-y-2">
+                <div className="space-y-4">
                     <div className="flex items-center space-x-4">
+                        <div className="space-y-2 w-full">
+                            <div className="h-8 w-1/3 bg-muted rounded-md animate-pulse"></div>
+                            <div className="h-4 w-full bg-muted rounded-md animate-pulse"></div>
+                        </div>
+                    </div>
+                     <div className="flex items-center space-x-4">
                         <div className="space-y-2 w-full">
                             <div className="h-8 w-1/3 bg-muted rounded-md animate-pulse"></div>
                             <div className="h-4 w-full bg-muted rounded-md animate-pulse"></div>
@@ -182,6 +139,18 @@ export function RecipeSuggester() {
                 ))}
               </Accordion>
             )}
+            <div className="mt-6 text-center">
+              <Button onClick={() => onSubmit({})} disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  "Generate New Ideas"
+                )}
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
