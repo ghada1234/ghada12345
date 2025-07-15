@@ -198,7 +198,7 @@
     "cameraAccessRequired": "الوصول إلى الكاميرا مطلوب",
     "cameraPermission": "يرجى السماح بالوصول إلى الكاميرا في إعدادات متصفحك لاستخدام هذه الميزة.",
     "cameraPermissionBarcode": "يرجى السماح بالوصول إلى الكاميرا لمسح الرموز الشريطية.",
-    "snapPhotoButton": "التقط صورة",
+    "snapAndAnalyze": "التقط وحلل",
     "describeMealTitle": "صف الوجبة",
     "describePlaceholder": "على سبيل المثال، 'وعاء من دقيق الشوفان مع التوت واللوز ورشة من العسل'",
     "analyzeDescription": "تحليل وصف الوجبة",
@@ -206,9 +206,29 @@
     "startScanning": "ابدأ المسح",
     "uploadDeviceTitle": "تحميل من الجهاز",
     "uploadAndAnalyze": "تحميل وتحليل",
+    "analyzing": "جارٍ التحليل...",
     "toast": {
       "title": "تم رفض الوصول إلى الكاميرا",
       "description": "يرجى تمكين أذونات الكاميرا في إعدادات متصفحك لاستخدام هذه الميزة."
+    },
+    "analysisError": {
+      "title": "خطأ في التحليل",
+      "description": "تعذر الحصول على تحليل الوجبة من الذكاء الاصطناعي."
+    },
+    "analysisResult": {
+      "title": "نتيجة التحليل",
+      "description": "إليك التقدير الغذائي لوجبتك.",
+      "confidence": "الثقة",
+      "confidenceLevels": {
+        "High": "عالية",
+        "Medium": "متوسطة",
+        "Low": "منخفضة"
+      },
+      "calories": "السعرات الحرارية",
+      "protein": "البروتين",
+      "carbs": "الكربوهيدرات",
+      "fats": "الدهون",
+      "logButton": "تسجيل هذه الوجبة"
     }
   },
   "mealPlanner": {

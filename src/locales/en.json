@@ -198,7 +198,7 @@
     "cameraAccessRequired": "Camera Access Required",
     "cameraPermission": "Please allow camera access in your browser settings to use this feature.",
     "cameraPermissionBarcode": "Please allow camera access to scan barcodes.",
-    "snapPhotoButton": "Snap Photo",
+    "snapAndAnalyze": "Snap & Analyze",
     "describeMealTitle": "Describe Meal",
     "describePlaceholder": "e.g., 'A bowl of oatmeal with blueberries, almonds, and a drizzle of honey'",
     "analyzeDescription": "Analyze Meal Description",
@@ -206,9 +206,29 @@
     "startScanning": "Start Scanning",
     "uploadDeviceTitle": "Upload from Device",
     "uploadAndAnalyze": "Upload and Analyze",
+    "analyzing": "Analyzing...",
     "toast": {
       "title": "Camera Access Denied",
       "description": "Please enable camera permissions in your browser settings to use this feature."
+    },
+     "analysisError": {
+      "title": "Analysis Error",
+      "description": "Failed to get meal analysis from AI."
+    },
+    "analysisResult": {
+      "title": "Analysis Result",
+      "description": "Here's the nutritional estimate for your meal.",
+      "confidence": "Confidence",
+      "confidenceLevels": {
+        "High": "High",
+        "Medium": "Medium",
+        "Low": "Low"
+      },
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fats": "Fats",
+      "logButton": "Log This Meal"
     }
   },
   "mealPlanner": {
