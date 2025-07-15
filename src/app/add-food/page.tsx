@@ -152,7 +152,7 @@ export default function AddFoodPage() {
     `.trim();
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.open(whatsappUrl);
   };
 
   const renderContent = () => {
