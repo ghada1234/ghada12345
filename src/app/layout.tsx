@@ -5,6 +5,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { Sidebar } from '@/components/sidebar';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
+import { DashboardHeader } from '@/components/dashboard-header';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction } = useLanguage();
@@ -23,6 +24,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
         <div className="flex min-h-screen w-full bg-background">
           <Sidebar />
           <div className="flex flex-col flex-1">
+            <DashboardHeader />
             {children}
           </div>
         </div>

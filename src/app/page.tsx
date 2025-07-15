@@ -22,7 +22,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { DashboardHeader } from '@/components/dashboard-header';
 import { useLanguage } from '@/context/language-context';
 
 export default function LandingPage() {
@@ -30,7 +29,6 @@ export default function LandingPage() {
 
   return (
     <>
-      <DashboardHeader />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-muted/20">

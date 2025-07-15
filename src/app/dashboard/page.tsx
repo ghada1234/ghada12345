@@ -1,7 +1,6 @@
 
 "use client";
 
-import { DashboardHeader } from "@/components/dashboard-header";
 import { DailyMacros } from "@/components/daily-macros";
 import { Micronutrients } from "@/components/micronutrients";
 import { TodaysLog } from "@/components/todays-log";
@@ -14,7 +13,6 @@ export default function DashboardPage() {
     const { translations } = useLanguage();
   return (
     <>
-      <DashboardHeader />
       <main className="flex-1 p-4 sm:p-6 lg:p-8">
         <div className="space-y-4">
             <h1 className="text-2xl font-bold tracking-tight">{translations.dashboard.title}</h1>
