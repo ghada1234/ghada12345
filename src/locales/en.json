@@ -302,5 +302,25 @@
       "iron": { "label": "Iron", "unit": "mg" },
       "vitaminC": { "label": "Vitamin C", "unit": "mg" }
     }
+  },
+  "feedback": {
+    "title": "Share Your Feedback",
+    "description": "We'd love to hear your thoughts. Your feedback helps us improve NutriSnap for everyone. Your review might even be featured on our home page!",
+    "ratingQuestion": "How would you rate your experience?",
+    "commentsLabel": "Any comments or suggestions?",
+    "commentsPlaceholder": "Tell us what you think...",
+    "submitButton": "Submit Feedback",
+    "toast": {
+      "ratingRequired": {
+        "title": "Rating required",
+        "description": "Please select a rating before submitting."
+      },
+      "success": {
+        "title": "Feedback Submitted!",
+        "description": "Thank you for helping us improve NutriSnap."
+      }
+    }
   }
 }
+
+    

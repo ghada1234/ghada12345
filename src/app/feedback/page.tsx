@@ -14,26 +14,28 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/language-context";
 
 export default function FeedbackPage() {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comments, setComments] = useState("");
   const { toast } = useToast();
+  const { translations } = useLanguage();
 
   const handleSubmit = () => {
     if (rating === 0) {
         toast({
             variant: "destructive",
-            title: "Rating required",
-            description: "Please select a rating before submitting.",
+            title: translations.feedback.toast.ratingRequired.title,
+            description: translations.feedback.toast.ratingRequired.description,
         });
         return;
     }
     console.log("Feedback Submitted:", { rating, comments });
     toast({
-      title: "Feedback Submitted!",
-      description: "Thank you for helping us improve NutriSnap.",
+      title: translations.feedback.toast.success.title,
+      description: translations.feedback.toast.success.description,
     });
     setRating(0);
     setComments("");
@@ -44,16 +46,14 @@ export default function FeedbackPage() {
       <div className="w-full max-w-2xl">
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold tracking-tight">Share Your Feedback</CardTitle>
+            <CardTitle className="text-3xl font-bold tracking-tight">{translations.feedback.title}</CardTitle>
             <CardDescription className="text-muted-foreground mt-2">
-              We'd love to hear your thoughts. Your feedback helps us improve
-              NutriSnap for everyone. Your review might even be featured on our
-              home page!
+              {translations.feedback.description}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
             <div className="space-y-4">
-                <h3 className="text-center font-semibold">How would you rate your experience?</h3>
+                <h3 className="text-center font-semibold">{translations.feedback.ratingQuestion}</h3>
                 <div className="flex justify-center gap-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                     <Star
@@ -72,17 +72,17 @@ export default function FeedbackPage() {
                 </div>
             </div>
             <div className="space-y-2">
-              <label htmlFor="comments" className="font-semibold">Any comments or suggestions?</label>
+              <label htmlFor="comments" className="font-semibold">{translations.feedback.commentsLabel}</label>
               <Textarea
                 id="comments"
-                placeholder="Tell us what you think..."
+                placeholder={translations.feedback.commentsPlaceholder}
                 rows={5}
                 value={comments}
                 onChange={(e) => setComments(e.target.value)}
               />
             </div>
             <div className="flex justify-end">
-              <Button onClick={handleSubmit} size="lg">Submit Feedback</Button>
+              <Button onClick={handleSubmit} size="lg">{translations.feedback.submitButton}</Button>
             </div>
           </CardContent>
         </Card>
@@ -90,3 +90,5 @@ export default function FeedbackPage() {
     </main>
   );
 }
+
+    

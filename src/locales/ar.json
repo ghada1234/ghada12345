@@ -302,5 +302,25 @@
       "iron": { "label": "الحديد", "unit": "ملغ" },
       "vitaminC": { "label": "فيتامين ج", "unit": "ملغ" }
     }
+  },
+  "feedback": {
+    "title": "شاركنا رأيك",
+    "description": "نود أن نسمع أفكارك. تساعدنا ملاحظاتك على تحسين NutriSnap للجميع. قد تظهر مراجعتك على صفحتنا الرئيسية!",
+    "ratingQuestion": "كيف تقيم تجربتك؟",
+    "commentsLabel": "أي تعليقات أو اقتراحات؟",
+    "commentsPlaceholder": "أخبرنا برأيك...",
+    "submitButton": "إرسال الرأي",
+    "toast": {
+      "ratingRequired": {
+        "title": "التقييم مطلوب",
+        "description": "يرجى تحديد تقييم قبل الإرسال."
+      },
+      "success": {
+        "title": "تم إرسال الرأي!",
+        "description": "شكراً لمساعدتنا في تحسين NutriSnap."
+      }
+    }
   }
 }
+
+    
