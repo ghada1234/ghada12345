@@ -27,20 +27,20 @@ const AnalyzeMealInputSchema = z.object({
 export type AnalyzeMealInput = z.infer<typeof AnalyzeMealInputSchema>;
 
 const AnalyzeMealOutputSchema = z.object({
-  mealName: z.string().describe('A descriptive name for the meal.'),
-  calories: z.number().describe('Estimated total calories.'),
-  protein: z.number().describe('Estimated grams of protein.'),
-  carbs: z.number().describe('Estimated grams of carbohydrates.'),
-  fats: z.number().describe('Estimated grams of fat.'),
-  sugar: z.number().describe('Estimated grams of sugar.'),
-  sodium: z.number().describe('Estimated milligrams of sodium.'),
-  potassium: z.number().describe('Estimated milligrams of potassium.'),
-  calcium: z.number().describe('Estimated milligrams of calcium.'),
-  iron: z.number().describe('Estimated milligrams of iron.'),
-  vitaminC: z.number().describe('Estimated milligrams of Vitamin C.'),
-  ingredients: z.array(z.string()).describe('A list of identified ingredients in the meal.'),
-  confidence: z.enum(['High', 'Medium', 'Low']).describe('The confidence level of the analysis.'),
-  feedback: z.string().describe('A brief explanation for the confidence score, highlighting any ambiguities.'),
+  mealName: z.string().optional().default('').describe('A descriptive name for the meal.'),
+  calories: z.number().optional().default(0).describe('Estimated total calories.'),
+  protein: z.number().optional().default(0).describe('Estimated grams of protein.'),
+  carbs: z.number().optional().default(0).describe('Estimated grams of carbohydrates.'),
+  fats: z.number().optional().default(0).describe('Estimated grams of fat.'),
+  sugar: z.number().optional().default(0).describe('Estimated grams of sugar.'),
+  sodium: z.number().optional().default(0).describe('Estimated milligrams of sodium.'),
+  potassium: z.number().optional().default(0).describe('Estimated milligrams of potassium.'),
+  calcium: z.number().optional().default(0).describe('Estimated milligrams of calcium.'),
+  iron: z.number().optional().default(0).describe('Estimated milligrams of iron.'),
+  vitaminC: z.number().optional().default(0).describe('Estimated milligrams of Vitamin C.'),
+  ingredients: z.array(z.string()).optional().default([]).describe('A list of identified ingredients in the meal.'),
+  confidence: z.enum(['High', 'Medium', 'Low']).optional().default('Low').describe('The confidence level of the analysis.'),
+  feedback: z.string().optional().default('').describe('A brief explanation for the confidence score, highlighting any ambiguities.'),
   error: z.string().optional().describe('An optional error message if the analysis failed.'),
 });
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
@@ -66,7 +66,7 @@ Follow these steps for your analysis:
 4.  **Calculate Nutritional Information:** Based on the identified ingredients and their estimated portion sizes, calculate the total nutritional content for the entire meal. Provide estimations for:
     *   Macronutrients: Calories, Protein, Carbohydrates, Fats.
     *   Micronutrients: Sugar, Sodium, Potassium, Calcium, Iron, and Vitamin C.
-    *   **CRITICAL RULE**: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0 and set the confidence to 'Low'. DO NOT use 'N/A', strings, or leave any field blank. For example, if you are unsure about the vitamin C content of a cooked meal, you MUST output 0 for vitaminC.
+    *   **CRITICAL RULE**: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0. DO NOT use 'N/A', strings, or leave any field blank. For example, if you are unsure about the vitamin C content of a cooked meal, you MUST output 0 for vitaminC.
 5.  **Assess Confidence:** Critically evaluate the quality of the input and the certainty of your analysis. Assign a confidence score ('High', 'Medium', or 'Low') based on the following criteria:
     *   **High:** The image is clear, the meal is simple with distinct ingredients, and portion sizes are unambiguous (e.g., a single apple, a standard can of soda, a clearly labeled product). Or, a barcode was successfully identified.
     *   **Medium:** There is some ambiguity. The meal might be complex, some ingredients may be obscured, or portion sizes are difficult to estimate precisely (e.g., a bowl of pasta with a mixed sauce, a large salad with many toppings, a mixed plate of various items).
