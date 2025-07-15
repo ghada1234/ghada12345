@@ -234,6 +234,7 @@
     "analysisResult": {
       "title": "نتيجة التحليل",
       "description": "إليك التقدير الغذائي لوجبتك.",
+      "ingredientsTitle": "المكونات المحددة",
       "macrosTitle": "العناصر الغذائية الكبرى",
       "microsTitle": "العناصر الغذائية الصغرى",
       "confidence": "الثقة",

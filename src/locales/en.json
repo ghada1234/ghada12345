@@ -234,6 +234,7 @@
     "analysisResult": {
       "title": "Analysis Result",
       "description": "Here's the nutritional estimate for your meal.",
+      "ingredientsTitle": "Identified Ingredients",
       "macrosTitle": "Macronutrients",
       "microsTitle": "Micronutrients",
       "confidence": "Confidence",

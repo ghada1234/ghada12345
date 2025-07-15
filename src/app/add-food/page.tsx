@@ -19,6 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { useMealLog } from "@/context/meal-log-context";
 
@@ -323,7 +324,16 @@ export default function AddFoodPage() {
                     </div>
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
                     
-                    <Separator />
+                    <Accordion type="single" collapsible className="w-full">
+                        <AccordionItem value="ingredients">
+                            <AccordionTrigger>{translations.addFood.analysisResult.ingredientsTitle}</AccordionTrigger>
+                            <AccordionContent>
+                                <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                                    {analysisResult.ingredients.map((item, index) => <li key={index}>{item}</li>)}
+                                </ul>
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
                     
                     <div className="space-y-2">
                         <h4 className="font-semibold">{translations.addFood.analysisResult.macrosTitle}</h4>
