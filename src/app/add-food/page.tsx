@@ -184,7 +184,7 @@ export default function AddFoodPage() {
   }
 
   const handleShare = (result: AnalyzeMealOutput) => {
-    const message = `🍽️ *${result.mealName}* (${result.portionSize})
+    const message = `🍽️ *${result.mealName}* (${result.portionSize || 'N/A'})
 
 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
 🔥 ${translations.addFood.analysisResult.calories}: ${result.calories?.toFixed(0)} kcal

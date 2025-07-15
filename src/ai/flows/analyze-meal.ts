@@ -73,9 +73,11 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Iraqi, Middle Eastern, and Asian dishes.
 
-Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content, including the portion size.
+Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
 
-Your response MUST conform to the output JSON schema. IMPORTANT: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
+Your response MUST conform to the output JSON schema.
+IMPORTANT: You MUST provide a value for the 'portionSize' field (e.g., "1 cup", "250g", "1 serving").
+IMPORTANT: You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
 Analyze the following meal:
 {{#if description}}
