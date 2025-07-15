@@ -1,5 +1,6 @@
 import { UserCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "./ui/button";
 
 export function UserProfileCard() {
   const user = {
@@ -34,6 +35,7 @@ export function UserProfileCard() {
             <span>{user.height}</span>
           </div>
         </div>
+        <Button variant="link" className="px-0">Go to Dashboard</Button>
       </CardContent>
     </Card>
   );

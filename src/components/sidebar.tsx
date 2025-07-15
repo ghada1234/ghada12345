@@ -11,7 +11,6 @@ import {
   Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 
 const NavLink = ({
   href,
@@ -42,9 +41,9 @@ export function Sidebar() {
         </div>
         <div className="flex-1">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4 space-y-1">
-            <NavLink href="#" icon={<Home className="h-4 w-4" />} label="Home" />
+            <NavLink href="/" icon={<Home className="h-4 w-4" />} label="Home" />
             <NavLink
-              href="#"
+              href="/dashboard"
               icon={<LayoutGrid className="h-4 w-4" />}
               label="Dashboard"
             />
