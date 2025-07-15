@@ -62,15 +62,15 @@ export function Sidebar() {
               icon={<BarChart className="h-4 w-4" />}
               label="Reports"
             />
-            <NavLink
+          </nav>
+        </div>
+        <div className="mt-auto p-4">
+           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+             <NavLink
               href="#"
               icon={<Settings className="h-4 w-4" />}
               label="Settings"
             />
-          </nav>
-        </div>
-        <div className="mt-auto p-4">
-           <nav className="grid items-start text-sm font-medium">
              <NavLink
               href="#"
               icon={<MessageSquare className="h-4 w-4" />}
