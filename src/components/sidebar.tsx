@@ -53,7 +53,7 @@ export function Sidebar() {
               label="Add Food"
             />
             <NavLink
-              href="#"
+              href="/meal-planner"
               icon={<Calendar className="h-4 w-4" />}
               label="Meal Planner"
             />
