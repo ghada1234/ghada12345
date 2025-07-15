@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon, Scale } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -184,7 +184,7 @@ export default function AddFoodPage() {
   }
 
   const handleShare = (result: AnalyzeMealOutput) => {
-    const message = `🍽️ *${result.mealName}*
+    const message = `🍽️ *${result.mealName}* (${result.portionSize})
 
 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
 🔥 ${translations.addFood.analysisResult.calories}: ${result.calories?.toFixed(0)} kcal
@@ -337,6 +337,12 @@ export default function AddFoodPage() {
                             </Badge>
                         )}
                     </div>
+                     {analysisResult.portionSize && (
+                        <div className="flex items-center text-sm text-muted-foreground gap-2">
+                           <Scale className="h-4 w-4" />
+                           <span>{translations.addFood.analysisResult.portionSize}: {analysisResult.portionSize}</span>
+                        </div>
+                    )}
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
                     
                     {analysisResult.ingredients && analysisResult.ingredients.length > 0 && (

@@ -243,6 +243,7 @@
         "Medium": "Medium",
         "Low": "Low"
       },
+      "portionSize": "Portion Size",
       "calories": "Calories",
       "protein": "Protein",
       "carbs": "Carbs",

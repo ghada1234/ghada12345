@@ -28,6 +28,7 @@ export type AnalyzeMealInput = z.infer<typeof AnalyzeMealInputSchema>;
 
 const AnalyzeMealOutputSchema = z.object({
   mealName: z.string().optional().default('').describe('A descriptive name for the meal.'),
+  portionSize: z.string().optional().default('').describe('The estimated portion size of the meal, e.g., "1 cup", "100g", "1 slice".'),
   calories: z.number().optional().default(0).describe('Estimated total calories.'),
   protein: z.number().optional().default(0).describe('Estimated grams of protein.'),
   carbs: z.number().optional().default(0).describe('Estimated grams of carbohydrates.'),
@@ -41,6 +42,7 @@ const AnalyzeMealOutputSchema = z.object({
   ingredients: z.array(z.string()).optional().default([]).describe('A list of identified ingredients in the meal.'),
   confidence: z.enum(['High', 'Medium', 'Low']).optional().default('Low').describe('The confidence level of the analysis.'),
   feedback: z.string().optional().default('').describe('A brief explanation for the confidence score, highlighting any ambiguities.'),
+  error: z.string().optional().describe("An error message if the analysis failed."),
 });
 export type AnalyzeMealOutput = z.infer<typeof AnalyzeMealOutputSchema>;
 
@@ -92,7 +94,29 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    try {
+        const {output} = await prompt(input);
+        return output!;
+    } catch(e) {
+        console.error("Error in analyzeMealFlow:", e);
+        return {
+            error: (e as Error).message,
+            mealName: "",
+            portionSize: "",
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fats: 0,
+            sugar: 0,
+            sodium: 0,
+            potassium: 0,
+            calcium: 0,
+            iron: 0,
+            vitaminC: 0,
+            ingredients: [],
+            confidence: "Low",
+            feedback: "Failed to analyze meal due to an internal error.",
+        }
+    }
   }
 );
