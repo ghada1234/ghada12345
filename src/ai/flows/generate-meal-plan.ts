@@ -25,7 +25,7 @@ const prompt = ai.definePrompt({
 **Constraint Checklist & Confidence Score:**
 1.  **Calorie Target Adherence:** The combined calories of all suggested meals MUST be within 10% of the provided 'remainingCalories'.
 2.  **Preference Integration:** You MUST adhere to all dietary preferences, allergies, likes, and dislikes.
-3.  **Completeness:** You MUST provide all fields for each meal: name, description, ingredients, instructions, mealType, and all nutrient estimates.
+3.  **Completeness:** You MUST provide all fields for each meal: name, description, ingredients, instructions, mealType, and all nutrient estimates. For any nutrient you cannot determine, you MUST use a value of 0.
 4.  **Meal Distribution:** Distribute the calories logically across meals. If the total remaining calories are very low (e.g., under 500), you might only suggest one or two smaller meals (like just 'Dinner' or 'Snack'). You can include 'Breakfast', 'Lunch', 'Dinner', 'Snack', or 'Dessert'. Omit meal types if they don't make sense for the calorie budget.
 
 **User Preferences:**

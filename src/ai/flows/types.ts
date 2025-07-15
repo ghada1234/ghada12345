@@ -1,12 +1,12 @@
 import {z} from 'zod';
 
 const MealNutrientsSchema = z.object({
-  calories: z.number().optional().default(0).describe('Estimated total calories for the meal.'),
-  protein: z.number().optional().default(0).describe('Estimated grams of protein.'),
-  carbs: z.number().optional().default(0).describe('Estimated grams of carbohydrates.'),
-  fats: z.number().optional().default(0).describe('Estimated grams of fat.'),
-  sugar: z.number().optional().default(0).describe('Estimated grams of sugar.'),
-  sodium: z.number().optional().default(0).describe('Estimated milligrams of sodium.'),
+  calories: z.number().describe('Estimated total calories for the meal.'),
+  protein: z.number().describe('Estimated grams of protein.'),
+  carbs: z.number().describe('Estimated grams of carbohydrates.'),
+  fats: z.number().describe('Estimated grams of fat.'),
+  sugar: z.number().describe('Estimated grams of sugar.'),
+  sodium: z.number().describe('Estimated milligrams of sodium.'),
 });
 
 const MealSchema = z.object({

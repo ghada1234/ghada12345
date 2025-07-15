@@ -90,32 +90,7 @@ const analyzeMealFlow = ai.defineFlow(
     outputSchema: AnalyzeMealOutputSchema,
   },
   async input => {
-    try {
-      const {output} = await prompt(input);
-      if (!output) {
-        throw new Error("AI model returned an empty output.");
-      }
-      return output;
-    } catch (error: any) {
-        console.error("Error in analyzeMealFlow:", error);
-        // Return a structured error within the valid output schema.
-        return {
-            mealName: "Analysis Failed",
-            calories: 0,
-            protein: 0,
-            carbs: 0,
-            fats: 0,
-            sugar: 0,
-            sodium: 0,
-            potassium: 0,
-            calcium: 0,
-            iron: 0,
-            vitaminC: 0,
-            ingredients: [],
-            confidence: 'Low',
-            feedback: 'The AI model could not process the request. This may be due to a temporary issue with the AI service or a problem with the input data.',
-            error: error.message || 'An unexpected error occurred during analysis.',
-        };
-    }
+    const {output} = await prompt(input);
+    return output!;
   }
 );
