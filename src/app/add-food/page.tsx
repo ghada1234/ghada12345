@@ -189,7 +189,7 @@ export default function AddFoodPage() {
 ⚡ ${translations.addFood.analysisResult.iron}: ${result.iron.toFixed(1)}mg
 🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC.toFixed(1)}mg
 
-📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨`;
+📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     
@@ -412,16 +412,16 @@ export default function AddFoodPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-20 flex-1 min-w-[180px]" onClick={() => handleOptionChange("camera")}>
+          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("camera")}>
             <Camera className="mr-2" /> {translations.addFood.snapPhoto}
           </Button>
-          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-20 flex-1 min-w-[180px]" onClick={() => handleOptionChange("describe")}>
+          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("describe")}>
             <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
-          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-20 flex-1 min-w-[180px]" onClick={() => handleOptionChange("scan")}>
+          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("scan")}>
             <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
-          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-20 flex-1 min-w-[180px]" onClick={() => handleOptionChange("upload")}>
+          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:h-20 sm:text-base flex-1 min-w-[150px]" onClick={() => handleOptionChange("upload")}>
             <Upload className="mr-2" /> {translations.addFood.uploadDevice}
           </Button>
         </div>
@@ -439,3 +439,5 @@ export default function AddFoodPage() {
     </main>
   );
 }
+
+    
