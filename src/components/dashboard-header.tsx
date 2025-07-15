@@ -1,8 +1,15 @@
-import { Leaf, Menu } from "lucide-react";
+import { Leaf, Menu, Globe } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Sidebar } from "./sidebar";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 
 export function DashboardHeader() {
   return (
@@ -25,6 +32,22 @@ export function DashboardHeader() {
         <h1 className="text-xl font-bold text-foreground">NutriSnap</h1>
       </div>
       <div className="ml-auto flex items-center gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Globe className="h-5 w-5" />
+              <span className="sr-only">Change language</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>
+              English
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              العربية
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Link href="/login" passHref>
           <Button variant="outline">Login</Button>
         </Link>
