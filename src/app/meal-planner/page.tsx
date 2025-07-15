@@ -25,31 +25,23 @@ const NutrientRow = ({ label, value, unit }: { label: string; value: number | un
     );
 };
 
-const MealCard = ({ title, meal }: { title: string, meal: Meal | undefined }) => {
+const MealCard = ({ meal }: { meal: Meal }) => {
     const { translations } = useLanguage();
 
     if (!meal) {
-        return (
-            <Card>
-                <CardHeader>
-                    <CardTitle className="text-xl">{title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="text-center text-muted-foreground py-4">
-                        <Info className="mx-auto h-8 w-8 mb-2" />
-                        <p>{translations.mealPlanner.notEnoughCalories}</p>
-                    </div>
-                </CardContent>
-            </Card>
-        );
+        return null;
     }
+
+    const mealTypeKey = meal.mealType.toLowerCase() as keyof typeof translations.addFood.mealTypes;
+    const localizedMealType = translations.addFood.mealTypes[mealTypeKey] || meal.mealType;
 
     return (
         <Card>
             <CardHeader>
                 <div className="flex items-start justify-between">
                     <div>
-                        <CardTitle className="text-xl">{meal.name}</CardTitle>
+                        <p className="text-sm font-semibold text-primary">{localizedMealType}</p>
+                        <CardTitle className="text-xl mt-1">{meal.name}</CardTitle>
                         <CardDescription>{meal.description}</CardDescription>
                     </div>
                     <div className="text-right">
@@ -123,6 +115,7 @@ export default function MealPlannerPage() {
                 title: translations.mealPlanner.error.lowCalTitle,
                 description: translations.mealPlanner.error.lowCalDescription,
             })
+            setIsLoading(false);
             return;
         }
         const result = await handleGenerateMealPlan({ 
@@ -204,15 +197,22 @@ export default function MealPlannerPage() {
         
         {isLoading && <LoadingSkeleton />}
         
-        {mealPlan && (
+        {mealPlan && mealPlan.meals && (
             <div className="space-y-6">
                 <div className="text-center p-4 bg-green-50 text-green-800 rounded-lg border border-green-200">
                     <CheckCircle className="mx-auto h-8 w-8 mb-2" />
                     <h3 className="font-semibold">{translations.mealPlanner.planGeneratedTitle}</h3>
                 </div>
-                <MealCard title={translations.addFood.mealTypes.breakfast} meal={mealPlan.breakfast} />
-                <MealCard title={translations.addFood.mealTypes.lunch} meal={mealPlan.lunch} />
-                <MealCard title={translations.addFood.mealTypes.dinner} meal={mealPlan.dinner} />
+                {mealPlan.meals.length > 0 ? (
+                    mealPlan.meals.map((meal, index) => <MealCard key={index} meal={meal} />)
+                ) : (
+                     <Card>
+                        <CardContent className="text-center text-muted-foreground py-8">
+                             <Info className="mx-auto h-8 w-8 mb-2" />
+                            <p>{translations.mealPlanner.notEnoughCalories}</p>
+                        </CardContent>
+                     </Card>
+                )}
             </div>
         )}
 

@@ -10,6 +10,7 @@ const MealNutrientsSchema = z.object({
 });
 
 const MealSchema = z.object({
+    mealType: z.enum(["Breakfast", "Lunch", "Dinner", "Snack", "Dessert"]).describe("The type of meal, e.g., Breakfast, Lunch, Dinner."),
     name: z.string().describe('The name of the meal.'),
     description: z.string().describe('A brief, appetizing description of the meal.'),
     ingredients: z.array(z.string()).describe('A list of ingredients needed for the recipe.'),
@@ -19,7 +20,7 @@ const MealSchema = z.object({
 export type Meal = z.infer<typeof MealSchema>;
 
 export const GenerateMealPlanInputSchema = z.object({
-    remainingCalories: z.number().describe('The target number of calories for the entire day\'s meal plan. The sum of calories for breakfast, lunch, and dinner should be close to this value.'),
+    remainingCalories: z.number().describe('The target number of calories for the entire day\'s meal plan. The sum of calories for all meals should be close to this value.'),
     dietaryPreference: z.string().optional().describe('Any dietary preferences, e.g., "vegetarian", "low-carb", "healthy", "balanced".'),
     allergies: z.string().optional().describe('A list of allergies to avoid.'),
     likes: z.string().optional().describe('A list of preferred foods or cuisines.'),
@@ -28,8 +29,6 @@ export const GenerateMealPlanInputSchema = z.object({
 export type GenerateMealPlanInput = z.infer<typeof GenerateMealPlanInputSchema>;
 
 export const GenerateMealPlanOutputSchema = z.object({
-  breakfast: MealSchema.optional().describe('The suggested breakfast meal. This can be omitted if remaining calories are too low.'),
-  lunch: MealSchema.optional().describe('The suggested lunch meal. This can be omitted if remaining calories are too low.'),
-  dinner: MealSchema.optional().describe('The suggested dinner meal. This can be omitted if remaining calories are too low.'),
+  meals: z.array(MealSchema).describe('An array of meals for the day. Can contain Breakfast, Lunch, Dinner, Snacks, etc. The number of meals should be appropriate for the remaining calorie budget.'),
 });
 export type GenerateMealPlanOutput = z.infer<typeof GenerateMealPlanOutputSchema>;
