@@ -12,7 +12,7 @@ export default function AboutPage() {
           <Leaf className="mx-auto h-12 w-12 text-primary" />
           <h1 className="mt-4 text-4xl font-bold tracking-tight">About NutriSnap</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Your AI-powered companion for smart and simple nutrition tracking.
+            A celebration of global cuisine and a commitment to personalized nutrition.
           </p>
         </div>
 
@@ -21,17 +21,20 @@ export default function AboutPage() {
             <div>
               <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
               <p className="text-muted-foreground mb-4">
-                At NutriSnap, our mission is to empower people to take control of their health through technology. We believe that understanding your diet should be simple, intuitive, and accessible to everyone. By leveraging the power of AI, we turn the complex task of nutritional analysis into a seamless experience.
+                NutriSnap was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.
+              </p>
+              <p className="text-muted-foreground mb-4">
+                While living abroad, she noticed a critical flaw in popular health and wellness apps: they struggled to accurately analyze diverse, international dishes. As an engineer, she saw a technical challenge and an opportunity.
               </p>
               <p className="text-muted-foreground">
-                Whether you're aiming for a specific fitness goal, managing dietary restrictions, or simply want to be more mindful of what you eat, NutriSnap is here to support you on your wellness journey.
+                Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. NutriSnap is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time.
               </p>
             </div>
             <div className="rounded-lg overflow-hidden">
                 <Image 
                     src="https://placehold.co/600x400.png"
-                    data-ai-hint="healthy food"
-                    alt="Healthy food" 
+                    data-ai-hint="Iraqi food"
+                    alt="Iraqi food" 
                     width={600} 
                     height={400}
                     className="object-cover w-full h-full"
@@ -43,23 +46,23 @@ export default function AboutPage() {
         <div className="grid md:grid-cols-3 gap-8 text-center">
           <div className="p-6 border rounded-lg">
             <Sparkles className="mx-auto h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Innovative Technology</h3>
+            <h3 className="text-xl font-semibold mb-2">Culturally Intelligent</h3>
             <p className="text-muted-foreground">
-              We use cutting-edge AI to provide instant, accurate nutritional analysis from a simple photo or description.
+              We use cutting-edge AI to provide accurate analysis for diverse, international dishes.
             </p>
           </div>
           <div className="p-6 border rounded-lg">
             <Users className="mx-auto h-8 w-8 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">User-Centric Design</h3>
+            <h3 className="text-xl font-semibold mb-2">Founder-Led</h3>
             <p className="text-muted-foreground">
-              Our app is designed with you in mind. We prioritize a clean, easy-to-use interface to make tracking a breeze.
+              Built by an engineer passionate about solving real-world problems in nutrition.
             </p>
           </div>
           <div className="p-6 border rounded-lg">
             <Leaf className="mx-auto h-8 w-8 text-primary mb-4" />
             <h3 className="text-xl font-semibold mb-2">Holistic Wellness</h3>
             <p className="text-muted-foreground">
-              Beyond just counting calories, we provide personalized insights and meal plans to support your overall health goals.
+              Beyond just counting calories, we support your overall health goals and traditions.
             </p>
           </div>
         </div>
