@@ -166,13 +166,13 @@ export default function AddFoodPage() {
   const handleShare = (result: AnalyzeMealOutput) => {
     const message = `🍽️ ${result.mealName}
 
-📊 *MACRONUTRIENTS*
+📊 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
 🔥 ${translations.addFood.analysisResult.calories}: ${result.calories.toFixed(0)} kcal
 💪 ${translations.addFood.analysisResult.protein}: ${result.protein.toFixed(1)}g
 🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs.toFixed(1)}g
 🥑 ${translations.addFood.analysisResult.fats}: ${result.fats.toFixed(1)}g
 
-🧪 *MICRONUTRIENTS*
+🧪 *${translations.addFood.analysisResult.microsTitle.toUpperCase()}*
 🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar.toFixed(1)}g
 🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium.toFixed(0)}mg
 🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium.toFixed(0)}mg
@@ -183,7 +183,14 @@ export default function AddFoodPage() {
 📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨`;
 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl);
+    
+    // Create a temporary anchor element and click it to open WhatsApp
+    const link = document.createElement('a');
+    link.href = whatsappUrl;
+    // No target needed, let the browser handle switching to the app
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
 
@@ -429,5 +436,7 @@ export default function AddFoodPage() {
     </main>
   );
 }
+
+    
 
     
