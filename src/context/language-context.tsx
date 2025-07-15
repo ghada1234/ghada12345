@@ -23,6 +23,8 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   const setLanguage = (lang: 'en' | 'ar') => {
     setLanguageState(lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   };
 
   const currentTranslations = translations[language];
@@ -30,9 +32,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <LanguageContext.Provider value={{ language, translations: currentTranslations, setLanguage, direction }}>
-      <div dir={direction}>
-        {children}
-      </div>
+      {children}
     </LanguageContext.Provider>
   );
 };
