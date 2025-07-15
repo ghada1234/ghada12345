@@ -2,6 +2,7 @@
 
 import { suggestRecipes, type SuggestRecipesInput, type SuggestRecipesOutput } from "@/ai/flows/suggest-recipes";
 import { analyzeMeal, type AnalyzeMealInput, type AnalyzeMealOutput } from "@/ai/flows/analyze-meal";
+import { generateMealPlan, type GenerateMealPlanInput, type GenerateMealPlanOutput } from "@/ai/flows/generate-meal-plan";
 
 export async function handleSuggestRecipes(
   input: SuggestRecipesInput
@@ -25,4 +26,16 @@ export async function handleAnalyzeMeal(
     console.error("Error analyzing meal:", error);
     throw new Error("Failed to get meal analysis from AI.");
   }
+}
+
+export async function handleGenerateMealPlan(
+    input: GenerateMealPlanInput
+): Promise<GenerateMealPlanOutput> {
+    try {
+        const result = await generateMealPlan(input);
+        return result;
+    } catch (error) {
+        console.error("Error generating meal plan:", error);
+        throw new Error("Failed to get meal plan from AI.");
+    }
 }

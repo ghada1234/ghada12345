@@ -257,15 +257,25 @@
     }
   },
   "mealPlanner": {
-    "title": "Meal Planner",
-    "subtitle": "Generate personalized daily meal plans with our AI.",
-    "cardTitle": "Your Meal Plan",
-    "cardDescriptionGenerated": "Here is your personalized meal plan.",
-    "cardDescriptionPrompt": "Click the button to generate a new meal plan.",
-    "loadingText": "Generating your meal plan...",
-    "prompt": "Ready to plan your day?",
+    "title": "AI Meal Planner",
+    "subtitle": "Generate personalized daily meal plans based on your remaining calories.",
+    "statusCard": {
+      "title": "Daily Calorie Status",
+      "goal": "Goal",
+      "consumed": "Consumed",
+      "remaining": "Remaining"
+    },
+    "loadingText": "Generating Plan...",
     "generateButton": "Generate Meal Plan",
-    "contentPlaceholder": "Meal plan content goes here."
+    "planGeneratedTitle": "Your Meal Plan is Ready!",
+    "notEnoughCalories": "Not enough remaining calories for this meal.",
+    "nutrients": {
+      "title": "Nutritional Info"
+    },
+    "error": {
+        "lowCalTitle": "Not Enough Calories",
+        "lowCalDescription": "Your remaining calories are too low to generate a meaningful meal plan."
+    }
   },
   "reports": {
     "title": "Progress Reports",
