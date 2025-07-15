@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -37,9 +38,17 @@ export function DailyMacros() {
   };
 
   const handleShare = () => {
-    const message = `Check out my daily nutrition goals on NutriSnap!\nCalories: ${macros.calories.current}/${macros.calories.goal} kcal\nProtein: ${macros.protein.current}/${macros.protein.goal}g\nCarbs: ${macros.carbs.current}/${macros.carbs.goal}g\nFats: ${macros.fats.current}/${macros.fats.goal}g`;
+    const message = `📊 *My Daily Nutrition Goals*
+
+🔥 ${translations.dashboard.macros.calories}: ${macros.calories.current} / ${macros.calories.goal} kcal
+💪 ${translations.dashboard.macros.protein}: ${macros.protein.current} / ${macros.protein.goal}g
+🍞 ${translations.dashboard.macros.carbs}: ${macros.carbs.current} / ${macros.carbs.goal}g
+🥑 ${translations.dashboard.macros.fats}: ${macros.fats.current} / ${macros.fats.goal}g
+
+📱 Tracked with NutriSnap - Your AI nutrition companion! 🤖✨`;
+
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    window.location.href = whatsappUrl;
   };
 
   return (
