@@ -2,6 +2,7 @@ import { Leaf, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Sidebar } from "./sidebar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function DashboardHeader() {
   return (
@@ -23,7 +24,11 @@ export function DashboardHeader() {
         <Leaf className="h-6 w-6 text-primary" />
         <h1 className="text-xl font-bold text-foreground">NutriSnap</h1>
       </div>
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center gap-4">
+        <Avatar>
+            <AvatarImage src="https://placehold.co/40x40.png" data-ai-hint="woman" alt="User avatar" />
+            <AvatarFallback>U</AvatarFallback>
+        </Avatar>
       </div>
     </header>
   );
