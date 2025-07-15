@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Flame, Beef, Wheat, Droplets, Leaf } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface MacroProgressProps {
   label: string;
@@ -30,6 +30,12 @@ export function DailyMacros() {
     carbs: { current: 0, goal: 250 },
     fats: { current: 0, goal: 70 },
     fiber: { current: 0, goal: 30 },
+  };
+
+  const handleShare = () => {
+    const message = `Check out my daily nutrition goals on NutriSnap!\nCalories: ${macros.calories.current}/${macros.calories.goal} kcal\nProtein: ${macros.protein.current}/${macros.protein.goal}g\nCarbs: ${macros.carbs.current}/${macros.carbs.goal}g\nFats: ${macros.fats.current}/${macros.fats.goal}g`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   return (
@@ -70,6 +76,11 @@ export function DailyMacros() {
           unit="g"
         />
       </CardContent>
+       <CardFooter>
+        <Button variant="outline" className="w-full" onClick={handleShare}>
+          Share on WhatsApp
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
