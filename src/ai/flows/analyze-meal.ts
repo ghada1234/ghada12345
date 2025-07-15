@@ -74,7 +74,7 @@ const prompt = ai.definePrompt({
   model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: AnalyzeMealInputSchema},
   output: {schema: AnalyzeMealOutputSchema},
-  prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Middle Eastern and Asian dishes. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
+  prompt: `You are an expert nutritionist AI with a deep understanding of international cuisines, including Iraqi, Middle Eastern, and Asian dishes. Analyze the provided meal information (description and/or photo) and provide a detailed and accurate estimate of its nutritional content.
 
 You MUST provide a numerical value for every single nutrient field. If a value cannot be accurately determined, you MUST provide an estimate of 0.
 
