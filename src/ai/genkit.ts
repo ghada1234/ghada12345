@@ -1,28 +1,21 @@
+
 'use server';
 
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
-import {configureGenkit} from '@genkit-ai/next';
 
-configureGenkit({
+// This is the single, simplified configuration for Genkit.
+// It relies on the GOOGLE_API_KEY environment variable being set.
+export const ai = genkit({
   plugins: [
     googleAI({
-      // You must set the GOOGLE_API_KEY environment variable.
-      //
-      // For local development, you can create a .env file in the root of your
-      // project and add the following line:
-      //
+      // For local development, create a .env file and add:
       // GOOGLE_API_KEY="your-google-ai-api-key"
       //
-      // For production deployment on Vercel, you must set the GOOGLE_API_KEY
+      // For production on Vercel, you MUST set the GOOGLE_API_KEY
       // environment variable in your Vercel project settings.
     }),
   ],
-  // This is required to allow the Next.js dev server to accept requests from
-  // the Firebase Studio environment.
-  allowedCorsOrigins: ['*.cloudworkstations.dev'],
   logLevel: 'debug',
   enableTracingAndMetrics: true,
 });
-
-export const ai = genkit();
