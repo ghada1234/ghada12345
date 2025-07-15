@@ -221,25 +221,25 @@ export default function LandingPage() {
             <div className="mx-auto max-w-3xl w-full pt-12">
               <Accordion type="single" collapsible>
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="text-left">{translations.home.faq.q1.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-left items-start">{translations.home.faq.q1.question}</AccordionTrigger>
                   <AccordionContent className="text-left">
                     {translations.home.faq.q1.answer}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2">
-                  <AccordionTrigger className="text-left">{translations.home.faq.q2.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-left items-start">{translations.home.faq.q2.question}</AccordionTrigger>
                   <AccordionContent className="text-left">
                     {translations.home.faq.q2.answer}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
-                  <AccordionTrigger className="text-left">{translations.home.faq.q3.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-left items-start">{translations.home.faq.q3.question}</AccordionTrigger>
                   <AccordionContent className="text-left">
                     {translations.home.faq.q3.answer}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-4">
-                  <AccordionTrigger className="text-left">{translations.home.faq.q4.question}</AccordionTrigger>
+                  <AccordionTrigger className="text-left items-start">{translations.home.faq.q4.question}</AccordionTrigger>
                   <AccordionContent className="text-left">
                     {translations.home.faq.q4.answer}
                   </AccordionContent>
