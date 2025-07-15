@@ -58,7 +58,7 @@ export function Sidebar() {
               label="Meal Planner"
             />
             <NavLink
-              href="#"
+              href="/reports"
               icon={<BarChart className="h-4 w-4" />}
               label="Reports"
             />
