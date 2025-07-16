@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
+import { useSettings } from "@/context/settings-context";
 
 interface MicroProgressProps {
   label: string;
@@ -30,6 +31,7 @@ function MicroProgress({ label, current, goal, unit }: MicroProgressProps) {
 export function Micronutrients() {
   const { translations } = useLanguage();
   const { getMealsForDate } = useMealLog();
+  const { settings } = useSettings();
 
   const todaysMeals = getMealsForDate(new Date());
 
@@ -45,14 +47,15 @@ export function Micronutrients() {
       }, { sodium: 0, sugar: 0, potassium: 0, vitaminC: 0, calcium: 0, iron: 0 });
   }, [todaysMeals]);
 
-  const goals = {
-    sodium: 2300,
-    sugar: 50,
-    potassium: 3500,
-    vitaminC: 90,
-    calcium: 1000,
-    iron: 18,
-  };
+  const goals = useMemo(() => ({
+    sodium: parseFloat(settings.goals.micros.sodium) || 2300,
+    sugar: parseFloat(settings.goals.micros.sugar) || 50,
+    potassium: parseFloat(settings.goals.micros.potassium) || 3500,
+    vitaminC: parseFloat(settings.goals.micros.vitaminC) || 90,
+    calcium: parseFloat(settings.goals.micros.calcium) || 1000,
+    iron: parseFloat(settings.goals.micros.iron) || 18,
+  }), [settings.goals.micros]);
+
 
   return (
     <Card>

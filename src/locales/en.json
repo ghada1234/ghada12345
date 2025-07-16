@@ -330,6 +330,12 @@
     "title": "Settings",
     "subtitle": "Customize your daily nutritional goals and profile.",
     "saveButton": "Save Changes",
+    "toast": {
+        "success": {
+            "title": "Settings Saved",
+            "description": "Your preferences have been updated."
+        }
+    },
     "account": {
       "title": "Account Settings",
       "managePayments": "Manage Payment Methods"

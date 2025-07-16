@@ -11,6 +11,7 @@ import { UserAccountProvider, useUserAccount } from '@/context/user-account-cont
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Script from 'next/script';
+import { SettingsProvider } from '@/context/settings-context';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction, translations } = useLanguage();
@@ -60,9 +61,11 @@ export default function RootLayout({
   return (
     <LanguageProvider>
       <UserAccountProvider>
-        <MealLogProvider>
-          <SiteBody>{children}</SiteBody>
-        </MealLogProvider>
+        <SettingsProvider>
+          <MealLogProvider>
+            <SiteBody>{children}</SiteBody>
+          </MealLogProvider>
+        </SettingsProvider>
       </UserAccountProvider>
     </LanguageProvider>
   );

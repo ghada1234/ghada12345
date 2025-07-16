@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
+import { useSettings } from "@/context/settings-context";
 
 interface MacroProgressProps {
   label: string;
@@ -32,6 +33,7 @@ function MacroProgress({ label, current, goal, unit, className }: MacroProgressP
 export function DailyMacros() {
   const { translations } = useLanguage();
   const { getMealsForDate } = useMealLog();
+  const { settings } = useSettings();
 
   const todaysMeals = getMealsForDate(new Date());
 
@@ -53,20 +55,22 @@ export function DailyMacros() {
     }, { calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0, sugar: 0, sodium: 0, potassium: 0, calcium: 0, iron: 0, vitaminC: 0 });
   }, [todaysMeals]);
   
-  // These should eventually come from user settings
-  const goals = {
-    calories: 2000,
-    protein: 120,
-    carbs: 250,
-    fats: 70,
-    fiber: 30,
-    sugar: 50,
-    sodium: 2300,
-    potassium: 3500,
-    calcium: 1000,
-    iron: 18,
-    vitaminC: 90
-  };
+  const goals = useMemo(() => ({
+    calories: parseFloat(settings.goals.macros.calories) || 2000,
+    protein: parseFloat(settings.goals.macros.protein) || 120,
+    carbs: parseFloat(settings.goals.macros.carbs) || 250,
+    fats: parseFloat(settings.goals.macros.fats) || 70,
+    fiber: parseFloat(settings.goals.macros.fiber) || 30,
+  }), [settings.goals.macros]);
+
+  const microGoals = useMemo(() => ({
+    sugar: parseFloat(settings.goals.micros.sugar) || 50,
+    sodium: parseFloat(settings.goals.micros.sodium) || 2300,
+    potassium: parseFloat(settings.goals.micros.potassium) || 3500,
+    calcium: parseFloat(settings.goals.micros.calcium) || 1000,
+    iron: parseFloat(settings.goals.micros.iron) || 18,
+    vitaminC: parseFloat(settings.goals.micros.vitaminC) || 90,
+  }), [settings.goals.micros]);
 
   const handleShare = () => {
     const message = `📊 *My Daily Nutrition Summary*
@@ -78,12 +82,12 @@ export function DailyMacros() {
 🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
 
 *${translations.dashboard.micros.title.toUpperCase()}*
-🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${goals.sugar}g
-🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${goals.sodium}mg
-🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${goals.potassium}mg
-🦴 ${translations.dashboard.micros.calcium}: ${totals.calcium.toFixed(0)} / ${goals.calcium}mg
-⚡ ${translations.dashboard.micros.iron}: ${totals.iron.toFixed(1)} / ${goals.iron}mg
-🍊 ${translations.dashboard.micros.vitaminC}: ${totals.vitaminC.toFixed(1)} / ${goals.vitaminC}mg
+🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${microGoals.sugar}g
+🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${microGoals.sodium}mg
+🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${microGoals.potassium}mg
+🦴 ${translations.dashboard.micros.calcium}: ${totals.calcium.toFixed(0)} / ${microGoals.calcium}mg
+⚡ ${translations.dashboard.micros.iron}: ${totals.iron.toFixed(1)} / ${microGoals.iron}mg
+🍊 ${translations.dashboard.micros.vitaminC}: ${totals.vitaminC.toFixed(1)} / ${microGoals.vitaminC}mg
 
 📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
