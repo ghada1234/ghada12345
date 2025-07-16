@@ -52,6 +52,9 @@ export default function PaymentsPage() {
                     <p className="text-sm text-muted-foreground">{paymentTranslations.checkout.planDescription}</p>
                 </div>
                 <div id="paypal-container-ZG2S8WZTCVN4Q" className="flex justify-center"></div>
+                <p className="text-xs text-center text-muted-foreground">
+                    {paymentTranslations.checkout.guestCheckoutHint}
+                </p>
             </CardContent>
         </Card>
       </div>
