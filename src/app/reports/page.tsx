@@ -1,9 +1,9 @@
 
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { Flame } from "lucide-react";
+import { Flame, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,6 +11,8 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
 import { subDays, format, eachDayOfInterval, isSameDay } from "date-fns";
+import { useUserAccount } from "@/context/user-account-context";
+import Link from "next/link";
 
 const chartConfig = {
   value: {
@@ -50,9 +52,35 @@ function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: s
     );
 }
 
+const UpgradePrompt = () => {
+    const { translations } = useLanguage();
+    return (
+    <Card className="w-full">
+        <CardHeader className="text-center">
+            <Lock className="mx-auto h-12 w-12 text-primary"/>
+            <CardTitle>{translations.reports.upgrade.title}</CardTitle>
+            <CardDescription>{translations.reports.upgrade.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Link href="/pricing" className="w-full">
+                <Button className="w-full">{translations.reports.upgrade.button}</Button>
+            </Link>
+        </CardContent>
+    </Card>
+  )
+}
+
 export default function ReportsPage() {
     const { translations } = useLanguage();
     const { loggedMeals } = useMealLog();
+    const { isPro, isTrialActive, startTrial } = useUserAccount();
+    const isFeatureAllowed = isPro || isTrialActive;
+
+    useEffect(() => {
+        if (!isPro) {
+            startTrial();
+        }
+    }, [isPro, startTrial]);
 
     const streakDays = useMemo(() => {
         if (loggedMeals.length === 0) return 0;
@@ -135,44 +163,51 @@ export default function ReportsPage() {
             {translations.reports.subtitle}
           </p>
         </div>
+        
+        {!isFeatureAllowed ? <UpgradePrompt /> : (
+            <>
+                <Card className="w-full max-w-sm mx-auto">
+                    <CardHeader className="text-center">
+                        <CardTitle>{translations.reports.streak.title}</CardTitle>
+                        <CardDescription>{translations.reports.streak.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col items-center justify-center gap-2">
+                         <Flame className="h-16 w-16 text-primary" />
+                         <p className="text-6xl font-bold">{streakDays}</p>
+                         <p className="text-muted-foreground">{translations.reports.streak.unit}</p>
+                    </CardContent>
+                </Card>
 
-        <Card className="w-full max-w-sm mx-auto">
-            <CardHeader className="text-center">
-                <CardTitle>{translations.reports.streak.title}</CardTitle>
-                <CardDescription>{translations.reports.streak.description}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center gap-2">
-                 <Flame className="h-16 w-16 text-primary" />
-                 <p className="text-6xl font-bold">{streakDays}</p>
-                 <p className="text-muted-foreground">{translations.reports.streak.unit}</p>
-            </CardContent>
-        </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>{translations.reports.consistency.title}</CardTitle>
+                        <CardDescription>{translations.reports.consistency.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Tabs defaultValue="weekly" className="w-full">
+                            <TabsList className="grid w-full grid-cols-2">
+                                <TabsTrigger value="weekly">{translations.reports.consistency.weekly}</TabsTrigger>
+                                <TabsTrigger value="monthly">{translations.reports.consistency.monthly}</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="weekly">
+                                <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
+                            </TabsContent>
+                            <TabsContent value="monthly">
+                                 <ProgressChart data={monthlyData} dataKey="value" categoryKey="week" />
+                            </TabsContent>
+                        </Tabs>
+                         <div className="mt-6 flex justify-center">
+                            <Button variant="outline" onClick={handleShare}>{translations.reports.share.button}</Button>
+                        </div>
+                    </CardContent>
+                </Card>
+            </>
+        )}
 
-        <Card>
-            <CardHeader>
-                <CardTitle>{translations.reports.consistency.title}</CardTitle>
-                <CardDescription>{translations.reports.consistency.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Tabs defaultValue="weekly" className="w-full">
-                    <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="weekly">{translations.reports.consistency.weekly}</TabsTrigger>
-                        <TabsTrigger value="monthly">{translations.reports.consistency.monthly}</TabsTrigger>
-                    </TabsList>
-                    <TabsContent value="weekly">
-                        <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
-                    </TabsContent>
-                    <TabsContent value="monthly">
-                         <ProgressChart data={monthlyData} dataKey="value" categoryKey="week" />
-                    </TabsContent>
-                </Tabs>
-                 <div className="mt-6 flex justify-center">
-                    <Button variant="outline" onClick={handleShare}>{translations.reports.share.button}</Button>
-                </div>
-            </CardContent>
-        </Card>
 
       </div>
     </main>
   );
 }
+
+    

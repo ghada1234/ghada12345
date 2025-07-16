@@ -4,8 +4,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
+import { useUserAccount } from "@/context/user-account-context";
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 function ApplePayIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -61,6 +63,13 @@ function PayPalIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function PricingPage() {
   const { translations } = useLanguage();
+  const { isPro, upgradeToPro } = useUserAccount();
+  const router = useRouter();
+
+  const handleUpgrade = () => {
+    upgradeToPro();
+    router.push('/settings/payments');
+  }
 
   const tiers = [
     {
@@ -69,17 +78,19 @@ export default function PricingPage() {
       description: translations.pricing.tiers.free.description,
       features: translations.pricing.tiers.free.features,
       cta: translations.pricing.tiers.free.cta,
-      href: "/dashboard",
-      variant: "outline"
+      action: () => router.push('/dashboard'),
+      variant: "outline",
+      disabled: isPro
     },
     {
       name: translations.pricing.tiers.pro.name,
       price: translations.pricing.tiers.pro.price,
       description: translations.pricing.tiers.pro.description,
       features: translations.pricing.tiers.pro.features,
-      cta: translations.pricing.tiers.pro.cta,
-      href: "/settings/payments",
-      variant: "default"
+      cta: isPro ? translations.pricing.tiers.pro.ctaActive : translations.pricing.tiers.pro.cta,
+      action: handleUpgrade,
+      variant: "default",
+      disabled: isPro,
     }
   ];
 
@@ -112,11 +123,9 @@ export default function PricingPage() {
                 </ul>
               </CardContent>
               <CardFooter>
-                <Link href={tier.href} className="w-full">
-                    <Button className="w-full" variant={tier.variant as "default" | "outline"}>
-                        {tier.cta}
-                    </Button>
-                </Link>
+                  <Button className="w-full" variant={tier.variant as "default" | "outline"} onClick={tier.action} disabled={tier.disabled}>
+                      {tier.cta}
+                  </Button>
               </CardFooter>
             </Card>
           ))}
@@ -139,3 +148,5 @@ export default function PricingPage() {
     </main>
   );
 }
+
+    

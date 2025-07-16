@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon, Scale } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon, Scale, Lock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +23,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { cn } from "@/lib/utils";
 import { useMealLog } from "@/context/meal-log-context";
 import { Label } from "@/components/ui/label";
+import { useUserAccount } from "@/context/user-account-context";
+import Link from "next/link";
 
 
 export default function AddFoodPage() {
@@ -42,6 +44,15 @@ export default function AddFoodPage() {
   const { toast } = useToast();
   const { translations } = useLanguage();
   const { addMeal } = useMealLog();
+  const { isPro, isTrialActive, startTrial } = useUserAccount();
+
+  const isFeatureAllowed = isPro || isTrialActive;
+
+  useEffect(() => {
+    if (!isPro) {
+        startTrial();
+    }
+  }, [isPro, startTrial])
 
   const resetState = () => {
     setIsLoading(false);
@@ -54,11 +65,16 @@ export default function AddFoodPage() {
   }
 
   const handleOptionChange = (option: string | null) => {
+    if (!isFeatureAllowed) return;
     resetState();
     setSelectedOption(option);
   }
 
   useEffect(() => {
+    if (!isFeatureAllowed) {
+        setSelectedOption(null);
+        return;
+    }
     const stopStream = () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject as MediaStream;
@@ -97,7 +113,7 @@ export default function AddFoodPage() {
     return () => {
         stopStream();
     }
-  }, [selectedOption, facingMode, toast, translations]);
+  }, [selectedOption, facingMode, toast, translations, isFeatureAllowed]);
     
   const handleSwitchCamera = () => {
     setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user'));
@@ -212,6 +228,20 @@ export default function AddFoodPage() {
     window.location.href = whatsappUrl;
   };
 
+  const UpgradePrompt = () => (
+    <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+            <Lock className="mx-auto h-12 w-12 text-primary"/>
+            <CardTitle>{translations.addFood.upgrade.title}</CardTitle>
+            <CardDescription>{translations.addFood.upgrade.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Link href="/pricing" className="w-full">
+                <Button className="w-full">{translations.addFood.upgrade.button}</Button>
+            </Link>
+        </CardContent>
+    </Card>
+  )
 
   const renderContent = () => {
     const cameraView = (title: string, buttonText: string, buttonIcon: React.ReactNode, onButtonClick: () => void) => (
@@ -458,16 +488,16 @@ export default function AddFoodPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("camera")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("camera")}>
             <Camera className="mr-2" /> {translations.addFood.snapPhoto}
           </Button>
-          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("describe")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("describe")}>
             <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
-          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("scan")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("scan")}>
             <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
-          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("upload")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("upload")}>
             <Upload className="mr-2" /> {translations.addFood.uploadDevice}
           </Button>
         </div>
@@ -475,6 +505,8 @@ export default function AddFoodPage() {
         <div className="w-full flex justify-center">
             {isLoading || analysisResult ? (
                 <AnalysisResultCard />
+            ) : !isFeatureAllowed ? (
+                <UpgradePrompt />
             ) : (
                  <div className="w-full max-w-md">
                     {renderContent()}
@@ -485,3 +517,5 @@ export default function AddFoodPage() {
     </main>
   );
 }
+
+    

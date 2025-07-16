@@ -258,6 +258,11 @@
       "vitaminC": "Vitamin C",
       "logButton": "Log This Meal",
       "shareButton": "Share"
+    },
+    "upgrade": {
+        "title": "Trial Expired!",
+        "description": "Please upgrade to Pro to continue using smart analysis features.",
+        "button": "Upgrade to Pro"
     }
   },
   "mealPlanner": {
@@ -314,6 +319,11 @@
       "w2": "Week 2",
       "w3": "Week 3",
       "w4": "Week 4"
+    },
+    "upgrade": {
+        "title": "Pro Feature",
+        "description": "Advanced reports are only available for Pro subscribers. Upgrade to gain access.",
+        "button": "Upgrade to Pro"
     }
   },
   "settings": {
@@ -427,7 +437,8 @@
           "Advanced Reports & Trends",
           "Priority Support"
         ],
-        "cta": "Upgrade to Pro"
+        "cta": "Upgrade to Pro",
+        "ctaActive": "You are a Pro Subscriber"
       }
     },
     "paymentMethods": {
@@ -435,3 +446,5 @@
     }
   }
 }
+
+    

@@ -7,6 +7,7 @@ import { Sidebar } from '@/components/sidebar';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { DashboardHeader } from '@/components/dashboard-header';
 import { MealLogProvider } from '@/context/meal-log-context';
+import { UserAccountProvider } from '@/context/user-account-context';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction, translations } = useLanguage();
@@ -44,9 +45,13 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <MealLogProvider>
-        <SiteBody>{children}</SiteBody>
-      </MealLogProvider>
+      <UserAccountProvider>
+        <MealLogProvider>
+          <SiteBody>{children}</SiteBody>
+        </MealLogProvider>
+      </UserAccountProvider>
     </LanguageProvider>
   );
 }
+
+    
