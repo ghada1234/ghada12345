@@ -337,7 +337,9 @@
         "cvc": "CVC / CVV",
         "disclaimer": "Your information is encrypted and securely handled by our payment partner.",
         "cta": "Save Card"
-      }
+      },
+      "or": "OR",
+      "payWithPayPal": "Pay with PayPal"
     },
     "profile": {
       "title": "Profile Settings",
