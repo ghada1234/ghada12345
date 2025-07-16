@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSettings, type Settings } from "@/context/settings-context";
 import { useToast } from "@/hooks/use-toast";
+import { useUserAccount } from "@/context/user-account-context";
 
 
 function SettingInput({
@@ -62,6 +63,7 @@ function SettingInput({
 export default function SettingsPage() {
     const { translations } = useLanguage();
     const { settings, updateSettings } = useSettings();
+    const { isPro } = useUserAccount();
     const { toast } = useToast();
     const [bmi, setBmi] = useState<string>("N/A");
 
@@ -139,19 +141,21 @@ export default function SettingsPage() {
           </p>
         </div>
         
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>{translations.settings.account.title}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Link href="/settings/payments">
-              <Button variant="outline">
-                <CreditCard className="mr-2 h-4 w-4" />
-                {translations.settings.account.managePayments}
-              </Button>
-            </Link>
-          </CardContent>
-        </Card> */}
+        {isPro && (
+          <Card>
+            <CardHeader>
+              <CardTitle>{translations.settings.account.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Link href="/settings/payments">
+                <Button variant="outline">
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  {translations.settings.account.managePayments}
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardHeader>

@@ -18,28 +18,35 @@ interface UserAccountContextType {
 const UserAccountContext = createContext<UserAccountContextType | undefined>(undefined);
 
 const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+const ACTIVATION_DATE = new Date('2025-08-01');
 
 export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isPro, setIsPro] = useState(true); // Grant Pro access by default
+  const [isPro, setIsPro] = useState(false);
   const [trialStartDate, setTrialStartDate] = useState<Date | null>(null);
+
+  const paymentsActive = new Date() >= ACTIVATION_DATE;
 
   // Load state from localStorage on initial mount
   useEffect(() => {
+    if (!paymentsActive) {
+      setIsPro(true);
+      return;
+    }
     try {
       const authStatus = localStorage.getItem('nutrisnap-isAuthenticated') === 'true';
-      // const proStatus = localStorage.getItem('nutrisnap-isPro') === 'true';
+      const proStatus = localStorage.getItem('nutrisnap-isPro') === 'true';
       const storedTrialStart = localStorage.getItem('nutrisnap-trialStartDate');
       
       setIsAuthenticated(authStatus);
-      // setIsPro(proStatus); // Pro is always true now
+      setIsPro(proStatus);
       if (storedTrialStart) {
         setTrialStartDate(new Date(storedTrialStart));
       }
     } catch (error) {
       console.error("Failed to parse user account from localStorage", error);
     }
-  }, []);
+  }, [paymentsActive]);
 
   const login = () => {
       setIsAuthenticated(true);
@@ -48,34 +55,39 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
       setIsAuthenticated(false);
-      localStorage.setItem('nutrisnap-isAuthenticated', 'false');
-      // Optional: clear other user data on logout
-      // localStorage.removeItem('nutrisnap-isPro');
-      // localStorage.removeItem('nutrisnap-trialStartDate');
-      // setIsPro(false);
-      // setTrialStartDate(null);
+      // Don't log out of pro status if payments are not active yet
+      if (paymentsActive) {
+        setIsPro(false);
+        setTrialStartDate(null);
+        localStorage.setItem('nutrisnap-isAuthenticated', 'false');
+        localStorage.removeItem('nutrisnap-isPro');
+        localStorage.removeItem('nutrisnap-trialStartDate');
+      } else {
+         localStorage.setItem('nutrisnap-isAuthenticated', 'false');
+      }
   }
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
+    if (!paymentsActive) return;
+
     try {
-      // localStorage.setItem('nutrisnap-isPro', JSON.stringify(isPro));
+      localStorage.setItem('nutrisnap-isPro', JSON.stringify(isPro));
       if (trialStartDate) {
         localStorage.setItem('nutrisnap-trialStartDate', trialStartDate.toISOString());
       }
     } catch (error) {
       console.error("Failed to save user account to localStorage", error);
     }
-  }, [isPro, trialStartDate]);
+  }, [isPro, trialStartDate, paymentsActive]);
 
   const startTrial = useCallback(() => {
-    // Only start the trial if it hasn't been started before
-    if (!trialStartDate) {
-      const now = new Date();
-      setTrialStartDate(now);
-      localStorage.setItem('nutrisnap-trialStartDate', now.toISOString());
-    }
-  }, [trialStartDate]);
+    if (!paymentsActive || trialStartDate) return;
+    
+    const now = new Date();
+    setTrialStartDate(now);
+    localStorage.setItem('nutrisnap-trialStartDate', now.toISOString());
+  }, [trialStartDate, paymentsActive]);
 
   const signup = () => {
     setIsAuthenticated(true);
@@ -84,14 +96,26 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const upgradeToPro = () => {
-    // setIsPro(true); // Already Pro
+    if (!paymentsActive) return;
+    setIsPro(true);
   };
+  
+  const isTrialActive = paymentsActive && trialStartDate ? (new Date().getTime() - trialStartDate.getTime()) < TRIAL_DURATION_MS : false;
 
-  // Trial is always active since all features are enabled
-  const isTrialActive = true;
+  const effectiveIsPro = !paymentsActive || isPro;
 
   return (
-    <UserAccountContext.Provider value={{ isAuthenticated, login, logout, signup, isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
+    <UserAccountContext.Provider value={{ 
+        isAuthenticated, 
+        login, 
+        logout, 
+        signup, 
+        isPro: effectiveIsPro, 
+        isTrialActive, 
+        trialStartDate, 
+        upgradeToPro, 
+        startTrial 
+    }}>
       {children}
     </UserAccountContext.Provider>
   );

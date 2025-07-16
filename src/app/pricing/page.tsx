@@ -44,7 +44,46 @@ export default function PricingPage() {
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
-      
+       <div className="max-w-4xl mx-auto space-y-8">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold tracking-tight">{translations.pricing.title}</h1>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            {translations.pricing.subtitle}
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {tiers.map((tier) => (
+            <Card key={tier.name} className="flex flex-col">
+              <CardHeader>
+                <CardTitle>{tier.name}</CardTitle>
+                <CardDescription>{tier.description}</CardDescription>
+                <p className="text-4xl font-bold pt-4">{tier.price}</p>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <ul className="space-y-4">
+                  {tier.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Check className="h-5 w-5 text-primary" />
+                      <span className="text-muted-foreground">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  onClick={tier.action} 
+                  variant={tier.variant as "default" | "outline"}
+                  className="w-full"
+                  disabled={tier.disabled}
+                >
+                  {tier.cta}
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      </div>
     </main>
   );
 }

@@ -64,11 +64,11 @@ export function Sidebar({ isSheet = false }: { isSheet?: boolean }) {
             icon={<Calendar className="h-4 w-4" />}
             label={translations.sidebar.meal_planner}
           />
-          {/* <NavLink
+          <NavLink
             href="/pricing"
             icon={<Star className="h-4 w-4" />}
             label={translations.sidebar.pricing}
-          /> */}
+          />
           <NavLink
             href="/reports"
             icon={<BarChart className="h-4 w-4" />}
