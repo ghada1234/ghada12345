@@ -9,7 +9,8 @@
     "reports": "Reports",
     "settings": "Settings",
     "feedback": "Feedback",
-    "about": "About"
+    "about": "About",
+    "pricing": "Pricing"
   },
   "header": {
     "login": "Login",
@@ -386,5 +387,34 @@
     "missionP1": "Snapri Snaps was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.",
     "missionP2": "While living abroad, she noticed a critical flaw in popular health and wellness apps: they struggled to accurately analyze diverse, international dishes. As an engineer, she saw a technical challenge and an opportunity.",
     "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. Snapri Snaps is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Unlock your full potential with the right plan for you.",
+    "tiers": {
+      "free": {
+        "name": "Free",
+        "price": "$0/mo",
+        "description": "For getting started with basic tracking.",
+        "features": [
+          "AI Meal Analysis (10/day)",
+          "Barcode Scanning",
+          "Daily Progress Tracking"
+        ],
+        "cta": "Current Plan"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$9.99/mo",
+        "description": "For those serious about achieving their goals.",
+        "features": [
+          "Unlimited AI Meal Analysis",
+          "AI Meal Planner",
+          "Advanced Reports & Trends",
+          "Priority Support"
+        ],
+        "cta": "Upgrade to Pro"
+      }
+    }
   }
 }

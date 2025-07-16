@@ -12,6 +12,7 @@ import {
   Settings,
   MessageSquare,
   Info,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
@@ -62,6 +63,11 @@ export function Sidebar({ isSheet = false }: { isSheet?: boolean }) {
             href="/meal-planner"
             icon={<Calendar className="h-4 w-4" />}
             label={translations.sidebar.meal_planner}
+          />
+           <NavLink
+            href="/pricing"
+            icon={<Star className="h-4 w-4" />}
+            label={translations.sidebar.pricing}
           />
           <NavLink
             href="/reports"
