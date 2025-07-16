@@ -40,8 +40,6 @@ export default function PaymentsPage() {
         <Card>
             <CardHeader className="text-center">
                 <Leaf className="mx-auto h-12 w-12 text-primary"/>
-                <CardTitle className="mt-2">{paymentTranslations.checkout.title}</CardTitle>
-                <CardDescription>{paymentTranslations.checkout.subtitle}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="p-4 border rounded-lg space-y-2 bg-muted/50">
