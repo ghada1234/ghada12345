@@ -315,10 +315,11 @@
       "sun": "Sun"
     },
     "weeks": {
-      "w1": "Week 1",
-      "w2": "Week 2",
-      "w3": "Week 3",
-      "w4": "Week 4"
+      "w1": "W1",
+      "w2": "W2",
+      "w3": "W3",
+      "w4": "W4",
+      "w5": "W5"
     },
     "upgrade": {
         "title": "Pro Feature",

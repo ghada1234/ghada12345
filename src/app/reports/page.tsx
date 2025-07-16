@@ -10,21 +10,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
-import { subDays, format, eachDayOfInterval, isSameDay } from "date-fns";
+import { subDays, format, eachDayOfInterval, isSameDay, startOfMonth, eachWeekOfInterval, getWeekOfMonth, getDay } from "date-fns";
 import { useUserAccount } from "@/context/user-account-context";
 import Link from "next/link";
 import { useSettings } from "@/context/settings-context";
 
 const chartConfig = {
   value: {
-    label: "Progress",
+    label: "Calories",
     color: "hsl(var(--primary))",
   },
 } satisfies ChartConfig;
 
 function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: string, categoryKey: string }) {
     const maxY = Math.max(...data.map(item => item[dataKey]), 0);
-    const domainMax = maxY > 0 ? Math.ceil(maxY / 10) * 10 : 10;
+    const domainMax = maxY > 0 ? Math.ceil(maxY / 100) * 100 : 1000;
 
     return (
         <ChartContainer config={chartConfig} className="h-64 w-full">
@@ -35,6 +35,7 @@ function ProgressChart({ data, dataKey, categoryKey }: { data: any[], dataKey: s
                     tickLine={false}
                     tickMargin={10}
                     axisLine={false}
+                    interval={categoryKey === 'dayOfMonth' ? 2 : 'preserveStartEnd'}
                 />
                 <YAxis
                     tickLine={false}
@@ -143,6 +144,20 @@ export default function ReportsPage() {
         return streak;
     }, [loggedMeals]);
 
+    const dailyData = useMemo(() => {
+        const today = new Date();
+        const last30Days = eachDayOfInterval({ start: subDays(today, 29), end: today });
+        return last30Days.map(day => {
+            const mealsOnDay = loggedMeals.filter(meal => isSameDay(new Date(meal.date), day));
+            const totalCalories = mealsOnDay.reduce((sum, meal) => sum + meal.calories, 0);
+            return {
+                dayOfMonth: format(day, 'd'),
+                value: totalCalories
+            }
+        });
+    }, [loggedMeals]);
+
+
     const weeklyData = useMemo(() => {
         const today = new Date();
         const last7Days = eachDayOfInterval({ start: subDays(today, 6), end: today });
@@ -158,29 +173,24 @@ export default function ReportsPage() {
 
      const monthlyData = useMemo(() => {
         const today = new Date();
-        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        const weeks = [];
-        let currentDay = startOfMonth;
-
-        while(currentDay.getMonth() === today.getMonth()) {
-            const weekEnd = new Date(currentDay);
-            weekEnd.setDate(currentDay.getDate() + 6);
-            const weekNumber = Math.ceil(currentDay.getDate() / 7);
-
-            const mealsInWeek = loggedMeals.filter(meal => {
+        const startOfThisMonth = startOfMonth(today);
+        const weeks = eachWeekOfInterval({ start: startOfThisMonth, end: today }, { weekStartsOn: 1 });
+        
+        return weeks.map((weekStart, index) => {
+            const weekEnd = subDays(new Date(weekStart), -6);
+             const mealsInWeek = loggedMeals.filter(meal => {
                 const mealDate = new Date(meal.date);
-                return mealDate >= currentDay && mealDate <= weekEnd;
+                return mealDate >= weekStart && mealDate <= weekEnd;
             });
             const totalCalories = mealsInWeek.reduce((sum, meal) => sum + meal.calories, 0);
-            
-            weeks.push({
-                week: `${translations.reports.weeks.w}${weekNumber}`,
-                value: totalCalories,
-            });
+            const daysInWeek = 7;
+            const avgCalories = totalCalories > 0 ? totalCalories / daysInWeek : 0;
 
-            currentDay.setDate(currentDay.getDate() + 7);
-        }
-        return weeks;
+            return {
+                week: `${translations.reports.weeks.w}${index + 1}`,
+                value: avgCalories,
+            }
+        })
     }, [loggedMeals, translations]);
 
     const handleShare = () => {
@@ -238,11 +248,15 @@ export default function ReportsPage() {
                         <CardDescription>{translations.reports.consistency.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Tabs defaultValue="weekly" className="w-full">
-                            <TabsList className="grid w-full grid-cols-2">
+                        <Tabs defaultValue="daily" className="w-full">
+                            <TabsList className="grid w-full grid-cols-3">
+                                <TabsTrigger value="daily">{translations.reports.consistency.daily}</TabsTrigger>
                                 <TabsTrigger value="weekly">{translations.reports.consistency.weekly}</TabsTrigger>
                                 <TabsTrigger value="monthly">{translations.reports.consistency.monthly}</TabsTrigger>
                             </TabsList>
+                            <TabsContent value="daily">
+                                <ProgressChart data={dailyData} dataKey="value" categoryKey="dayOfMonth" />
+                            </TabsContent>
                             <TabsContent value="weekly">
                                 <ProgressChart data={weeklyData} dataKey="value" categoryKey="day" />
                             </TabsContent>
