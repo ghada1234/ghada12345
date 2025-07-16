@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -22,8 +21,8 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 
-// IMPORTANT: Replace this with your actual PayPal.me link
-const yourPayPalMeLink = "https://paypal.me/your-username";
+// IMPORTANT: This is your actual PayPal.me link
+const yourPayPalMeLink = "https://paypal.me/gabdulaziz303?country.x=AE&locale.x=en_US";
 
 
 export default function PaymentsPage() {
