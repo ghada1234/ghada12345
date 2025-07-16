@@ -19,19 +19,13 @@ import { useLanguage } from "@/context/language-context";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Link from "next/link";
 
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
     const { toast } = useToast();
     const paymentTranslations = translations.settings.payments;
-
-    const handleDigitalWalletPay = (wallet: string) => {
-        toast({
-            title: wallet,
-            description: `${wallet} integration is not yet implemented.`,
-        });
-    }
 
     const handleBankTransferSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,24 +47,18 @@ export default function PaymentsPage() {
 
         <Card>
             <CardHeader>
-                <CardTitle>{paymentTranslations.digitalWallets.title}</CardTitle>
-                <CardDescription>{paymentTranslations.digitalWallets.description}</CardDescription>
+                <CardTitle>{paymentTranslations.paypal.title}</CardTitle>
+                <CardDescription>{paymentTranslations.paypal.description}</CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4 sm:grid-cols-2">
-                <Button 
-                    onClick={() => handleDigitalWalletPay("Apple Pay")} 
-                    variant="outline"
-                    className="w-full h-12"
-                >
-                    {paymentTranslations.digitalWallets.applePay}
-                </Button>
-                 <Button 
-                    onClick={() => handleDigitalWalletPay("Samsung Pay")} 
-                    variant="outline"
-                    className="w-full h-12"
-                >
-                    {paymentTranslations.digitalWallets.samsungPay}
-                </Button>
+            <CardContent>
+                <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
+                    <Button 
+                        className="w-full h-12"
+                    >
+                        {paymentTranslations.paypal.button}
+                    </Button>
+                </Link>
+                <p className="text-xs text-muted-foreground mt-2 text-center">{paymentTranslations.paypal.noAccountNeeded}</p>
             </CardContent>
         </Card>
         

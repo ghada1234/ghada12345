@@ -337,11 +337,11 @@
     "payments": {
       "title": "Payment Methods",
       "subtitle": "Manage your payment options for your subscription.",
-      "digitalWallets": {
-        "title": "Digital Wallets",
-        "description": "Pay quickly and securely with your favorite digital wallet.",
-        "applePay": "Pay with Apple Pay",
-        "samsungPay": "Pay with Samsung Pay"
+      "paypal": {
+        "title": "Pay with PayPal",
+        "description": "Pay securely with your PayPal account or a major credit card.",
+        "button": "Pay with PayPal",
+        "noAccountNeeded": "No PayPal account needed"
       },
       "bankTransfer": {
         "title": "Pay by Bank Transfer",
