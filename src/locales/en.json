@@ -339,7 +339,7 @@
       "subtitle": "Manage your payment options for your subscription.",
       "paypal": {
         "title": "Pay with PayPal",
-        "description": "Pay securely with your PayPal account or a major credit card.",
+        "description": "Pay securely using your PayPal account or a major credit card.",
         "button": "Pay with PayPal",
         "noAccountNeeded": "No PayPal account needed"
       },

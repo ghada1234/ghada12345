@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -18,11 +19,6 @@ import { useLanguage } from "@/context/language-context";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-
-
-// IMPORTANT: This is your actual PayPal.me link
-const yourPayPalMeLink = "https://paypal.me/gabdulaziz303?country.x=AE&locale.x=en_US";
 
 
 export default function PaymentsPage() {
@@ -53,15 +49,8 @@ export default function PaymentsPage() {
                 <CardTitle>{paymentTranslations.paypal.title}</CardTitle>
                 <CardDescription>{paymentTranslations.paypal.description}</CardDescription>
             </CardHeader>
-            <CardContent>
-                <Link href={yourPayPalMeLink} target="_blank" rel="noopener noreferrer">
-                    <Button 
-                        className="w-full h-12"
-                    >
-                        {paymentTranslations.paypal.button}
-                    </Button>
-                </Link>
-                <p className="text-xs text-muted-foreground mt-2 text-center">{paymentTranslations.paypal.noAccountNeeded}</p>
+            <CardContent className="flex justify-center">
+                <div id="paypal-hosted-button-container"></div>
             </CardContent>
         </Card>
         
