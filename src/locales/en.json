@@ -337,9 +337,11 @@
     "payments": {
       "title": "Payment Methods",
       "subtitle": "Manage your payment options for your subscription.",
-      "completePayment": {
-        "title": "Pay with Apple Pay",
-        "description": "Click the button below to complete your subscription using Apple Pay."
+      "digitalWallets": {
+        "title": "Digital Wallets",
+        "description": "Pay quickly and securely with your favorite digital wallet.",
+        "applePay": "Pay with Apple Pay",
+        "samsungPay": "Pay with Samsung Pay"
       },
       "bankTransfer": {
         "title": "Pay by Bank Transfer",
