@@ -13,13 +13,13 @@ import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
     const { translations } = useLanguage();
-    const { login } = useUserAccount();
+    const { signup } = useUserAccount();
     const router = useRouter();
 
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
         // In a real app, you would have API call here
-        login(); // Simulate login on signup
+        signup(); // Simulate signup and start the trial
         router.push('/dashboard');
     }
 

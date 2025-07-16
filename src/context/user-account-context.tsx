@@ -7,6 +7,7 @@ interface UserAccountContextType {
   isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
+  signup: () => void;
   isPro: boolean;
   isTrialActive: boolean;
   trialStartDate: Date | null;
@@ -72,8 +73,15 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
     if (!trialStartDate) {
       const now = new Date();
       setTrialStartDate(now);
+      localStorage.setItem('nutrisnap-trialStartDate', now.toISOString());
     }
   }, [trialStartDate]);
+
+  const signup = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem('nutrisnap-isAuthenticated', 'true');
+    startTrial();
+  };
 
   const upgradeToPro = () => {
     setIsPro(true);
@@ -84,7 +92,7 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
     : false;
 
   return (
-    <UserAccountContext.Provider value={{ isAuthenticated, login, logout, isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
+    <UserAccountContext.Provider value={{ isAuthenticated, login, logout, signup, isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
       {children}
     </UserAccountContext.Provider>
   );
