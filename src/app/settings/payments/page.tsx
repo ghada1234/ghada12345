@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -19,12 +19,30 @@ import { useLanguage } from "@/context/language-context";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
+declare global {
+  interface Window {
+    paypal?: any;
+  }
+}
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
     const { toast } = useToast();
     const paymentTranslations = translations.settings.payments;
+
+    useEffect(() => {
+        if (window.paypal && document.getElementById("paypal-container-ZG2S8WZTCVN4Q")) {
+            try {
+                window.paypal.HostedButtons({
+                    hostedButtonId: "ZG2S8WZTCVN4Q",
+                }).render("#paypal-container-ZG2S8WZTCVN4Q");
+            } catch (error) {
+                console.error("Failed to render PayPal button:", error);
+            }
+        }
+    }, []);
 
     const handleBankTransferSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,7 +68,7 @@ export default function PaymentsPage() {
                 <CardDescription>{paymentTranslations.paypal.description}</CardDescription>
             </CardHeader>
             <CardContent className="flex justify-center">
-                <div id="paypal-hosted-button-container"></div>
+                <div id="paypal-container-ZG2S8WZTCVN4Q"></div>
             </CardContent>
         </Card>
         

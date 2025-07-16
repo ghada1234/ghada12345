@@ -33,7 +33,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <Script 
-          src="https://www.paypal.com/sdk/js?client-id=BAAc2NK2B21iF0Bq3evWM10TXpGX-ewYDGVxTdHWgkdMy2SDU7WrdOwF-7rtJAXuAr0_ISPat1uwHyRD9Y&components=hosted-buttons&disable-funding=venmo&currency=USD"
+          src="https://www.paypal.com/sdk/js?client-id=BAAc2NK2B21iF0Bq3evWM10TXpGX-ewYDGVxTdHWgkdMy2SDU7WrdOwF-7rtJAXuAr0_ISPat1uwHyRD9Y&components=hosted-buttons&disable-funding=venmo&currency=AED"
           strategy="beforeInteractive"
         />
       </head>
