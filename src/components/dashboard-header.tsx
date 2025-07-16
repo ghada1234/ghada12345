@@ -1,7 +1,7 @@
 
 "use client";
 
-import { Leaf, Menu, Globe, LogOut } from "lucide-react";
+import { Leaf, Menu, Globe, LogOut, User, Settings } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Sidebar } from "./sidebar";
@@ -10,20 +10,29 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from "@/context/language-context";
 import { useUserAccount } from "@/context/user-account-context";
 import { useRouter } from "next/navigation";
+import { useSettings } from "@/context/settings-context";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export function DashboardHeader() {
   const { translations, setLanguage, direction } = useLanguage();
   const { isAuthenticated, logout } = useUserAccount();
+  const { settings } = useSettings();
   const router = useRouter();
 
   const handleLogout = () => {
     logout();
     router.push('/');
+  }
+  
+  const getInitials = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
   }
 
   return (
@@ -64,10 +73,32 @@ export function DashboardHeader() {
         </DropdownMenu>
 
         {isAuthenticated ? (
-            <Button variant="outline" onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
-            </Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="secondary" size="icon" className="rounded-full">
+                        <Avatar>
+                            <AvatarImage src={settings.profile.avatar || ''} alt={settings.profile.name} data-ai-hint="profile picture"/>
+                            <AvatarFallback>{getInitials(settings.profile.name)}</AvatarFallback>
+                        </Avatar>
+                        <span className="sr-only">Toggle user menu</span>
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                         <Link href="/settings">
+                            <Settings className="mr-2 h-4 w-4" />
+                            <span>Settings</span>
+                         </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Logout</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
         ) : (
           <>
             <Link href="/login" passHref>

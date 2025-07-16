@@ -125,6 +125,10 @@ export default function SettingsPage() {
         });
     }
 
+    const getInitials = (name: string) => {
+        return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
+
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
       <div className="space-y-6 max-w-4xl mx-auto">
@@ -156,8 +160,8 @@ export default function SettingsPage() {
           <CardContent className="space-y-6">
             <div className="flex items-center gap-6">
                 <Avatar className="h-20 w-20">
-                    <AvatarImage src={settings.profile.avatar || 'https://placehold.co/100x100.png'} data-ai-hint="profile picture" />
-                    <AvatarFallback>U</AvatarFallback>
+                    <AvatarImage src={settings.profile.avatar || ''} data-ai-hint="profile picture" />
+                    <AvatarFallback>{getInitials(settings.profile.name)}</AvatarFallback>
                 </Avatar>
                  <div className="w-full space-y-2">
                     <Label>{translations.settings.profile.avatar}</Label>
