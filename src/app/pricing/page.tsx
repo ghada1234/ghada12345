@@ -17,7 +17,8 @@ export default function PricingPage() {
       description: translations.pricing.tiers.free.description,
       features: translations.pricing.tiers.free.features,
       cta: translations.pricing.tiers.free.cta,
-      href: "/dashboard"
+      href: "/dashboard",
+      variant: "outline"
     },
     {
       name: translations.pricing.tiers.pro.name,
@@ -25,7 +26,8 @@ export default function PricingPage() {
       description: translations.pricing.tiers.pro.description,
       features: translations.pricing.tiers.pro.features,
       cta: translations.pricing.tiers.pro.cta,
-      href: "#" // This would eventually link to a checkout page
+      href: "#", // This would eventually link to a checkout page
+      variant: "default"
     }
   ];
 
@@ -41,7 +43,7 @@ export default function PricingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tiers.map((tier) => (
-            <Card key={tier.name} className="flex flex-col">
+            <Card key={tier.name} className={`flex flex-col ${tier.name === 'Pro' ? 'border-primary' : ''}`}>
               <CardHeader>
                 <CardTitle className="text-2xl">{tier.name}</CardTitle>
                 <CardDescription>{tier.description}</CardDescription>
@@ -59,7 +61,7 @@ export default function PricingPage() {
               </CardContent>
               <CardFooter>
                 <Link href={tier.href} className="w-full">
-                    <Button className="w-full" variant={tier.name === "Pro" ? "default" : "outline"}>
+                    <Button className="w-full" variant={tier.variant as "default" | "outline"}>
                         {tier.cta}
                     </Button>
                 </Link>

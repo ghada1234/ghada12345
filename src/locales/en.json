@@ -395,17 +395,17 @@
       "free": {
         "name": "Free",
         "price": "$0/mo",
-        "description": "For getting started with basic tracking.",
+        "description": "For getting started with a one-day trial.",
         "features": [
-          "AI Meal Analysis (10/day)",
+          "AI Meal Analysis (3/day)",
           "Barcode Scanning",
           "Daily Progress Tracking"
         ],
-        "cta": "Current Plan"
+        "cta": "Start Free Trial"
       },
       "pro": {
         "name": "Pro",
-        "price": "$9.99/mo",
+        "price": "$4.99/mo",
         "description": "For those serious about achieving their goals.",
         "features": [
           "Unlimited AI Meal Analysis",
