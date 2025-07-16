@@ -326,16 +326,17 @@
     },
     "payments": {
       "title": "Payment Methods",
-      "subtitle": "Manage your connected bank accounts and payment options.",
-      "bankAccount": {
-        "title": "Bank Account",
-        "description": "Connect your bank account to receive payouts.",
-        "accountHolder": "Account Holder Name",
-        "accountHolderPlaceholder": "Enter the name on the account",
-        "routingNumber": "Routing Number",
-        "accountNumber": "Account Number",
+      "subtitle": "Manage your payment options for your subscription.",
+      "creditCard": {
+        "title": "Credit/Debit Card",
+        "description": "Add or update your card information.",
+        "nameOnCard": "Name on Card",
+        "nameOnCardPlaceholder": "Enter the name on your card",
+        "cardNumber": "Card Number",
+        "expiryDate": "Expiry Date",
+        "cvc": "CVC / CVV",
         "disclaimer": "Your information is encrypted and securely handled by our payment partner.",
-        "cta": "Link Bank Account"
+        "cta": "Save Card"
       }
     },
     "profile": {

@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/context/language-context";
-import { Banknote, CreditCard, Landmark } from "lucide-react";
+import { CreditCard, Banknote } from "lucide-react";
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
@@ -33,32 +33,36 @@ export default function PaymentsPage() {
         <Card>
             <CardHeader>
                 <div className="flex items-center gap-2">
-                    <Landmark className="h-6 w-6 text-primary" />
-                    <CardTitle>{paymentTranslations.bankAccount.title}</CardTitle>
+                    <CreditCard className="h-6 w-6 text-primary" />
+                    <CardTitle>{paymentTranslations.creditCard.title}</CardTitle>
                 </div>
-                <CardDescription>{paymentTranslations.bankAccount.description}</CardDescription>
+                <CardDescription>{paymentTranslations.creditCard.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
                 <div className="space-y-2">
-                    <Label htmlFor="account-holder">{paymentTranslations.bankAccount.accountHolder}</Label>
-                    <Input id="account-holder" placeholder={paymentTranslations.bankAccount.accountHolderPlaceholder} />
+                    <Label htmlFor="card-name">{paymentTranslations.creditCard.nameOnCard}</Label>
+                    <Input id="card-name" placeholder={paymentTranslations.creditCard.nameOnCardPlaceholder} />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="card-number">{paymentTranslations.creditCard.cardNumber}</Label>
+                    <Input id="card-number" placeholder="&#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679;" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="routing-number">{paymentTranslations.bankAccount.routingNumber}</Label>
-                        <Input id="routing-number" placeholder="123456789" />
+                        <Label htmlFor="expiry-date">{paymentTranslations.creditCard.expiryDate}</Label>
+                        <Input id="expiry-date" placeholder="MM/YY" />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="account-number">{paymentTranslations.bankAccount.accountNumber}</Label>
-                        <Input id="account-number" placeholder="000123456789" />
+                        <Label htmlFor="cvc">{paymentTranslations.creditCard.cvc}</Label>
+                        <Input id="cvc" placeholder="CVC" />
                     </div>
                 </div>
-                <p className="text-xs text-muted-foreground">{paymentTranslations.bankAccount.disclaimer}</p>
+                <p className="text-xs text-muted-foreground">{paymentTranslations.creditCard.disclaimer}</p>
             </CardContent>
             <CardFooter>
                 <Button>
                     <Banknote className="mr-2 h-4 w-4" />
-                    {paymentTranslations.bankAccount.cta}
+                    {paymentTranslations.creditCard.cta}
                 </Button>
             </CardFooter>
         </Card>
