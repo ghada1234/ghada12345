@@ -340,6 +340,26 @@
       "completePayment": {
         "title": "Pay with Apple Pay",
         "description": "Click the button below to complete your subscription using Apple Pay."
+      },
+      "bankTransfer": {
+        "title": "Pay by Bank Transfer",
+        "instructions": "To pay by bank transfer, please use the details below. Once you have made the payment, please submit the form with your name and the transaction reference number provided by your bank.",
+        "bankName": { "label": "Bank Name", "value": "Your Bank Name" },
+        "accountHolder": { "label": "Account Holder", "value": "Your Full Name" },
+        "iban": { "label": "IBAN", "value": "YOUR-IBAN-NUMBER-HERE" },
+        "swift": { "label": "Swift/BIC", "value": "YOUR-SWIFT-CODE" },
+        "form": {
+            "title": "Confirm Your Payment",
+            "nameLabel": "Your Full Name",
+            "namePlaceholder": "Enter the name on the bank account",
+            "referenceLabel": "Transaction Reference",
+            "referencePlaceholder": "Enter the reference from your bank",
+            "submitButton": "Submit Confirmation"
+        },
+        "toast": {
+            "title": "Confirmation Submitted",
+            "description": "Thank you! We will verify your payment and update your account shortly."
+        }
       }
     },
     "profile": {
