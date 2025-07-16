@@ -35,11 +35,11 @@ export default function SignupPage() {
                     <form onSubmit={handleSignup} className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="name">Name</Label>
-                            <Input id="name" type="text" placeholder="Your Name" required />
+                            <Input id="name" type="text" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="m@example.com" required />
+                            <Input id="email" type="email" required />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="password">Password</Label>

@@ -9,6 +9,7 @@ import { useUserAccount } from "@/context/user-account-context";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserCircle } from "lucide-react";
 
 export default function LoginPage() {
     const { login } = useUserAccount();
@@ -25,8 +26,9 @@ export default function LoginPage() {
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
                     <Avatar className="mx-auto h-20 w-20">
-                        <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="profile picture" />
-                        <AvatarFallback>U</AvatarFallback>
+                        <AvatarFallback>
+                            <UserCircle className="h-16 w-16 text-muted-foreground" />
+                        </AvatarFallback>
                     </Avatar>
                     <CardTitle className="mt-4 text-2xl font-bold">Welcome Back!</CardTitle>
                     <CardDescription>Enter your credentials to access your account.</CardDescription>
