@@ -58,6 +58,7 @@ export default function SettingsPage() {
     const [weight, setWeight] = useState(70);
     const [height, setHeight] = useState(175);
     const [bmi, setBmi] = useState<string>("N/A");
+    const [avatarSrc, setAvatarSrc] = useState("https://placehold.co/100x100.png");
 
     const calculateBmi = (w: number, h: number) => {
         if(w > 0 && h > 0) {
@@ -80,6 +81,20 @@ export default function SettingsPage() {
         setHeight(newHeight);
         calculateBmi(weight, newHeight);
     }
+    
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (loadEvent) => {
+                if (loadEvent.target && typeof loadEvent.target.result === 'string') {
+                    setAvatarSrc(loadEvent.target.result);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     // Set initial BMI on mount
     useState(() => {
@@ -117,7 +132,7 @@ export default function SettingsPage() {
           <CardContent className="space-y-6">
             <div className="flex items-center gap-6">
                 <Avatar className="h-20 w-20">
-                    <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="profile picture" />
+                    <AvatarImage src={avatarSrc} data-ai-hint="profile picture" />
                     <AvatarFallback>U</AvatarFallback>
                 </Avatar>
                  <div className="w-full space-y-2">
@@ -127,7 +142,7 @@ export default function SettingsPage() {
                         <Upload className="mr-2"/> {translations.settings.profile.uploadButton}
                       </label>
                     </Button>
-                    <Input id="avatar-upload" type="file" className="hidden" accept="image/*" />
+                    <Input id="avatar-upload" type="file" className="hidden" accept="image/*" onChange={handleAvatarChange} />
                 </div>
             </div>
 
