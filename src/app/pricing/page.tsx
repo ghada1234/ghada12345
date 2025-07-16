@@ -4,14 +4,15 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
-import { useUserAccount } from "@/context/user-account-context";
-import { Check } from "lucide-react";
+import { useUserAccount, ACTIVATION_DATE } from "@/context/user-account-context";
+import { Check, Info } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import { format } from "date-fns";
 
 
 export default function PricingPage() {
   const { translations } = useLanguage();
-  const { isPro, upgradeToPro } = useUserAccount();
+  const { isPro, upgradeToPro, paymentsActive } = useUserAccount();
   const router = useRouter();
 
   const handleUpgrade = () => {
@@ -52,6 +53,18 @@ export default function PricingPage() {
           </p>
         </div>
         
+        {!paymentsActive && (
+             <Card className="bg-primary/10 border-primary/20">
+                <CardContent className="p-4 flex items-center gap-4 text-primary">
+                    <Info className="h-6 w-6"/>
+                    <div>
+                        <p className="font-semibold">{translations.pricing.activationNotice.title}</p>
+                        <p className="text-sm">{translations.pricing.activationNotice.description.replace('{date}', format(ACTIVATION_DATE, 'PPP'))}</p>
+                    </div>
+                </CardContent>
+             </Card>
+        )}
+       
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {tiers.map((tier) => (
             <Card key={tier.name} className="flex flex-col">
@@ -75,7 +88,7 @@ export default function PricingPage() {
                   onClick={tier.action} 
                   variant={tier.variant as "default" | "outline"}
                   className="w-full"
-                  disabled={tier.disabled}
+                  disabled={tier.disabled || !paymentsActive}
                 >
                   {tier.cta}
                 </Button>

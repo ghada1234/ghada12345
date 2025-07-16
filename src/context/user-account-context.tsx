@@ -13,12 +13,13 @@ interface UserAccountContextType {
   trialStartDate: Date | null;
   upgradeToPro: () => void;
   startTrial: () => void;
+  paymentsActive: boolean;
 }
 
 const UserAccountContext = createContext<UserAccountContextType | undefined>(undefined);
 
 const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
-const ACTIVATION_DATE = new Date('2025-08-01');
+export const ACTIVATION_DATE = new Date('2025-08-01');
 
 export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -114,7 +115,8 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
         isTrialActive, 
         trialStartDate, 
         upgradeToPro, 
-        startTrial 
+        startTrial,
+        paymentsActive
     }}>
       {children}
     </UserAccountContext.Provider>

@@ -421,6 +421,10 @@
   "pricing": {
     "title": "Choose Your Plan",
     "subtitle": "Unlock your full potential with the right plan for you.",
+    "activationNotice": {
+        "title": "Pricing Announcement",
+        "description": "Paid plans will become active on {date}. Until then, all Pro features are available for free."
+    },
     "tiers": {
       "free": {
         "name": "Free",
