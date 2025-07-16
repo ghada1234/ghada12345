@@ -13,6 +13,7 @@ import { useMealLog } from "@/context/meal-log-context";
 import { subDays, format, eachDayOfInterval, isSameDay } from "date-fns";
 import { useUserAccount } from "@/context/user-account-context";
 import Link from "next/link";
+import { useSettings } from "@/context/settings-context";
 
 const chartConfig = {
   value: {
@@ -72,7 +73,8 @@ const UpgradePrompt = () => {
 
 export default function ReportsPage() {
     const { translations } = useLanguage();
-    const { loggedMeals } = useMealLog();
+    const { getMealsForDate, loggedMeals } = useMealLog();
+    const { settings } = useSettings();
     const { isPro, isTrialActive, startTrial } = useUserAccount();
     const isFeatureAllowed = isPro || isTrialActive;
 
@@ -82,6 +84,40 @@ export default function ReportsPage() {
         }
     }, [isPro, startTrial]);
 
+    const todaysMeals = getMealsForDate(new Date());
+
+    const totals = useMemo(() => {
+        return todaysMeals.reduce((acc, meal) => {
+            acc.calories += meal.calories;
+            acc.protein += meal.protein;
+            acc.carbs += meal.carbs;
+            acc.fats += meal.fats;
+            acc.sugar += meal.sugar;
+            acc.sodium += meal.sodium;
+            acc.potassium += meal.potassium;
+            acc.calcium += meal.calcium;
+            acc.iron += meal.iron;
+            acc.vitaminC += meal.vitaminC;
+            return acc;
+        }, { calories: 0, protein: 0, carbs: 0, fats: 0, sugar: 0, sodium: 0, potassium: 0, calcium: 0, iron: 0, vitaminC: 0 });
+      }, [todaysMeals]);
+      
+      const goals = useMemo(() => ({
+        calories: parseFloat(settings.goals.macros.calories) || 2000,
+        protein: parseFloat(settings.goals.macros.protein) || 120,
+        carbs: parseFloat(settings.goals.macros.carbs) || 250,
+        fats: parseFloat(settings.goals.macros.fats) || 70,
+      }), [settings.goals.macros]);
+    
+      const microGoals = useMemo(() => ({
+        sugar: parseFloat(settings.goals.micros.sugar) || 50,
+        sodium: parseFloat(settings.goals.micros.sodium) || 2300,
+        potassium: parseFloat(settings.goals.micros.potassium) || 3500,
+        calcium: parseFloat(settings.goals.micros.calcium) || 1000,
+        iron: parseFloat(settings.goals.micros.iron) || 18,
+        vitaminC: parseFloat(settings.goals.micros.vitaminC) || 90,
+      }), [settings.goals.micros]);
+
     const streakDays = useMemo(() => {
         if (loggedMeals.length === 0) return 0;
 
@@ -90,7 +126,6 @@ export default function ReportsPage() {
         let streak = 0;
         let today = new Date();
         
-        // If there's a log today, start streak from today. Otherwise, start from yesterday.
         const hasLogToday = uniqueLogDays.some(d => isSameDay(new Date(d), today));
         if (!hasLogToday) {
             today = subDays(today, 1);
@@ -115,7 +150,7 @@ export default function ReportsPage() {
             const mealsOnDay = loggedMeals.filter(meal => isSameDay(new Date(meal.date), day));
             const totalCalories = mealsOnDay.reduce((sum, meal) => sum + meal.calories, 0);
             return {
-                day: format(day, 'E'), // e.g., 'Mon'
+                day: format(day, 'E'), 
                 value: totalCalories
             }
         });
@@ -149,7 +184,26 @@ export default function ReportsPage() {
     }, [loggedMeals, translations]);
 
     const handleShare = () => {
-        const message = translations.reports.share.message.replace("{streak}", streakDays.toString());
+        const macrosTitle = translations.dashboard.macros.title.toUpperCase();
+        const microsTitle = translations.dashboard.micros.title.toUpperCase();
+
+        const message = `📊 *My Daily Nutrition Summary*
+
+*${macrosTitle}*
+🔥 ${translations.dashboard.macros.calories}: ${totals.calories.toFixed(0)} / ${goals.calories} kcal
+💪 ${translations.dashboard.macros.protein}: ${totals.protein.toFixed(0)} / ${goals.protein}g
+🍞 ${translations.dashboard.macros.carbs}: ${totals.carbs.toFixed(0)} / ${goals.carbs}g
+🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
+
+*${microsTitle}*
+🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${microGoals.sugar}g
+🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${microGoals.sodium}mg
+🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${microGoals.potassium}mg
+🦴 ${translations.dashboard.micros.calcium}: ${totals.calcium.toFixed(0)} / ${microGoals.calcium}mg
+⚡ ${translations.dashboard.micros.iron}: ${totals.iron.toFixed(1)} / ${microGoals.iron}mg
+🍊 ${translations.dashboard.micros.vitaminC}: ${totals.vitaminC.toFixed(1)} / ${microGoals.vitaminC}mg
+
+📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
         const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     };
@@ -209,5 +263,3 @@ export default function ReportsPage() {
     </main>
   );
 }
-
-    
