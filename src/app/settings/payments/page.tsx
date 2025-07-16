@@ -6,8 +6,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { Leaf } from "lucide-react";
@@ -51,7 +49,7 @@ export default function PaymentsPage() {
                         {paymentTranslations.checkout.planDescription}
                     </p>
                 </div>
-                <div id="paypal-container-ZG2S8WZTCVN4Q" className="flex justify-center"></div>
+                <div id="paypal-container-ZG2S8WZTCVN4Q"></div>
                 <p className="text-xs text-center text-muted-foreground">
                     {paymentTranslations.checkout.guestCheckoutHint}
                 </p>
