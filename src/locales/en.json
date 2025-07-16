@@ -338,33 +338,8 @@
       "title": "Payment Methods",
       "subtitle": "Manage your payment options for your subscription.",
       "completePayment": {
-        "title": "Pay with PayPal",
-        "description": "Click the button below to complete your subscription using PayPal's secure checkout.",
-        "noAccountNeeded": "You can use a credit or debit card; a PayPal account is not required."
-      },
-      "payWithPayPal": "Pay with PayPal",
-      "bankTransfer": {
-        "title": "Pay by Bank Transfer",
-        "description": "Use the details below to make a direct bank transfer.",
-        "viewDetails": "Click to View Bank Details",
-        "instructions": "1. Initiate a transfer from your own bank using the details below.",
-        "iban": "IBAN",
-        "swift": "Swift/BIC",
-        "bankName": "Bank Name",
-        "referenceNote": "2. IMPORTANT: Please use your registered email as the payment reference.",
-        "form": {
-            "title": "3. Confirm Your Payment",
-            "description": "After sending the transfer, please submit your details below so we can verify your payment.",
-            "nameLabel": "Your Full Name",
-            "namePlaceholder": "Enter the name on the bank account",
-            "referenceLabel": "Transaction Reference Number",
-            "referencePlaceholder": "Enter the reference number from your bank",
-            "submitButton": "Submit Confirmation"
-        },
-        "confirmation": {
-            "title": "Confirmation Sent",
-            "description": "We have received your details and will activate your Pro plan once the payment is verified (usually within 1-2 business days)."
-        }
+        "title": "Pay with Apple Pay",
+        "description": "Click the button below to complete your subscription using Apple Pay."
       }
     },
     "profile": {
