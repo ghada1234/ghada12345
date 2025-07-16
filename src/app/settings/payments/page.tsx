@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { useLanguage } from "@/context/language-context";
 import { Leaf } from "lucide-react";
+import { useUserAccount } from "@/context/user-account-context";
+import { useRouter } from 'next/navigation';
 
 declare global {
   interface Window {
@@ -20,14 +22,36 @@ declare global {
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
+    const { upgradeToPro } = useUserAccount();
+    const router = useRouter();
     const paymentTranslations = translations.settings.payments;
 
     useEffect(() => {
-        if (window.paypal && document.getElementById("paypal-container-ZG2S8WZTCVN4Q")) {
+        if (window.paypal && document.getElementById("paypal-button-container")) {
             try {
-                window.paypal.HostedButtons({
-                    hostedButtonId: "ZG2S8WZTCVN4Q",
-                }).render("#paypal-container-ZG2S8WZTCVN4Q");
+                window.paypal.Buttons({
+                    // Sets up the transaction when a payment button is clicked
+                    createOrder: function(data: any, actions: any) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: '4.99' // The amount for the Pro plan
+                                }
+                            }]
+                        });
+                    },
+                    // Finalize the transaction after payer approval
+                    onApprove: function(data: any, actions: any) {
+                        return actions.order.capture().then(function(orderData: any) {
+                            // Successful capture!
+                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                            // Upgrade user to Pro
+                            upgradeToPro();
+                            // Redirect to settings page or a thank you page
+                            router.push('/settings');
+                        });
+                    }
+                }).render('#paypal-button-container');
             } catch (error) {
                 console.error("Failed to render PayPal button:", error);
             }
@@ -49,7 +73,7 @@ export default function PaymentsPage() {
             </div>
 
             <div className="mt-6">
-                <div id="paypal-container-ZG2S8WZTCVN4Q"></div>
+                <div id="paypal-button-container"></div>
             </div>
              <p className="text-center text-xs text-muted-foreground mt-4">{paymentTranslations.checkout.guestCheckoutHint}</p>
         </CardContent>
