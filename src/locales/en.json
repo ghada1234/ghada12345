@@ -320,6 +320,24 @@
     "title": "Settings",
     "subtitle": "Customize your daily nutritional goals and profile.",
     "saveButton": "Save Changes",
+    "account": {
+      "title": "Account Settings",
+      "managePayments": "Manage Payment Methods"
+    },
+    "payments": {
+      "title": "Payment Methods",
+      "subtitle": "Manage your connected bank accounts and payment options.",
+      "bankAccount": {
+        "title": "Bank Account",
+        "description": "Connect your bank account to receive payouts.",
+        "accountHolder": "Account Holder Name",
+        "accountHolderPlaceholder": "Enter the name on the account",
+        "routingNumber": "Routing Number",
+        "accountNumber": "Account Number",
+        "disclaimer": "Your information is encrypted and securely handled by our payment partner.",
+        "cta": "Link Bank Account"
+      }
+    },
     "profile": {
       "title": "Profile Settings",
       "name": "Name",

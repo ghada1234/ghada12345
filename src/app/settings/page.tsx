@@ -13,8 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Upload } from "lucide-react";
+import { Upload, CreditCard } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 function SettingInput({
   label,
@@ -92,6 +94,20 @@ export default function SettingsPage() {
             {translations.settings.subtitle}
           </p>
         </div>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>{translations.settings.account.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Link href="/settings/payments">
+              <Button variant="outline">
+                <CreditCard className="mr-2 h-4 w-4" />
+                {translations.settings.account.managePayments}
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
 
         <Card>
           <CardHeader>
