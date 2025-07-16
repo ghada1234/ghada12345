@@ -8,13 +8,9 @@ import {
   CardHeader,
   CardTitle,
   CardDescription,
-  CardFooter,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/context/language-context";
-import { CreditCard, Banknote } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { CreditCard } from "lucide-react";
 import Link from "next/link";
 
 function PayPalIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -30,7 +26,6 @@ function PayPalIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
-
     const paymentTranslations = translations.settings.payments;
 
   return (
@@ -47,50 +42,21 @@ export default function PaymentsPage() {
             <CardHeader>
                 <div className="flex items-center gap-2">
                     <CreditCard className="h-6 w-6 text-primary" />
-                    <CardTitle>{paymentTranslations.creditCard.title}</CardTitle>
+                    <CardTitle>{paymentTranslations.completePayment.title}</CardTitle>
                 </div>
-                <CardDescription>{paymentTranslations.creditCard.description}</CardDescription>
+                <CardDescription>{paymentTranslations.completePayment.description}</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-                <div className="space-y-2">
-                    <Label htmlFor="card-name">{paymentTranslations.creditCard.nameOnCard}</Label>
-                    <Input id="card-name" placeholder={paymentTranslations.creditCard.nameOnCardPlaceholder} />
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="card-number">{paymentTranslations.creditCard.cardNumber}</Label>
-                    <Input id="card-number" placeholder="&#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679;" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="expiry-date">{paymentTranslations.creditCard.expiryDate}</Label>
-                        <Input id="expiry-date" placeholder="MM/YY" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="cvc">{paymentTranslations.creditCard.cvc}</Label>
-                        <Input id="cvc" placeholder="CVC" />
-                    </div>
-                </div>
-                 <Button className="w-full">
-                    <Banknote className="mr-2 h-4 w-4" />
-                    {paymentTranslations.creditCard.cta}
-                </Button>
-            </CardContent>
-            
-            <div className="p-6 pt-0">
-                <div className="flex items-center my-4">
-                    <Separator className="flex-1" />
-                    <span className="px-4 text-sm text-muted-foreground">{paymentTranslations.or}</span>
-                    <Separator className="flex-1" />
-                </div>
-
-                <Link href="https://paypal.me/gabdulaziz303?country.x=AE&locale.x=en_US" target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" className="w-full bg-[#ffc439] hover:bg-[#ffc439]/90 text-[#003087]">
+            <CardContent className="flex flex-col items-center justify-center space-y-4 pt-6">
+                <Link href="https://paypal.me/gabdulaziz303?country.x=AE&locale.x=en_US" target="_blank" rel="noopener noreferrer" className="w-full max-w-xs">
+                    <Button variant="outline" className="w-full h-12 bg-[#ffc439] hover:bg-[#ffc439]/90 text-[#003087]">
                         <PayPalIcon className="mr-2 h-6 w-6" />
                         {paymentTranslations.payWithPayPal}
                     </Button>
                 </Link>
-            </div>
-            
+                 <p className="text-sm text-muted-foreground text-center max-w-xs">
+                    {paymentTranslations.completePayment.noAccountNeeded}
+                </p>
+            </CardContent>
         </Card>
       </div>
     </main>

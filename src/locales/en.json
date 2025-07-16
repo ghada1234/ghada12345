@@ -327,18 +327,11 @@
     "payments": {
       "title": "Payment Methods",
       "subtitle": "Manage your payment options for your subscription.",
-      "creditCard": {
-        "title": "Credit/Debit Card",
-        "description": "Add or update your card information.",
-        "nameOnCard": "Name on Card",
-        "nameOnCardPlaceholder": "Enter the name on your card",
-        "cardNumber": "Card Number",
-        "expiryDate": "Expiry Date",
-        "cvc": "CVC / CVV",
-        "disclaimer": "Your information is encrypted and securely handled by our payment partner.",
-        "cta": "Save Card"
+      "completePayment": {
+        "title": "Complete Your Payment",
+        "description": "Click the button below to complete your subscription using PayPal's secure checkout.",
+        "noAccountNeeded": "You can use a credit or debit card; a PayPal account is not required."
       },
-      "or": "OR",
       "payWithPayPal": "Pay with PayPal"
     },
     "profile": {
