@@ -17,6 +17,7 @@ import { Upload, CreditCard } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function SettingInput({
   label,
@@ -114,6 +115,19 @@ export default function SettingsPage() {
             <CardTitle>{translations.settings.profile.title}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div className="flex items-center gap-6">
+                <Avatar className="h-20 w-20">
+                    <AvatarImage src="https://placehold.co/100x100.png" data-ai-hint="profile picture" />
+                    <AvatarFallback>U</AvatarFallback>
+                </Avatar>
+                 <div className="w-full space-y-2">
+                    <Label>{translations.settings.profile.avatar}</Label>
+                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> {translations.settings.profile.uploadButton}</Button>
+                </div>
+            </div>
+
+             <Separator />
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="name">{translations.settings.profile.name}</Label>
@@ -146,10 +160,6 @@ export default function SettingsPage() {
                         <Label htmlFor="female">{translations.settings.profile.gender.female}</Label>
                         </div>
                     </RadioGroup>
-                </div>
-                <div className="space-y-2">
-                    <Label>{translations.settings.profile.avatar}</Label>
-                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> {translations.settings.profile.uploadButton}</Button>
                 </div>
             </div>
 
