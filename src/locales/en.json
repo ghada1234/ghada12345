@@ -337,11 +337,16 @@
     "payments": {
       "title": "Payment Methods",
       "subtitle": "Manage your payment options for your subscription.",
+      "checkout": {
+          "title": "Checkout",
+          "subtitle": "Complete your secure payment below.",
+          "planName": "Snapri Snaps Pro",
+          "planDescription": "Billed monthly. Access to all premium features."
+      },
       "paypal": {
         "title": "Pay with PayPal",
         "description": "Pay securely using your PayPal account or a major credit card.",
-        "button": "Pay with PayPal",
-        "noAccountNeeded": "No PayPal account needed"
+        "button": "Pay with PayPal"
       },
       "bankTransfer": {
         "title": "Pay by Bank Transfer",
