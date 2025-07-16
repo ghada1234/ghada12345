@@ -34,8 +34,9 @@ function SiteBody({ children }: { children: React.ReactNode }) {
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <Script 
-          src="https://www.paypal.com/sdk/js?client-id=BAAc2NK2B21iF0Bq3evWM10TXpGX-ewYDGVxTdHWgkdMy2SDU7WrdOwF-7rtJAXuAr0_ISPat1uwHyRD9Y&components=buttons&disable-funding=venmo&currency=USD&vault=true"
+          src="https://www.paypal.com/sdk/js?client-id=AYwh7UnUhNlDGI6_U2ETPJrx6BsydIe95wE2uOuciZI1rLEXKWO6ulz8pKMAwusIFqnakaarrOBQ2kww&vault=true&intent=subscription"
           strategy="beforeInteractive"
+          data-sdk-integration-source="button-factory"
         />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning={true}>

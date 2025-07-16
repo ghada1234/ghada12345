@@ -30,33 +30,30 @@ export default function PaymentsPage() {
         if (window.paypal && document.getElementById("paypal-button-container")) {
             try {
                 window.paypal.Buttons({
-                    // To set up a subscription, you need a Plan ID.
-                    // 1. Go to your PayPal Developer Dashboard: https://developer.paypal.com/
-                    // 2. Go to "My Apps & Credentials" and select your app.
-                    // 3. Under "Subscriptions", create a new plan (e.g., $4.99/month).
-                    // 4. Copy the generated Plan ID and paste it below.
+                    style: {
+                        shape: 'rect',
+                        color: 'gold',
+                        layout: 'vertical',
+                        label: 'subscribe'
+                    },
                     createSubscription: function(data: any, actions: any) {
                         return actions.subscription.create({
-                            'plan_id': 'YOUR_PLAN_ID_HERE' 
+                            plan_id: 'P-5GM08505K2712284MNB3ZFAI' 
                         });
                     },
-                    // Finalize the transaction after payer approval
                     onApprove: function(data: any, actions: any) {
-                        // This function is called when the transaction is approved by the user.
-                        // data.subscriptionID contains the ID of the new subscription.
                         console.log('Subscription approved:', data.subscriptionID);
-                        
-                        // You can now save this subscriptionID to your backend for management.
-
-                        // Upgrade user to Pro in the frontend state
                         upgradeToPro();
-                        
-                        // Redirect to settings page or a thank you page
                         router.push('/settings');
                     }
                 }).render('#paypal-button-container');
             } catch (error) {
                 console.error("Failed to render PayPal button:", error);
+                // Optionally render an error message to the user
+                const container = document.getElementById("paypal-button-container");
+                if (container) {
+                    container.innerHTML = "Sorry, we couldn't load the payment options. Please try again later.";
+                }
             }
         }
     }, []);
