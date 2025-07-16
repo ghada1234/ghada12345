@@ -438,7 +438,7 @@
     "tiers": {
       "free": {
         "name": "Free",
-        "price": "0 AED/mo",
+        "price": "$0/mo",
         "description": "For getting started with a one-day trial.",
         "features": [
           "AI Meal Analysis (3/day)",
@@ -449,7 +449,7 @@
       },
       "pro": {
         "name": "Pro",
-        "price": "18.99 AED/mo",
+        "price": "$4.99/mo",
         "description": "For those serious about achieving their goals.",
         "features": [
           "Unlimited AI Meal Analysis",
