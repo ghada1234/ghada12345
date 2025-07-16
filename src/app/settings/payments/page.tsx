@@ -22,6 +22,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
 
+// IMPORTANT: Replace this with your actual PayPal.me link
+const yourPayPalMeLink = "https://paypal.me/your-username";
+
+
 export default function PaymentsPage() {
     const { translations } = useLanguage();
     const { toast } = useToast();
@@ -51,7 +55,7 @@ export default function PaymentsPage() {
                 <CardDescription>{paymentTranslations.paypal.description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <Link href="https://paypal.me/your-username" target="_blank" rel="noopener noreferrer">
+                <Link href={yourPayPalMeLink} target="_blank" rel="noopener noreferrer">
                     <Button 
                         className="w-full h-12"
                     >
