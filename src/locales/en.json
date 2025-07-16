@@ -415,6 +415,9 @@
         ],
         "cta": "Upgrade to Pro"
       }
+    },
+    "paymentMethods": {
+        "title": "We Accept All Major Payment Methods"
     }
   }
 }
