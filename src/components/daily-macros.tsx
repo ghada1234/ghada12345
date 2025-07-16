@@ -73,15 +73,18 @@ export function DailyMacros() {
   }), [settings.goals.micros]);
 
   const handleShare = () => {
+    const macrosTitle = translations.dashboard.macros.title.toUpperCase();
+    const microsTitle = translations.dashboard.micros.title.toUpperCase();
+
     const message = `📊 *My Daily Nutrition Summary*
 
-*${translations.dashboard.macros.title.toUpperCase()}*
+*${macrosTitle}*
 🔥 ${translations.dashboard.macros.calories}: ${totals.calories.toFixed(0)} / ${goals.calories} kcal
 💪 ${translations.dashboard.macros.protein}: ${totals.protein.toFixed(0)} / ${goals.protein}g
 🍞 ${translations.dashboard.macros.carbs}: ${totals.carbs.toFixed(0)} / ${goals.carbs}g
 🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
 
-*${translations.dashboard.micros.title.toUpperCase()}*
+*${microsTitle}*
 🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${microGoals.sugar}g
 🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${microGoals.sodium}mg
 🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${microGoals.potassium}mg
