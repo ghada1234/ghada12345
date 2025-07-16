@@ -122,7 +122,12 @@ export default function SettingsPage() {
                 </Avatar>
                  <div className="w-full space-y-2">
                     <Label>{translations.settings.profile.avatar}</Label>
-                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> {translations.settings.profile.uploadButton}</Button>
+                    <Button variant="outline" className="w-full" asChild>
+                      <label htmlFor="avatar-upload" className="cursor-pointer">
+                        <Upload className="mr-2"/> {translations.settings.profile.uploadButton}
+                      </label>
+                    </Button>
+                    <Input id="avatar-upload" type="file" className="hidden" accept="image/*" />
                 </div>
             </div>
 
