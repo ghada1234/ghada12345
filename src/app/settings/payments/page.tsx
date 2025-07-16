@@ -30,26 +30,29 @@ export default function PaymentsPage() {
         if (window.paypal && document.getElementById("paypal-button-container")) {
             try {
                 window.paypal.Buttons({
-                    // Sets up the transaction when a payment button is clicked
-                    createOrder: function(data: any, actions: any) {
-                        return actions.order.create({
-                            purchase_units: [{
-                                amount: {
-                                    value: '4.99' // The amount for the Pro plan
-                                }
-                            }]
+                    // To set up a subscription, you need a Plan ID.
+                    // 1. Go to your PayPal Developer Dashboard: https://developer.paypal.com/
+                    // 2. Go to "My Apps & Credentials" and select your app.
+                    // 3. Under "Subscriptions", create a new plan (e.g., $4.99/month).
+                    // 4. Copy the generated Plan ID and paste it below.
+                    createSubscription: function(data: any, actions: any) {
+                        return actions.subscription.create({
+                            'plan_id': 'YOUR_PLAN_ID_HERE' 
                         });
                     },
                     // Finalize the transaction after payer approval
                     onApprove: function(data: any, actions: any) {
-                        return actions.order.capture().then(function(orderData: any) {
-                            // Successful capture!
-                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                            // Upgrade user to Pro
-                            upgradeToPro();
-                            // Redirect to settings page or a thank you page
-                            router.push('/settings');
-                        });
+                        // This function is called when the transaction is approved by the user.
+                        // data.subscriptionID contains the ID of the new subscription.
+                        console.log('Subscription approved:', data.subscriptionID);
+                        
+                        // You can now save this subscriptionID to your backend for management.
+
+                        // Upgrade user to Pro in the frontend state
+                        upgradeToPro();
+                        
+                        // Redirect to settings page or a thank you page
+                        router.push('/settings');
                     }
                 }).render('#paypal-button-container');
             } catch (error) {
