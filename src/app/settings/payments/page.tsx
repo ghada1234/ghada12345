@@ -19,10 +19,23 @@ import { useLanguage } from "@/context/language-context";
 import { CreditCard, Banknote } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
+    const { toast } = useToast();
     const paymentTranslations = translations.settings.payments;
+
+    const handleBankTransferSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        toast({
+            title: paymentTranslations.bankTransfer.confirmation.title,
+            description: paymentTranslations.bankTransfer.confirmation.description,
+        });
+        (e.target as HTMLFormElement).reset();
+    }
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
@@ -63,24 +76,50 @@ export default function PaymentsPage() {
                  <CardDescription>{paymentTranslations.bankTransfer.description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-sm text-muted-foreground mb-4">{paymentTranslations.bankTransfer.instructions}</p>
-                 <div className="space-y-3 rounded-md border p-4">
-                    <div className="flex justify-between">
-                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.iban}</span>
-                        <span className="font-mono">YOUR_IBAN_HERE</span>
-                    </div>
-                     <Separator />
-                    <div className="flex justify-between">
-                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.swift}</span>
-                        <span className="font-mono">YOUR_SWIFT_BIC_HERE</span>
-                    </div>
-                     <Separator />
-                    <div className="flex justify-between">
-                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.bankName}</span>
-                        <span className="font-mono">YOUR_BANK_NAME_HERE</span>
-                    </div>
+                <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="bank-details">
+                        <AccordionTrigger>{paymentTranslations.bankTransfer.viewDetails}</AccordionTrigger>
+                        <AccordionContent>
+                             <p className="text-sm text-muted-foreground mb-4">{paymentTranslations.bankTransfer.instructions}</p>
+                             <div className="space-y-3 rounded-md border p-4">
+                                <div className="flex justify-between">
+                                    <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.iban}</span>
+                                    <span className="font-mono">YOUR_IBAN_HERE</span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.swift}</span>
+                                    <span className="font-mono">YOUR_SWIFT_BIC_HERE</span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between">
+                                    <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.bankName}</span>
+                                    <span className="font-mono">YOUR_BANK_NAME_HERE</span>
+                                </div>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-4">{paymentTranslations.bankTransfer.referenceNote}</p>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
+                
+                <Separator className="my-6" />
+
+                <div>
+                    <h3 className="text-lg font-semibold">{paymentTranslations.bankTransfer.form.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-4">{paymentTranslations.bankTransfer.form.description}</p>
+                    <form onSubmit={handleBankTransferSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">{paymentTranslations.bankTransfer.form.nameLabel}</Label>
+                            <Input id="name" placeholder={paymentTranslations.bankTransfer.form.namePlaceholder} required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="reference">{paymentTranslations.bankTransfer.form.referenceLabel}</Label>
+                            <Input id="reference" placeholder={paymentTranslations.bankTransfer.form.referencePlaceholder} required />
+                        </div>
+                        <Button type="submit">{paymentTranslations.bankTransfer.form.submitButton}</Button>
+                    </form>
                 </div>
-                <p className="text-xs text-muted-foreground mt-4">{paymentTranslations.bankTransfer.referenceNote}</p>
+
             </CardContent>
         </Card>
       </div>
