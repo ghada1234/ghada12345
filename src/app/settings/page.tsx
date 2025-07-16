@@ -139,7 +139,7 @@ export default function SettingsPage() {
           </p>
         </div>
         
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>{translations.settings.account.title}</CardTitle>
           </CardHeader>
@@ -151,7 +151,7 @@ export default function SettingsPage() {
               </Button>
             </Link>
           </CardContent>
-        </Card>
+        </Card> */}
 
         <Card>
           <CardHeader>

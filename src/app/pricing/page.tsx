@@ -44,42 +44,7 @@ export default function PricingPage() {
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight">{translations.pricing.title}</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            {translations.pricing.subtitle}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {tiers.map((tier) => (
-            <Card key={tier.name} className={`flex flex-col ${tier.name === 'Pro' ? 'border-primary' : ''}`}>
-              <CardHeader>
-                <CardTitle className="text-2xl">{tier.name}</CardTitle>
-                <CardDescription>{tier.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 space-y-6">
-                <div className="text-4xl font-bold">{tier.price}</div>
-                <ul className="space-y-4">
-                  {tier.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <Check className="h-6 w-6 text-primary mr-2 flex-shrink-0" />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                  <Button className="w-full" variant={tier.variant as "default" | "outline"} onClick={tier.action} disabled={tier.disabled}>
-                      {tier.cta}
-                  </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-
-      </div>
+      
     </main>
   );
 }

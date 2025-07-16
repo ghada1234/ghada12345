@@ -21,18 +21,18 @@ const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isPro, setIsPro] = useState(false);
+  const [isPro, setIsPro] = useState(true); // Grant Pro access by default
   const [trialStartDate, setTrialStartDate] = useState<Date | null>(null);
 
   // Load state from localStorage on initial mount
   useEffect(() => {
     try {
       const authStatus = localStorage.getItem('nutrisnap-isAuthenticated') === 'true';
-      const proStatus = localStorage.getItem('nutrisnap-isPro') === 'true';
+      // const proStatus = localStorage.getItem('nutrisnap-isPro') === 'true';
       const storedTrialStart = localStorage.getItem('nutrisnap-trialStartDate');
       
       setIsAuthenticated(authStatus);
-      setIsPro(proStatus);
+      // setIsPro(proStatus); // Pro is always true now
       if (storedTrialStart) {
         setTrialStartDate(new Date(storedTrialStart));
       }
@@ -59,7 +59,7 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   // Save state to localStorage whenever it changes
   useEffect(() => {
     try {
-      localStorage.setItem('nutrisnap-isPro', JSON.stringify(isPro));
+      // localStorage.setItem('nutrisnap-isPro', JSON.stringify(isPro));
       if (trialStartDate) {
         localStorage.setItem('nutrisnap-trialStartDate', trialStartDate.toISOString());
       }
@@ -84,12 +84,11 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const upgradeToPro = () => {
-    setIsPro(true);
+    // setIsPro(true); // Already Pro
   };
 
-  const isTrialActive = trialStartDate 
-    ? (new Date().getTime() - trialStartDate.getTime()) < TRIAL_DURATION_MS
-    : false;
+  // Trial is always active since all features are enabled
+  const isTrialActive = true;
 
   return (
     <UserAccountContext.Provider value={{ isAuthenticated, login, logout, signup, isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
