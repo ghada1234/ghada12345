@@ -28,6 +28,8 @@ function SiteBody({ children }: { children: React.ReactNode }) {
       <head>
         <title>{translations.appName}</title>
         <meta name="description" content="Track your nutrition and get AI-powered recipe suggestions." />
+        <meta name="theme-color" content="#1A8542" />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M12 22V2'/%3e%3cpath d='M12 2a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5v0a5 5 0 0 1-5-5v0a5 5 0 0 1 5-5v0z'/%3e%3cpath d='M12 12a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5v0a5 5 0 0 1-5-5v0a5 5 0 0 1 5-5v0z'/%3e%3c/svg%3e" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
