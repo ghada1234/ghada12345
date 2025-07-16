@@ -36,7 +36,7 @@ export default function PaymentsPage() {
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8 flex items-center justify-center bg-muted/40">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <Card>
             <CardHeader className="text-center">
                 <Leaf className="mx-auto h-12 w-12 text-primary"/>
@@ -49,7 +49,9 @@ export default function PaymentsPage() {
                         <span>{paymentTranslations.checkout.planName}</span>
                         <span>$4.99 USD</span>
                     </div>
-                    <p className="text-sm text-muted-foreground">{paymentTranslations.checkout.planDescription}</p>
+                    <p className="text-sm text-muted-foreground text-balance">
+                        {paymentTranslations.checkout.planDescription}
+                    </p>
                 </div>
                 <div id="paypal-container-ZG2S8WZTCVN4Q" className="flex justify-center"></div>
                 <p className="text-xs text-center text-muted-foreground">
