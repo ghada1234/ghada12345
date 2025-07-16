@@ -342,7 +342,16 @@
         "description": "Click the button below to complete your subscription using PayPal's secure checkout.",
         "noAccountNeeded": "You can use a credit or debit card; a PayPal account is not required."
       },
-      "payWithPayPal": "Pay with PayPal"
+      "payWithPayPal": "Pay with PayPal",
+      "bankTransfer": {
+        "title": "Bank Transfer",
+        "description": "Alternative payment options.",
+        "instructions": "Please use the details below to make a direct bank transfer. Once payment is sent, please notify us.",
+        "iban": "IBAN",
+        "swift": "Swift/BIC",
+        "bankName": "Bank Name",
+        "referenceNote": "Note: Please use your email as the payment reference."
+      }
     },
     "profile": {
       "title": "Profile Settings",
@@ -440,11 +449,6 @@
         "cta": "Upgrade to Pro",
         "ctaActive": "You are a Pro Subscriber"
       }
-    },
-    "paymentMethods": {
-        "title": "We Accept All Major Payment Methods"
     }
   }
 }
-
-    

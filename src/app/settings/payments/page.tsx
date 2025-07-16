@@ -9,9 +9,16 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { useLanguage } from "@/context/language-context";
-import { CreditCard } from "lucide-react";
+import { CreditCard, Banknote } from "lucide-react";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
 
 export default function PaymentsPage() {
     const { translations } = useLanguage();
@@ -44,6 +51,36 @@ export default function PaymentsPage() {
                  <p className="text-sm text-muted-foreground text-center max-w-xs">
                     {paymentTranslations.completePayment.noAccountNeeded}
                 </p>
+            </CardContent>
+        </Card>
+
+        <Card>
+            <CardHeader>
+                <div className="flex items-center gap-2">
+                    <Banknote className="h-6 w-6 text-primary" />
+                    <CardTitle>{paymentTranslations.bankTransfer.title}</CardTitle>
+                </div>
+                 <CardDescription>{paymentTranslations.bankTransfer.description}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <p className="text-sm text-muted-foreground mb-4">{paymentTranslations.bankTransfer.instructions}</p>
+                 <div className="space-y-3 rounded-md border p-4">
+                    <div className="flex justify-between">
+                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.iban}</span>
+                        <span className="font-mono">YOUR_IBAN_HERE</span>
+                    </div>
+                     <Separator />
+                    <div className="flex justify-between">
+                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.swift}</span>
+                        <span className="font-mono">YOUR_SWIFT_BIC_HERE</span>
+                    </div>
+                     <Separator />
+                    <div className="flex justify-between">
+                        <span className="font-semibold text-muted-foreground">{paymentTranslations.bankTransfer.bankName}</span>
+                        <span className="font-mono">YOUR_BANK_NAME_HERE</span>
+                    </div>
+                </div>
+                <p className="text-xs text-muted-foreground mt-4">{paymentTranslations.bankTransfer.referenceNote}</p>
             </CardContent>
         </Card>
       </div>
