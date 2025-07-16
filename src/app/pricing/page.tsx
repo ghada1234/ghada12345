@@ -78,7 +78,7 @@ export default function PricingPage() {
       description: translations.pricing.tiers.pro.description,
       features: translations.pricing.tiers.pro.features,
       cta: translations.pricing.tiers.pro.cta,
-      href: "#", // This would eventually link to a checkout page
+      href: "/settings/payments",
       variant: "default"
     }
   ];
