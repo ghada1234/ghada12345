@@ -8,9 +8,20 @@ import { Label } from "@/components/ui/label";
 import { Leaf, Upload } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/context/language-context";
+import { useUserAccount } from "@/context/user-account-context";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
     const { translations } = useLanguage();
+    const { login } = useUserAccount();
+    const router = useRouter();
+
+    const handleSignup = (e: React.FormEvent) => {
+        e.preventDefault();
+        // In a real app, you would have API call here
+        login(); // Simulate login on signup
+        router.push('/dashboard');
+    }
 
     return (
         <main className="flex-1 flex items-center justify-center p-4">
@@ -20,32 +31,34 @@ export default function SignupPage() {
                     <CardTitle className="mt-4 text-2xl font-bold">Create an Account</CardTitle>
                     <CardDescription>Start your journey with {translations.appName} today.</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" type="text" placeholder="Your Name" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="m@example.com" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" required />
-                    </div>
-                    <div className="space-y-2">
-                        <Label>Profile Picture</Label>
-                        <Button variant="outline" className="w-full flex items-center gap-2" asChild>
-                            <label htmlFor="avatar-upload" className="cursor-pointer">
-                                <Upload className="h-4 w-4" />
-                                <span>Upload an Image</span>
-                            </label>
+                <CardContent>
+                    <form onSubmit={handleSignup} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="name">Name</Label>
+                            <Input id="name" type="text" placeholder="Your Name" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" type="email" placeholder="m@example.com" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input id="password" type="password" required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label>Profile Picture</Label>
+                            <Button variant="outline" className="w-full flex items-center gap-2" asChild>
+                                <label htmlFor="avatar-upload" className="cursor-pointer">
+                                    <Upload className="h-4 w-4" />
+                                    <span>Upload an Image</span>
+                                </label>
+                            </Button>
+                            <Input id="avatar-upload" type="file" className="hidden" accept="image/*"/>
+                        </div>
+                        <Button type="submit" className="w-full">
+                            Create Account
                         </Button>
-                        <Input id="avatar-upload" type="file" className="hidden" accept="image/*"/>
-                    </div>
-                    <Button type="submit" className="w-full">
-                        Create Account
-                    </Button>
+                    </form>
                     <div className="mt-4 text-center text-sm">
                         Already have an account?{" "}
                         <Link href="/login" className="underline">

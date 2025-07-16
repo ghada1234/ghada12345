@@ -7,10 +7,19 @@ import { Sidebar } from '@/components/sidebar';
 import { LanguageProvider, useLanguage } from '@/context/language-context';
 import { DashboardHeader } from '@/components/dashboard-header';
 import { MealLogProvider } from '@/context/meal-log-context';
-import { UserAccountProvider } from '@/context/user-account-context';
+import { UserAccountProvider, useUserAccount } from '@/context/user-account-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 function SiteBody({ children }: { children: React.ReactNode }) {
   const { language, direction, translations } = useLanguage();
+  const { isAuthenticated } = useUserAccount();
+  const router = useRouter();
+
+  useEffect(() => {
+    // If user is not authenticated, we can optionally redirect them from protected pages.
+    // For now, we control access via rendering below.
+  }, [isAuthenticated, router]);
 
   return (
     <html lang={language} dir={direction} className="light" style={{ scrollBehavior: 'smooth' }}>
@@ -25,7 +34,7 @@ function SiteBody({ children }: { children: React.ReactNode }) {
       </head>
       <body className="font-body antialiased" suppressHydrationWarning={true}>
         <div className="flex min-h-screen w-full bg-background">
-          <Sidebar />
+          {isAuthenticated && <Sidebar />}
           <div className="flex flex-col flex-1">
             <DashboardHeader />
             {children}
@@ -53,5 +62,3 @@ export default function RootLayout({
     </LanguageProvider>
   );
 }
-
-    

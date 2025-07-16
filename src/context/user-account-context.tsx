@@ -4,6 +4,9 @@
 import React, { createContext, useState, useContext, ReactNode, useEffect, useCallback } from 'react';
 
 interface UserAccountContextType {
+  isAuthenticated: boolean;
+  login: () => void;
+  logout: () => void;
   isPro: boolean;
   isTrialActive: boolean;
   trialStartDate: Date | null;
@@ -16,15 +19,18 @@ const UserAccountContext = createContext<UserAccountContextType | undefined>(und
 const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isPro, setIsPro] = useState(false);
   const [trialStartDate, setTrialStartDate] = useState<Date | null>(null);
 
   // Load state from localStorage on initial mount
   useEffect(() => {
     try {
+      const authStatus = localStorage.getItem('nutrisnap-isAuthenticated') === 'true';
       const proStatus = localStorage.getItem('nutrisnap-isPro') === 'true';
       const storedTrialStart = localStorage.getItem('nutrisnap-trialStartDate');
       
+      setIsAuthenticated(authStatus);
       setIsPro(proStatus);
       if (storedTrialStart) {
         setTrialStartDate(new Date(storedTrialStart));
@@ -33,6 +39,21 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
       console.error("Failed to parse user account from localStorage", error);
     }
   }, []);
+
+  const login = () => {
+      setIsAuthenticated(true);
+      localStorage.setItem('nutrisnap-isAuthenticated', 'true');
+  };
+
+  const logout = () => {
+      setIsAuthenticated(false);
+      localStorage.setItem('nutrisnap-isAuthenticated', 'false');
+      // Optional: clear other user data on logout
+      // localStorage.removeItem('nutrisnap-isPro');
+      // localStorage.removeItem('nutrisnap-trialStartDate');
+      // setIsPro(false);
+      // setTrialStartDate(null);
+  }
 
   // Save state to localStorage whenever it changes
   useEffect(() => {
@@ -63,7 +84,7 @@ export const UserAccountProvider = ({ children }: { children: ReactNode }) => {
     : false;
 
   return (
-    <UserAccountContext.Provider value={{ isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
+    <UserAccountContext.Provider value={{ isAuthenticated, login, logout, isPro, isTrialActive, trialStartDate, upgradeToPro, startTrial }}>
       {children}
     </UserAccountContext.Provider>
   );
@@ -76,5 +97,3 @@ export const useUserAccount = () => {
   }
   return context;
 };
-
-    
