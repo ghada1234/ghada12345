@@ -8,8 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useUserAccount } from "@/context/user-account-context";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserCircle } from "lucide-react";
+import { Leaf } from "lucide-react";
 
 export default function LoginPage() {
     const { login } = useUserAccount();
@@ -25,11 +24,7 @@ export default function LoginPage() {
         <main className="flex-1 flex items-center justify-center p-4">
             <Card className="w-full max-w-sm">
                 <CardHeader className="text-center">
-                    <Avatar className="mx-auto h-20 w-20">
-                        <AvatarFallback>
-                            <UserCircle className="h-16 w-16 text-muted-foreground" />
-                        </AvatarFallback>
-                    </Avatar>
+                    <Leaf className="mx-auto h-12 w-12 text-primary" />
                     <CardTitle className="mt-4 text-2xl font-bold">Welcome Back!</CardTitle>
                     <CardDescription>Enter your credentials to access your account.</CardDescription>
                 </CardHeader>
