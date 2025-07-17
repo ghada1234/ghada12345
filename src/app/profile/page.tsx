@@ -87,14 +87,25 @@ export default function ProfilePage() {
                 bmr = 10 * weight + 6.25 * height - 5 * age - 161;
             }
             
-            const tdee = bmr * 1.375; // Assuming lightly active
-            const calories = Math.round(tdee).toString();
+            const tdee = bmr * 1.375; // Total Daily Energy Expenditure (assuming lightly active)
+
+            let finalCalories = tdee;
+
+            // Adjust calories based on BMI for weight goals
+            if (bmiValue >= 25) { // Overweight or Obese -> Weight Loss
+                finalCalories = tdee - 500;
+            } else if (bmiValue < 18.5) { // Underweight -> Weight Gain
+                finalCalories = tdee + 300;
+            }
+            // For normal weight (18.5-24.9), calories remain at maintenance (TDEE)
+
+            const calories = Math.round(finalCalories).toString();
 
             updateSettings(draft => {
                 draft.goals.macros.calories = calories;
                 draft.goals.macros.protein = Math.round(weight * 1.6).toString(); // 1.6g per kg
-                draft.goals.macros.carbs = Math.round((tdee * 0.45) / 4).toString(); // 45% of calories
-                draft.goals.macros.fats = Math.round((tdee * 0.30) / 9).toString(); // 30% of calories
+                draft.goals.macros.carbs = Math.round((finalCalories * 0.45) / 4).toString(); // 45% of calories
+                draft.goals.macros.fats = Math.round((finalCalories * 0.30) / 9).toString(); // 30% of calories
                 draft.goals.macros.fiber = "30";
                 
                 // Keep micro goals as they are less dependent on BMI
