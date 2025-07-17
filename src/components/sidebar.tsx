@@ -9,9 +9,10 @@ import {
   PlusCircle,
   Calendar,
   BarChart,
-  Settings,
+  User,
   MessageSquare,
   Info,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
@@ -64,14 +65,19 @@ export function Sidebar({ isSheet = false }: { isSheet?: boolean }) {
             label={translations.sidebar.meal_planner}
           />
           <NavLink
+            href="/pricing"
+            icon={<Star className="h-4 w-4" />}
+            label={translations.sidebar.pricing}
+          />
+          <NavLink
             href="/reports"
             icon={<BarChart className="h-4 w-4" />}
             label={translations.sidebar.reports}
           />
           <NavLink
-            href="/settings"
-            icon={<Settings className="h-4 w-4" />}
-            label={translations.sidebar.settings}
+            href="/profile"
+            icon={<User className="h-4 w-4" />}
+            label={translations.sidebar.profile}
           />
           <NavLink
             href="/feedback"

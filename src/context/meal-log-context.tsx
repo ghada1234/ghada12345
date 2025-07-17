@@ -8,6 +8,7 @@ export interface LoggedMeal extends AnalyzeMealOutput {
   id: string;
   date: string; // ISO string for date
   mealType: string;
+  portionSize?: string;
 }
 
 interface MealLogContextType {
@@ -43,7 +44,8 @@ export const MealLogProvider = ({ children }: { children: ReactNode }) => {
   const addMeal = (meal: Omit<LoggedMeal, 'id'>) => {
     const newMeal: LoggedMeal = {
       ...meal,
-      id: `${meal.date}-${meal.mealName}-${Math.random()}`
+      id: `${meal.date}-${meal.mealName}-${Math.random()}`,
+      portionSize: meal.portionSize || "",
     };
     setLoggedMeals(prevMeals => [...prevMeals, newMeal]);
   };

@@ -7,15 +7,38 @@
     "add_food": "Add Food",
     "meal_planner": "Meal Planner",
     "reports": "Reports",
+    "profile": "Profile",
     "settings": "Settings",
     "feedback": "Feedback",
-    "about": "About"
+    "about": "About",
+    "pricing": "Pricing"
   },
   "header": {
     "login": "Login",
     "signup": "Sign Up",
     "english": "English",
     "arabic": "العربية"
+  },
+  "login": {
+    "title": "Welcome Back!",
+    "description": "Enter your credentials to access your account.",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginButton": "Login",
+    "signupPrompt": "Don't have an account?",
+    "signupLink": "Sign up"
+  },
+  "signup": {
+    "title": "Create an Account",
+    "description": "Start your journey with {appName} today.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "avatarLabel": "Profile Picture",
+    "avatarButton": "Upload an Image",
+    "createButton": "Create Account",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login"
   },
   "home": {
     "hero": {
@@ -243,6 +266,8 @@
         "Medium": "Medium",
         "Low": "Low"
       },
+      "portionSize": "Portion Size",
+      "portionSizePlaceholder": "e.g., 1 cup, 250g, 1 serving",
       "calories": "Calories",
       "protein": "Protein",
       "carbs": "Carbs",
@@ -255,6 +280,11 @@
       "vitaminC": "Vitamin C",
       "logButton": "Log This Meal",
       "shareButton": "Share"
+    },
+    "upgrade": {
+        "title": "Trial Expired!",
+        "description": "Please upgrade to Pro to continue using smart analysis features.",
+        "button": "Upgrade to Pro"
     }
   },
   "mealPlanner": {
@@ -276,6 +306,10 @@
     "error": {
         "lowCalTitle": "Not Enough Calories",
         "lowCalDescription": "Your remaining calories are too low to generate a meaningful meal plan."
+    },
+    "adjustGoals": {
+        "text": "Want to change your daily calorie goal? ",
+        "link": "Go to your Profile Page"
     }
   },
   "reports": {
@@ -307,16 +341,41 @@
       "sun": "Sun"
     },
     "weeks": {
-      "w1": "Week 1",
-      "w2": "Week 2",
-      "w3": "Week 3",
-      "w4": "Week 4"
+      "w1": "W1",
+      "w2": "W2",
+      "w3": "W3",
+      "w4": "W4",
+      "w5": "W5"
+    },
+    "upgrade": {
+        "title": "Pro Feature",
+        "description": "Advanced reports are only available for Pro subscribers. Upgrade to gain access.",
+        "button": "Upgrade to Pro"
     }
   },
-  "settings": {
-    "title": "Settings",
-    "subtitle": "Customize your daily nutritional goals and profile.",
+  "profilePage": {
+    "title": "Profile & Settings",
+    "subtitle": "Customize your daily nutritional goals and personal info.",
     "saveButton": "Save Changes",
+    "toast": {
+        "success": {
+            "title": "Settings Saved",
+            "description": "Your preferences have been updated."
+        }
+    },
+    "account": {
+      "title": "Account Settings",
+      "managePayments": "Manage Payment Methods"
+    },
+    "payments": {
+      "title": "Payment Methods",
+      "subtitle": "Manage your payment options for your subscription.",
+      "checkout": {
+          "planName": "Snapri Snaps Pro",
+          "planDescription": "Billed monthly. Access to all premium features.",
+          "guestCheckoutHint": "Don't have a PayPal account? You can check out with a credit or debit card."
+      }
+    },
     "profile": {
       "title": "Profile Settings",
       "name": "Name",
@@ -324,6 +383,12 @@
       "weight": "Weight (kg)",
       "height": "Height (cm)",
       "bmi": "Body Mass Index (BMI)",
+      "bmiStatus": {
+        "underweight": "Underweight",
+        "normal": "Normal Weight",
+        "overweight": "Overweight",
+        "obese": "Obese"
+      },
       "notApplicable": "N/A",
       "gender": {
         "title": "Gender",
@@ -384,5 +449,41 @@
     "missionP1": "Snapri Snaps was founded by Ghada Al-Ani, a talented software engineer from Baghdad, Iraq. Growing up with the rich flavors of Iraqi cuisine, she developed a deep appreciation for how food connects us to our heritage.",
     "missionP2": "While living abroad, she noticed a critical flaw in popular health and wellness apps: they struggled to accurately analyze diverse, international dishes. As an engineer, she saw a technical challenge and an opportunity.",
     "missionP3": "Driven to solve this problem, Ghada leveraged her engineering expertise to create a tool that was both technologically advanced and culturally intelligent. Snapri Snaps is a celebration of global cuisine and a commitment to making personalized nutrition accessible to everyone, one snap at a time."
+  },
+  "pricing": {
+    "title": "Choose Your Plan",
+    "subtitle": "Unlock your full potential with the right plan for you.",
+    "activationNotice": {
+        "title": "Pricing Announcement",
+        "description": "Paid plans will become active on {date}. Until then, all Pro features are available for free."
+    },
+    "tiers": {
+      "free": {
+        "name": "Free",
+        "price": "$0/mo",
+        "description": "For getting started with a one-day trial.",
+        "features": [
+          "AI Meal Analysis (3/day)",
+          "Barcode Scanning",
+          "Daily Progress Tracking"
+        ],
+        "cta": "Start Free Trial"
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$4.99/mo",
+        "description": "For those serious about achieving their goals.",
+        "features": [
+          "Unlimited AI Meal Analysis",
+          "AI Meal Planner",
+          "Advanced Reports & Trends",
+          "Priority Support"
+        ],
+        "cta": "Upgrade to Pro",
+        "ctaActive": "You are a Pro Subscriber"
+      }
+    }
   }
 }
+
+    

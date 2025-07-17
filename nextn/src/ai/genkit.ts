@@ -1,6 +1,7 @@
 
 import {genkit} from 'genkit';
 import {googleAI} from '@genkit-ai/googleai';
+import "dotenv/config";
 
 // This is the single, simplified configuration for Genkit.
 // It relies on the GOOGLE_API_KEY environment variable being set.
