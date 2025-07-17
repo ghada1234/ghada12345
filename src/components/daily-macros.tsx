@@ -106,31 +106,31 @@ export function DailyMacros() {
       </CardHeader>
       <CardContent className="space-y-4">
         <MacroProgress
-          label={translations.settings.macros.calories.label}
+          label={translations.profilePage.macros.calories.label}
           current={totals.calories}
           goal={goals.calories}
           unit="kcal"
         />
         <MacroProgress
-          label={translations.settings.macros.protein.label}
+          label={translations.profilePage.macros.protein.label}
           current={totals.protein}
           goal={goals.protein}
           unit="g"
         />
         <MacroProgress
-          label={translations.settings.macros.carbs.label}
+          label={translations.profilePage.macros.carbs.label}
           current={totals.carbs}
           goal={goals.carbs}
           unit="g"
         />
         <MacroProgress
-          label={translations.settings.macros.fats.label}
+          label={translations.profilePage.macros.fats.label}
           current={totals.fats}
           goal={goals.fats}
           unit="g"
         />
         <MacroProgress
-          label={translations.settings.macros.fiber.label}
+          label={translations.profilePage.macros.fiber.label}
           current={totals.fiber}
           goal={goals.fiber}
           unit="g"
