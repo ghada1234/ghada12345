@@ -62,6 +62,10 @@ function SettingInput({
 
 export default function SettingsPage() {
     const { translations } = useLanguage();
+
+    // Prevent rendering if translations are not loaded yet
+    if (!translations) return null;
+
     const { settings, updateSettings } = useSettings();
     const { isPro } = useUserAccount();
     const { toast } = useToast();
