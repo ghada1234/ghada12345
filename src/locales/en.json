@@ -19,6 +19,27 @@
     "english": "English",
     "arabic": "العربية"
   },
+  "login": {
+    "title": "Welcome Back!",
+    "description": "Enter your credentials to access your account.",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginButton": "Login",
+    "signupPrompt": "Don't have an account?",
+    "signupLink": "Sign up"
+  },
+  "signup": {
+    "title": "Create an Account",
+    "description": "Start your journey with {appName} today.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "avatarLabel": "Profile Picture",
+    "avatarButton": "Upload an Image",
+    "createButton": "Create Account",
+    "loginPrompt": "Already have an account?",
+    "loginLink": "Login"
+  },
   "home": {
     "hero": {
       "title": "Instant Nutritional Analysis at Your Fingertips",

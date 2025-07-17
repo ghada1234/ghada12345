@@ -19,6 +19,27 @@
     "english": "English",
     "arabic": "العربية"
   },
+  "login": {
+    "title": "مرحباً بعودتك!",
+    "description": "أدخل بياناتك للوصول إلى حسابك.",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "loginButton": "تسجيل الدخول",
+    "signupPrompt": "ليس لديك حساب؟",
+    "signupLink": "إنشاء حساب"
+  },
+  "signup": {
+    "title": "إنشاء حساب",
+    "description": "ابدأ رحلتك مع {appName} اليوم.",
+    "nameLabel": "الاسم",
+    "emailLabel": "البريد الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "avatarLabel": "صورة الملف الشخصي",
+    "avatarButton": "تحميل صورة",
+    "createButton": "إنشاء حساب",
+    "loginPrompt": "لديك حساب بالفعل؟",
+    "loginLink": "تسجيل الدخول"
+  },
   "home": {
     "hero": {
       "title": "تحليل غذائي فوري في متناول يدك",

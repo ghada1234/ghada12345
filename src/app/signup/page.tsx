@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function SignupPage() {
     const { translations } = useLanguage();
+    const t = translations.signup;
     const { signup } = useUserAccount();
     const router = useRouter();
     const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
@@ -51,41 +52,41 @@ export default function SignupPage() {
                     ) : (
                         <Leaf className="mx-auto h-12 w-12 text-primary" />
                     )}
-                    <CardTitle className="mt-4 text-2xl font-bold">Create an Account</CardTitle>
-                    <CardDescription>Start your journey with {translations.appName} today.</CardDescription>
+                    <CardTitle className="mt-4 text-2xl font-bold">{t.title}</CardTitle>
+                    <CardDescription>{t.description.replace('{appName}', translations.appName)}</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSignup} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="name">Name</Label>
+                            <Label htmlFor="name">{t.nameLabel}</Label>
                             <Input id="name" type="text" required />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">{t.emailLabel}</Label>
                             <Input id="email" type="email" required />
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="password">Password</Label>
+                            <Label htmlFor="password">{t.passwordLabel}</Label>
                             <Input id="password" type="password" required />
                         </div>
                         <div className="space-y-2">
-                            <Label>Profile Picture</Label>
+                            <Label>{t.avatarLabel}</Label>
                             <Button variant="outline" className="w-full flex items-center gap-2" asChild>
                                 <label htmlFor="avatar-upload" className="cursor-pointer">
                                     <Upload className="h-4 w-4" />
-                                    <span>Upload an Image</span>
+                                    <span>{t.avatarButton}</span>
                                 </label>
                             </Button>
                             <Input id="avatar-upload" type="file" className="hidden" accept="image/*" onChange={handleAvatarChange}/>
                         </div>
                         <Button type="submit" className="w-full">
-                            Create Account
+                            {t.createButton}
                         </Button>
                     </form>
                     <div className="mt-4 text-center text-sm">
-                        Already have an account?{" "}
+                        {t.loginPrompt}{" "}
                         <Link href="/login" className="underline">
-                            Login
+                            {t.loginLink}
                         </Link>
                     </div>
                 </CardContent>
