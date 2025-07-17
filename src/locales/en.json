@@ -383,6 +383,12 @@
       "weight": "Weight (kg)",
       "height": "Height (cm)",
       "bmi": "Body Mass Index (BMI)",
+      "bmiStatus": {
+        "underweight": "Underweight",
+        "normal": "Normal Weight",
+        "overweight": "Overweight",
+        "obese": "Obese"
+      },
       "notApplicable": "N/A",
       "gender": {
         "title": "Gender",
@@ -479,3 +485,5 @@
     }
   }
 }
+
+    

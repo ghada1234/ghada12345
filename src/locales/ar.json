@@ -383,6 +383,12 @@
       "weight": "الوزن (كجم)",
       "height": "الطول (سم)",
       "bmi": "مؤشر كتلة الجسم",
+      "bmiStatus": {
+        "underweight": "نقص الوزن",
+        "normal": "وزن طبيعي",
+        "overweight": "زيادة الوزن",
+        "obese": "سمنة"
+      },
       "notApplicable": "غير متاح",
       "gender": {
         "title": "الجنس",
@@ -479,3 +485,5 @@
     }
   }
 }
+
+    

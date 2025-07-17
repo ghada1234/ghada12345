@@ -21,6 +21,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useSettings } from "@/context/settings-context";
 import { useToast } from "@/hooks/use-toast";
 import { useUserAccount } from "@/context/user-account-context";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 
 function SettingInput({
@@ -66,7 +68,7 @@ export default function ProfilePage() {
     const { settings, updateSettings } = useSettings();
     const { isPro } = useUserAccount();
     const { toast } = useToast();
-    const [bmi, setBmi] = useState<string>("N/A");
+    const [bmi, setBmi] = useState<{value: string, status: string, color: string}>({value: "N/A", status: "", color: ""});
 
     const calculateAndSetGoals = useCallback(() => {
         const weight = parseFloat(settings.profile.weight) || 0;
@@ -77,7 +79,23 @@ export default function ProfilePage() {
         if(weight > 0 && height > 0) {
             const heightInMeters = height / 100;
             const bmiValue = weight / (heightInMeters * heightInMeters);
-            setBmi(bmiValue.toFixed(2));
+
+            let status = "";
+            let color = "";
+            if (bmiValue < 18.5) {
+                status = t.profile.bmiStatus.underweight;
+                color = "bg-blue-500";
+            } else if (bmiValue >= 18.5 && bmiValue < 25) {
+                status = t.profile.bmiStatus.normal;
+                color = "bg-green-500";
+            } else if (bmiValue >= 25 && bmiValue < 30) {
+                status = t.profile.bmiStatus.overweight;
+                color = "bg-yellow-500 text-black";
+            } else {
+                status = t.profile.bmiStatus.obese;
+                color = "bg-red-500";
+            }
+            setBmi({value: bmiValue.toFixed(2), status: status, color: color});
 
             // Mifflin-St Jeor Equation for BMR
             let bmr;
@@ -112,9 +130,9 @@ export default function ProfilePage() {
             })
 
         } else {
-            setBmi(t.profile.notApplicable);
+            setBmi({value: t.profile.notApplicable, status: "", color: ""});
         }
-    }, [settings.profile.weight, settings.profile.height, settings.profile.gender, updateSettings, t.profile.notApplicable]);
+    }, [settings.profile.weight, settings.profile.height, settings.profile.gender, updateSettings, t.profile.notApplicable, t.profile.bmiStatus]);
 
     useEffect(() => {
         calculateAndSetGoals();
@@ -232,7 +250,10 @@ export default function ProfilePage() {
                 </div>
                 <div className="space-y-2">
                     <Label>{t.profile.bmi}</Label>
-                    <p className="p-2 border rounded-md bg-muted text-muted-foreground">{bmi}</p>
+                    <div className="p-2 border rounded-md bg-muted text-muted-foreground flex justify-between items-center">
+                        <span>{bmi.value}</span>
+                        {bmi.status && <Badge className={cn("text-white", bmi.color)}>{bmi.status}</Badge>}
+                    </div>
                 </div>
             </div>
             
@@ -307,3 +328,5 @@ export default function ProfilePage() {
     </main>
   );
 }
+
+    
