@@ -74,7 +74,7 @@ export default function ProfilePage() {
         const gender = settings.profile.gender;
         const age = 30; // Assuming a default age as it's not in the profile
 
-        if(w > 0 && h > 0) {
+        if(weight > 0 && height > 0) {
             const heightInMeters = height / 100;
             const bmiValue = weight / (heightInMeters * heightInMeters);
             setBmi(bmiValue.toFixed(2));
@@ -173,7 +173,7 @@ export default function ProfilePage() {
               <CardTitle>{t.account.title}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Link href="/profile/payments">
+              <Link href="/settings/payments">
                 <Button variant="outline">
                   <CreditCard className="mr-2 h-4 w-4" />
                   {t.account.managePayments}
