@@ -9,7 +9,7 @@ import {
   PlusCircle,
   Calendar,
   BarChart,
-  Settings,
+  User,
   MessageSquare,
   Info,
   Star,
@@ -75,9 +75,9 @@ export function Sidebar({ isSheet = false }: { isSheet?: boolean }) {
             label={translations.sidebar.reports}
           />
           <NavLink
-            href="/settings"
-            icon={<Settings className="h-4 w-4" />}
-            label={translations.sidebar.settings}
+            href="/profile"
+            icon={<User className="h-4 w-4" />}
+            label={translations.sidebar.profile}
           />
           <NavLink
             href="/feedback"

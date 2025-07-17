@@ -7,6 +7,7 @@
     "add_food": "Add Food",
     "meal_planner": "Meal Planner",
     "reports": "Reports",
+    "profile": "Profile",
     "settings": "Settings",
     "feedback": "Feedback",
     "about": "About",
@@ -284,6 +285,10 @@
     "error": {
         "lowCalTitle": "Not Enough Calories",
         "lowCalDescription": "Your remaining calories are too low to generate a meaningful meal plan."
+    },
+    "adjustGoals": {
+        "text": "Want to change your daily calorie goal? ",
+        "link": "Go to your Profile Page"
     }
   },
   "reports": {
@@ -327,9 +332,9 @@
         "button": "Upgrade to Pro"
     }
   },
-  "settings": {
-    "title": "Settings",
-    "subtitle": "Customize your daily nutritional goals and profile.",
+  "profilePage": {
+    "title": "Profile & Settings",
+    "subtitle": "Customize your daily nutritional goals and personal info.",
     "saveButton": "Save Changes",
     "toast": {
         "success": {

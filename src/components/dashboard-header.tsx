@@ -87,9 +87,9 @@ export function DashboardHeader() {
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                         <Link href="/settings">
-                            <Settings className="mr-2 h-4 w-4" />
-                            <span>Settings</span>
+                         <Link href="/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Profile</span>
                          </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
