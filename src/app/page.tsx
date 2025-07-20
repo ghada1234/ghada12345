@@ -42,7 +42,7 @@ export default function LandingPage() {
               </p>
             </div>
             <div className="mt-6 flex justify-center gap-4 max-w-xs mx-auto">
-              <Link href="/dashboard" className="flex-1">
+              <Link href="/signup" className="flex-1">
                 <Button className="w-full">
                   {translations.home.hero.getStarted}
                   <ArrowRight className="ml-2" />

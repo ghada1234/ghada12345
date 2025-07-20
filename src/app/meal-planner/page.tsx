@@ -13,7 +13,8 @@ import { type GenerateMealPlanOutput } from "@/ai/flows/generate-meal-plan";
 import { type Meal } from "@/ai/flows/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { useSettings } from "@/context/settings-context";
 
 const NutrientRow = ({ label, value, unit }: { label: string; value: number | undefined; unit: string; }) => {
     if (value === undefined) return null;
@@ -94,16 +95,17 @@ export default function MealPlannerPage() {
   const [mealPlan, setMealPlan] = useState<GenerateMealPlanOutput | null>(null);
   const { translations } = useLanguage();
   const { getMealsForDate } = useMealLog();
+  const { settings } = useSettings();
   const { toast } = useToast();
 
-  const CALORIE_GOAL = 2000; // This should come from settings
+  const calorieGoal = useMemo(() => parseFloat(settings.goals.macros.calories) || 2000, [settings.goals.macros.calories]);
 
   const caloriesConsumed = useMemo(() => {
     const todaysMeals = getMealsForDate(new Date());
     return todaysMeals.reduce((sum, meal) => sum + meal.calories, 0);
   }, [getMealsForDate]);
 
-  const remainingCalories = useMemo(() => CALORIE_GOAL - caloriesConsumed, [caloriesConsumed]);
+  const remainingCalories = useMemo(() => calorieGoal - caloriesConsumed, [calorieGoal, caloriesConsumed]);
 
   const handleGenerate = async () => {
     setIsLoading(true);
@@ -120,11 +122,10 @@ export default function MealPlannerPage() {
         }
         const result = await handleGenerateMealPlan({ 
             remainingCalories,
-            // These would come from user settings in a real app
-            dietaryPreference: "healthy, balanced",
-            allergies: "none",
-            likes: "chicken, vegetables, olive oil",
-            dislikes: "pork, excessive sugar"
+            dietaryPreference: settings.profile.dietaryPreference,
+            allergies: settings.profile.allergies,
+            likes: settings.profile.likes,
+            dislikes: settings.profile.dislikes,
         });
         setMealPlan(result);
 
@@ -173,7 +174,7 @@ export default function MealPlannerPage() {
           </CardHeader>
           <CardContent className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-col items-center">
-                <p className="text-2xl font-bold">{CALORIE_GOAL}</p>
+                <p className="text-2xl font-bold">{calorieGoal}</p>
                 <p className="text-sm text-muted-foreground">{translations.mealPlanner.statusCard.goal}</p>
             </div>
             <div className="text-2xl font-light text-muted-foreground">-</div>
@@ -194,6 +195,15 @@ export default function MealPlannerPage() {
             </div>
           </CardContent>
         </Card>
+        
+        <div className="text-center text-sm text-muted-foreground">
+          <p>
+            {translations.mealPlanner.adjustGoals.text}
+            <Link href="/profile" className="underline text-primary hover:text-primary/80">
+                {translations.mealPlanner.adjustGoals.link}
+            </Link>
+          </p>
+        </div>
         
         {isLoading && <LoadingSkeleton />}
         

@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useMealLog } from "@/context/meal-log-context";
+import { useSettings } from "@/context/settings-context";
 
 interface MacroProgressProps {
   label: string;
@@ -32,6 +33,7 @@ function MacroProgress({ label, current, goal, unit, className }: MacroProgressP
 export function DailyMacros() {
   const { translations } = useLanguage();
   const { getMealsForDate } = useMealLog();
+  const { settings } = useSettings();
 
   const todaysMeals = getMealsForDate(new Date());
 
@@ -43,26 +45,52 @@ export function DailyMacros() {
         acc.fats += meal.fats;
         // You might need to add fiber to your AnalyzeMealOutput if it's not there
         // acc.fiber += meal.fiber || 0; 
+        acc.sugar += meal.sugar;
+        acc.sodium += meal.sodium;
+        acc.potassium += meal.potassium;
+        acc.calcium += meal.calcium;
+        acc.iron += meal.iron;
+        acc.vitaminC += meal.vitaminC;
         return acc;
-    }, { calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0 });
+    }, { calories: 0, protein: 0, carbs: 0, fats: 0, fiber: 0, sugar: 0, sodium: 0, potassium: 0, calcium: 0, iron: 0, vitaminC: 0 });
   }, [todaysMeals]);
   
-  // These should eventually come from user settings
-  const goals = {
-    calories: 2000,
-    protein: 120,
-    carbs: 250,
-    fats: 70,
-    fiber: 30
-  };
+  const goals = useMemo(() => ({
+    calories: parseFloat(settings.goals.macros.calories) || 2000,
+    protein: parseFloat(settings.goals.macros.protein) || 120,
+    carbs: parseFloat(settings.goals.macros.carbs) || 250,
+    fats: parseFloat(settings.goals.macros.fats) || 70,
+    fiber: parseFloat(settings.goals.macros.fiber) || 30,
+  }), [settings.goals.macros]);
+
+  const microGoals = useMemo(() => ({
+    sugar: parseFloat(settings.goals.micros.sugar) || 50,
+    sodium: parseFloat(settings.goals.micros.sodium) || 2300,
+    potassium: parseFloat(settings.goals.micros.potassium) || 3500,
+    calcium: parseFloat(settings.goals.micros.calcium) || 1000,
+    iron: parseFloat(settings.goals.micros.iron) || 18,
+    vitaminC: parseFloat(settings.goals.micros.vitaminC) || 90,
+  }), [settings.goals.micros]);
 
   const handleShare = () => {
-    const message = `📊 *My Daily Nutrition Goals*
+    const macrosTitle = translations.dashboard.macros.title.toUpperCase();
+    const microsTitle = translations.dashboard.micros.title.toUpperCase();
 
+    const message = `📊 *My Daily Nutrition Summary*
+
+*${macrosTitle}*
 🔥 ${translations.dashboard.macros.calories}: ${totals.calories.toFixed(0)} / ${goals.calories} kcal
 💪 ${translations.dashboard.macros.protein}: ${totals.protein.toFixed(0)} / ${goals.protein}g
 🍞 ${translations.dashboard.macros.carbs}: ${totals.carbs.toFixed(0)} / ${goals.carbs}g
 🥑 ${translations.dashboard.macros.fats}: ${totals.fats.toFixed(0)} / ${goals.fats}g
+
+*${microsTitle}*
+🍯 ${translations.dashboard.micros.sugar}: ${totals.sugar.toFixed(1)} / ${microGoals.sugar}g
+🧂 ${translations.dashboard.micros.sodium}: ${totals.sodium.toFixed(0)} / ${microGoals.sodium}mg
+🍌 ${translations.dashboard.micros.potassium}: ${totals.potassium.toFixed(0)} / ${microGoals.potassium}mg
+🦴 ${translations.dashboard.micros.calcium}: ${totals.calcium.toFixed(0)} / ${microGoals.calcium}mg
+⚡ ${translations.dashboard.micros.iron}: ${totals.iron.toFixed(1)} / ${microGoals.iron}mg
+🍊 ${translations.dashboard.micros.vitaminC}: ${totals.vitaminC.toFixed(1)} / ${microGoals.vitaminC}mg
 
 📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
@@ -78,31 +106,31 @@ export function DailyMacros() {
       </CardHeader>
       <CardContent className="space-y-4">
         <MacroProgress
-          label={translations.dashboard.macros.calories}
+          label={translations.profilePage.macros.calories.label}
           current={totals.calories}
           goal={goals.calories}
           unit="kcal"
         />
         <MacroProgress
-          label={translations.dashboard.macros.protein}
+          label={translations.profilePage.macros.protein.label}
           current={totals.protein}
           goal={goals.protein}
           unit="g"
         />
         <MacroProgress
-          label={translations.dashboard.macros.carbs}
+          label={translations.profilePage.macros.carbs.label}
           current={totals.carbs}
           goal={goals.carbs}
           unit="g"
         />
         <MacroProgress
-          label={translations.dashboard.macros.fats}
+          label={translations.profilePage.macros.fats.label}
           current={totals.fats}
           goal={goals.fats}
           unit="g"
         />
         <MacroProgress
-          label={translations.dashboard.macros.fiber}
+          label={translations.profilePage.macros.fiber.label}
           current={totals.fiber}
           goal={goals.fiber}
           unit="g"

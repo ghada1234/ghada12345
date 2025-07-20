@@ -1,3 +1,4 @@
+
 "use server";
 
 import { suggestRecipes, type SuggestRecipesInput, type SuggestRecipesOutput } from "@/ai/flows/suggest-recipes";
@@ -19,13 +20,7 @@ export async function handleSuggestRecipes(
 export async function handleAnalyzeMeal(
   input: AnalyzeMealInput
 ): Promise<AnalyzeMealOutput> {
-  try {
-    const result = await analyzeMeal(input);
-    return result;
-  } catch (error) {
-    console.error("Error analyzing meal:", error);
-    throw new Error("Failed to get meal analysis from AI.");
-  }
+  return analyzeMeal(input);
 }
 
 export async function handleGenerateMealPlan(

@@ -39,8 +39,53 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
+  // Provide a default structure for translations during prerendering or if context is somehow missing.
+  // This prevents crashes when accessing nested properties before the context is fully available.
   if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
+    // Return a default translations object with the expected nested structure but empty values
+    return {
+      language: 'en' as 'en' | 'ar', // Default language
+      translations: {
+        settings: {
+          title: '',
+          subtitle: '',
+          account: {
+            title: '',
+            managePayments: '',
+          },
+          profile: {
+            title: '',
+            avatar: '',
+            uploadButton: '',
+            name: '',
+            namePlaceholder: '',
+            weight: '',
+            height: '',
+            bmi: '',
+            gender: {
+              title: '',
+              male: '',
+              female: '',
+            },
+            dietaryPreference: '',
+            dietaryPreferencePlaceholder: '',
+            allergies: '',
+            allergiesPlaceholder: '',
+            likes: '',
+            likesPlaceholder: '',
+            dislikes: '',
+            dislikesPlaceholder: '',
+            notApplicable: '',
+          },
+          macros: { title: '', calories: { label: '', unit: '' }, protein: { label: '', unit: '' }, carbs: { label: '', unit: '' }, fats: { label: '', unit: '' }, fiber: { label: '', unit: '' } },
+          micros: { title: '', sugar: { label: '', unit: '' }, sodium: { label: '', unit: '' }, potassium: { label: '', unit: '' }, calcium: { label: '', unit: '' }, iron: { label: '', unit: '' }, vitaminC: { label: '', unit: '' } },
+          toast: { success: { title: '', description: '' } },
+          saveButton: '',
+        },
+      },
+      setLanguage: () => {}, // No-op function
+      direction: 'ltr' as 'ltr' | 'rtl', // Default direction
+    };
   }
   return context;
 };

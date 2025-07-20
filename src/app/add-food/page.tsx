@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon } from "lucide-react";
+import { Camera, Type, ScanBarcode, Upload, SwitchCamera, Loader2, BrainCircuit, X, Share2, CalendarIcon, Scale, Lock } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { useMealLog } from "@/context/meal-log-context";
+import { Label } from "@/components/ui/label";
+import { useUserAccount } from "@/context/user-account-context";
+import Link from "next/link";
 
 
 export default function AddFoodPage() {
@@ -33,6 +36,7 @@ export default function AddFoodPage() {
   const [analysisResult, setAnalysisResult] = useState<AnalyzeMealOutput | null>(null);
   const [logDate, setLogDate] = useState<Date>(new Date());
   const [mealType, setMealType] = useState<string>("lunch");
+  const [manualPortionSize, setManualPortionSize] = useState("");
 
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -40,22 +44,37 @@ export default function AddFoodPage() {
   const { toast } = useToast();
   const { translations } = useLanguage();
   const { addMeal } = useMealLog();
+  const { isPro, isTrialActive, startTrial } = useUserAccount();
+
+  const isFeatureAllowed = isPro || isTrialActive;
+
+  useEffect(() => {
+    if (!isPro) {
+        startTrial();
+    }
+  }, [isPro, startTrial])
 
   const resetState = () => {
     setIsLoading(false);
     setAnalysisResult(null);
     setDescription("");
+    setManualPortionSize("");
     if (fileInputRef.current) {
         fileInputRef.current.value = "";
     }
   }
 
   const handleOptionChange = (option: string | null) => {
+    if (!isFeatureAllowed) return;
     resetState();
     setSelectedOption(option);
   }
 
   useEffect(() => {
+    if (!isFeatureAllowed) {
+        setSelectedOption(null);
+        return;
+    }
     const stopStream = () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject as MediaStream;
@@ -94,7 +113,7 @@ export default function AddFoodPage() {
     return () => {
         stopStream();
     }
-  }, [selectedOption, facingMode, toast, translations]);
+  }, [selectedOption, facingMode, toast, translations, isFeatureAllowed]);
     
   const handleSwitchCamera = () => {
     setFacingMode(prevMode => (prevMode === 'user' ? 'environment' : 'user'));
@@ -113,13 +132,24 @@ export default function AddFoodPage() {
     setAnalysisResult(null);
     try {
         const result = await handleAnalyzeMeal(input);
-        setAnalysisResult(result);
+        if (result.error) {
+            toast({
+                variant: "destructive",
+                title: translations.addFood.analysisError.title,
+                description: result.error,
+            });
+            setAnalysisResult(null);
+        } else {
+            setAnalysisResult(result);
+            setManualPortionSize(result.portionSize || "");
+        }
     } catch (error) {
-        toast({
-            variant: "destructive",
-            title: translations.addFood.analysisError.title,
-            description: translations.addFood.analysisError.description,
-        });
+      toast({
+        variant: "destructive",
+        title: translations.addFood.analysisError.title,
+        description: (error instanceof Error ? error.message : translations.addFood.analysisError.description)
+      });
+      console.error("Error analyzing meal:", error);
     } finally {
         setIsLoading(false);
     }
@@ -156,6 +186,7 @@ export default function AddFoodPage() {
      
      addMeal({
         ...analysisResult,
+        portionSize: manualPortionSize,
         date: logDate.toISOString(),
         mealType: mealType,
      })
@@ -165,7 +196,7 @@ export default function AddFoodPage() {
      toast({
         title: translations.addFood.logSuccess.title,
         description: translations.addFood.logSuccess.description
-            .replace('{mealName}', mealName)
+            .replace('{mealName}', mealName ?? 'Meal')
             .replace('{mealType}', mealTypeText)
             .replace('{date}', format(logDate, 'PPP'))
      });
@@ -174,21 +205,21 @@ export default function AddFoodPage() {
   }
 
   const handleShare = (result: AnalyzeMealOutput) => {
-    const message = `🍽️ ${result.mealName}
+    const message = `🍽️ *${result.mealName}* (${manualPortionSize || 'N/A'})
 
-📊 *${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
-🔥 ${translations.addFood.analysisResult.calories}: ${result.calories.toFixed(0)} kcal
-💪 ${translations.addFood.analysisResult.protein}: ${result.protein.toFixed(1)}g
-🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs.toFixed(1)}g
-🥑 ${translations.addFood.analysisResult.fats}: ${result.fats.toFixed(1)}g
+*${translations.addFood.analysisResult.macrosTitle.toUpperCase()}*
+🔥 ${translations.addFood.analysisResult.calories}: ${result.calories?.toFixed(0)} kcal
+💪 ${translations.addFood.analysisResult.protein}: ${result.protein?.toFixed(1)}g
+🍞 ${translations.addFood.analysisResult.carbs}: ${result.carbs?.toFixed(1)}g
+🥑 ${translations.addFood.analysisResult.fats}: ${result.fats?.toFixed(1)}g
 
-🧪 *${translations.addFood.analysisResult.microsTitle.toUpperCase()}*
-🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar.toFixed(1)}g
-🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium.toFixed(0)}mg
-🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium.toFixed(0)}mg
-🦴 ${translations.addFood.analysisResult.calcium}: ${result.calcium.toFixed(0)}mg
-⚡ ${translations.addFood.analysisResult.iron}: ${result.iron.toFixed(1)}mg
-🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC.toFixed(1)}mg
+*${translations.addFood.analysisResult.microsTitle.toUpperCase()}*
+🍯 ${translations.addFood.analysisResult.sugar}: ${result.sugar?.toFixed(1)}g
+🧂 ${translations.addFood.analysisResult.sodium}: ${result.sodium?.toFixed(0)}mg
+🍌 ${translations.addFood.analysisResult.potassium}: ${result.potassium?.toFixed(0)}mg
+🦴 ${translations.addFood.analysisResult.calcium}: ${result.calcium?.toFixed(0)}mg
+⚡ ${translations.addFood.analysisResult.iron}: ${result.iron?.toFixed(1)}mg
+🍊 ${translations.addFood.analysisResult.vitaminC}: ${result.vitaminC?.toFixed(1)}mg
 
 📱 Tracked with ${translations.appName} - Your AI nutrition companion! 🤖✨`;
 
@@ -197,6 +228,20 @@ export default function AddFoodPage() {
     window.location.href = whatsappUrl;
   };
 
+  const UpgradePrompt = () => (
+    <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+            <Lock className="mx-auto h-12 w-12 text-primary"/>
+            <CardTitle>{translations.addFood.upgrade.title}</CardTitle>
+            <CardDescription>{translations.addFood.upgrade.description}</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Link href="/pricing" className="w-full">
+                <Button className="w-full">{translations.addFood.upgrade.button}</Button>
+            </Link>
+        </CardContent>
+    </Card>
+  )
 
   const renderContent = () => {
     const cameraView = (title: string, buttonText: string, buttonIcon: React.ReactNode, onButtonClick: () => void) => (
@@ -282,12 +327,15 @@ export default function AddFoodPage() {
     Low: "bg-red-500 hover:bg-red-600",
   }
 
-  const NutrientRow = ({ label, value, unit }: { label: string; value: number; unit: string; }) => (
-    <div className="flex justify-between text-sm">
-        <span className="text-muted-foreground">{label}</span>
-        <span className="font-medium">{value.toFixed(value > 10 ? 0 : 1)} {unit}</span>
-    </div>
-  )
+  const NutrientRow = ({ label, value, unit }: { label: string; value?: number; unit: string; }) => {
+    if (typeof value !== 'number') return null;
+    return (
+        <div className="flex justify-between text-sm">
+            <span className="text-muted-foreground">{label}</span>
+            <span className="font-medium">{value.toFixed(value > 10 ? 0 : 1)} {unit}</span>
+        </div>
+    )
+  }
 
   const AnalysisResultCard = () => (
     <Card className="w-full max-w-md">
@@ -318,22 +366,40 @@ export default function AddFoodPage() {
                 <>
                     <div className="flex items-baseline justify-between">
                         <h3 className="text-2xl font-bold">{analysisResult.mealName}</h3>
-                        <Badge className={confidenceColor[analysisResult.confidence]}>
-                            {translations.addFood.analysisResult.confidence}: {translations.addFood.analysisResult.confidenceLevels[analysisResult.confidence]}
-                        </Badge>
+                        {analysisResult.confidence && (
+                             <Badge className={confidenceColor[analysisResult.confidence]}>
+                                {translations.addFood.analysisResult.confidence}: {translations.addFood.analysisResult.confidenceLevels[analysisResult.confidence]}
+                            </Badge>
+                        )}
                     </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="portion-size" className="flex items-center gap-2 text-muted-foreground">
+                            <Scale className="h-4 w-4" />
+                            {translations.addFood.analysisResult.portionSize}
+                        </Label>
+                        <Input
+                            id="portion-size"
+                            value={manualPortionSize}
+                            onChange={(e) => setManualPortionSize(e.target.value)}
+                            placeholder={translations.addFood.analysisResult.portionSizePlaceholder}
+                        />
+                    </div>
+
                     <p className="text-sm text-muted-foreground">{analysisResult.feedback}</p>
                     
-                    <Accordion type="single" collapsible className="w-full">
-                        <AccordionItem value="ingredients">
-                            <AccordionTrigger>{translations.addFood.analysisResult.ingredientsTitle}</AccordionTrigger>
-                            <AccordionContent>
-                                <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                                    {analysisResult.ingredients.map((item, index) => <li key={index}>{item}</li>)}
-                                </ul>
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                    {analysisResult.ingredients && analysisResult.ingredients.length > 0 && (
+                        <Accordion type="single" collapsible className="w-full">
+                            <AccordionItem value="ingredients">
+                                <AccordionTrigger>{translations.addFood.analysisResult.ingredientsTitle}</AccordionTrigger>
+                                <AccordionContent>
+                                    <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
+                                        {analysisResult.ingredients.map((item, index) => <li key={index}>{item}</li>)}
+                                    </ul>
+                                </AccordionContent>
+                            </AccordionItem>
+                        </Accordion>
+                    )}
                     
                     <div className="space-y-2">
                         <h4 className="font-semibold">{translations.addFood.analysisResult.macrosTitle}</h4>
@@ -422,16 +488,16 @@ export default function AddFoodPage() {
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Button variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("camera")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'camera' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("camera")}>
             <Camera className="mr-2" /> {translations.addFood.snapPhoto}
           </Button>
-          <Button variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("describe")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'describe' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("describe")}>
             <Type className="mr-2" /> {translations.addFood.describeMeal}
           </Button>
-          <Button variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("scan")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'scan' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("scan")}>
             <ScanBarcode className="mr-2" /> {translations.addFood.scanBarcode}
           </Button>
-          <Button variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("upload")}>
+          <Button disabled={!isFeatureAllowed} variant={selectedOption === 'upload' ? 'default' : 'outline'} size="lg" className="h-16 text-sm sm:text-base flex-1 min-w-[150px] md:h-20" onClick={() => handleOptionChange("upload")}>
             <Upload className="mr-2" /> {translations.addFood.uploadDevice}
           </Button>
         </div>
@@ -439,6 +505,8 @@ export default function AddFoodPage() {
         <div className="w-full flex justify-center">
             {isLoading || analysisResult ? (
                 <AnalysisResultCard />
+            ) : !isFeatureAllowed ? (
+                <UpgradePrompt />
             ) : (
                  <div className="w-full max-w-md">
                     {renderContent()}
@@ -449,3 +517,5 @@ export default function AddFoodPage() {
     </main>
   );
 }
+
+    

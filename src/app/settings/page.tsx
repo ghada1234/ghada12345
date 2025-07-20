@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,21 +13,30 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Upload } from "lucide-react";
+import { Upload, CreditCard } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSettings, type Settings } from "@/context/settings-context";
+import { useToast } from "@/hooks/use-toast";
+import { useUserAccount } from "@/context/user-account-context";
+
 
 function SettingInput({
   label,
   id,
   unit,
-  defaultValue,
+  value,
+  onChange,
   placeholder,
   type = "number",
 }: {
   label: string;
   id: string;
   unit: string;
-  defaultValue: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   type?: string;
 }) {
@@ -40,7 +49,8 @@ function SettingInput({
         <Input
           id={id}
           type={type}
-          defaultValue={defaultValue}
+          value={value}
+          onChange={onChange}
           className="w-full"
           placeholder={placeholder}
         />
@@ -52,8 +62,13 @@ function SettingInput({
 
 export default function SettingsPage() {
     const { translations } = useLanguage();
-    const [weight, setWeight] = useState(70);
-    const [height, setHeight] = useState(175);
+
+    // Prevent rendering if translations are not loaded yet
+    if (!translations) return null;
+
+    const { settings, updateSettings } = useSettings();
+    const { isPro } = useUserAccount();
+    const { toast } = useToast();
     const [bmi, setBmi] = useState<string>("N/A");
 
     const calculateBmi = (w: number, h: number) => {
@@ -66,22 +81,59 @@ export default function SettingsPage() {
         }
     }
 
-    const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newWeight = Number(e.target.value);
-        setWeight(newWeight);
-        calculateBmi(newWeight, height);
-    }
+    useEffect(() => {
+        const weight = parseFloat(settings.profile.weight) || 0;
+        const height = parseFloat(settings.profile.height) || 0;
+        calculateBmi(weight, height);
+    }, [settings.profile.weight, settings.profile.height, translations.settings.profile.notApplicable]);
     
-    const handleHeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newHeight = Number(e.target.value);
-        setHeight(newHeight);
-        calculateBmi(weight, newHeight);
+    
+    const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        updateSettings({ profile: { ...settings.profile, [id]: value } });
     }
 
-    // Set initial BMI on mount
-    useState(() => {
-        calculateBmi(weight, height);
-    });
+    const handleGoalChange = (category: 'macros' | 'micros') => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        updateSettings({ 
+            goals: { 
+                ...settings.goals,
+                [category]: {
+                    ...settings.goals[category],
+                    [id]: value
+                } 
+            }
+        });
+    }
+
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (loadEvent) => {
+                if (loadEvent.target && typeof loadEvent.target.result === 'string') {
+                    updateSettings({ profile: { ...settings.profile, avatar: loadEvent.target.result } });
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const handleGenderChange = (value: string) => {
+        updateSettings({ profile: { ...settings.profile, gender: value as 'male' | 'female' }});
+    }
+
+    const handleSave = () => {
+        // The context already saves on change, but we can provide user feedback here.
+        toast({
+            title: translations.settings.toast.success.title,
+            description: translations.settings.toast.success.description,
+        });
+    }
+
+    const getInitials = (name: string) => {
+        return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    }
 
   return (
     <main className="flex-1 p-4 sm:p-6 lg:p-8">
@@ -92,24 +144,58 @@ export default function SettingsPage() {
             {translations.settings.subtitle}
           </p>
         </div>
+        
+        {isPro && (
+          <Card>
+            <CardHeader>
+              <CardTitle>{translations.settings.account.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Link href="/settings/payments">
+                <Button variant="outline">
+                  <CreditCard className="mr-2 h-4 w-4" />
+                  {translations.settings.account.managePayments}
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardHeader>
             <CardTitle>{translations.settings.profile.title}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            <div className="flex items-center gap-6">
+                <Avatar className="h-20 w-20">
+                    <AvatarImage src={settings.profile.avatar || ''} data-ai-hint="profile picture" />
+                    <AvatarFallback>{getInitials(settings.profile.name)}</AvatarFallback>
+                </Avatar>
+                 <div className="w-full space-y-2">
+                    <Label>{translations.settings.profile.avatar}</Label>
+                    <Button variant="outline" className="w-full" asChild>
+                      <label htmlFor="avatar-upload" className="cursor-pointer">
+                        <Upload className="mr-2"/> {translations.settings.profile.uploadButton}
+                      </label>
+                    </Button>
+                    <Input id="avatar-upload" type="file" className="hidden" accept="image/*" onChange={handleAvatarChange} />
+                </div>
+            </div>
+
+             <Separator />
+            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <Label htmlFor="name">{translations.settings.profile.name}</Label>
-                <Input id="name" placeholder={translations.settings.profile.namePlaceholder} />
+                <Input id="name" value={settings.profile.name} onChange={handleProfileChange} placeholder={translations.settings.profile.namePlaceholder} />
               </div>
                 <div className="space-y-2">
                     <Label htmlFor="weight">{translations.settings.profile.weight}</Label>
-                     <Input id="weight" type="number" defaultValue={weight} onChange={handleWeightChange} />
+                     <Input id="weight" type="number" value={settings.profile.weight} onChange={handleProfileChange} />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="height">{translations.settings.profile.height}</Label>
-                    <Input id="height" type="number" defaultValue={height} onChange={handleHeightChange}/>
+                    <Input id="height" type="number" value={settings.profile.height} onChange={handleProfileChange}/>
                 </div>
                 <div className="space-y-2">
                     <Label>{translations.settings.profile.bmi}</Label>
@@ -120,39 +206,35 @@ export default function SettingsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                 <div className="space-y-2">
                     <Label>{translations.settings.profile.gender.title}</Label>
-                    <RadioGroup defaultValue="male" className="flex gap-4 pt-2">
+                    <RadioGroup value={settings.profile.gender} onValueChange={handleGenderChange} className="flex gap-4 pt-2">
                         <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="male" id="male" />
-                        <Label htmlFor="male">{translations.settings.profile.gender.male}</Label>
+                        <RadioGroupItem value="male" id="r-male" />
+                        <Label htmlFor="r-male">{translations.settings.profile.gender.male}</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="female" id="female" />
-                        <Label htmlFor="female">{translations.settings.profile.gender.female}</Label>
+                        <RadioGroupItem value="female" id="r-female" />
+                        <Label htmlFor="r-female">{translations.settings.profile.gender.female}</Label>
                         </div>
                     </RadioGroup>
-                </div>
-                <div className="space-y-2">
-                    <Label>{translations.settings.profile.avatar}</Label>
-                    <Button variant="outline" className="w-full"><Upload className="mr-2"/> {translations.settings.profile.uploadButton}</Button>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                  <div className="space-y-2">
-                    <Label htmlFor="dietary-preference">{translations.settings.profile.dietaryPreference}</Label>
-                    <Input id="dietary-preference" placeholder={translations.settings.profile.dietaryPreferencePlaceholder} />
+                    <Label htmlFor="dietaryPreference">{translations.settings.profile.dietaryPreference}</Label>
+                    <Input id="dietaryPreference" value={settings.profile.dietaryPreference} onChange={handleProfileChange} placeholder={translations.settings.profile.dietaryPreferencePlaceholder} />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="allergies">{translations.settings.profile.allergies}</Label>
-                    <Input id="allergies" placeholder={translations.settings.profile.allergiesPlaceholder} />
+                    <Input id="allergies" value={settings.profile.allergies} onChange={handleProfileChange} placeholder={translations.settings.profile.allergiesPlaceholder} />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="likes">{translations.settings.profile.likes}</Label>
-                    <Input id="likes" placeholder={translations.settings.profile.likesPlaceholder} />
+                    <Input id="likes" value={settings.profile.likes} onChange={handleProfileChange} placeholder={translations.settings.profile.likesPlaceholder} />
                 </div>
                  <div className="space-y-2">
                     <Label htmlFor="dislikes">{translations.settings.profile.dislikes}</Label>
-                    <Input id="dislikes" placeholder={translations.settings.profile.dislikesPlaceholder} />
+                    <Input id="dislikes" value={settings.profile.dislikes} onChange={handleProfileChange} placeholder={translations.settings.profile.dislikesPlaceholder} />
                 </div>
             </div>
           </CardContent>
@@ -163,11 +245,11 @@ export default function SettingsPage() {
                 <CardTitle>{translations.settings.macros.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <SettingInput label={translations.settings.macros.calories.label} id="calories" unit={translations.settings.macros.calories.unit} defaultValue="2000" />
-                <SettingInput label={translations.settings.macros.protein.label} id="protein" unit={translations.settings.macros.protein.unit} defaultValue="120" />
-                <SettingInput label={translations.settings.macros.carbs.label} id="carbs" unit={translations.settings.macros.carbs.unit} defaultValue="250" />
-                <SettingInput label={translations.settings.macros.fats.label} id="fats" unit={translations.settings.macros.fats.unit} defaultValue="70" />
-                <SettingInput label={translations.settings.macros.fiber.label} id="fiber" unit={translations.settings.macros.fiber.unit} defaultValue="30" />
+                <SettingInput label={translations.settings.macros.calories.label} id="calories" unit={translations.settings.macros.calories.unit} value={settings.goals.macros.calories} onChange={handleGoalChange('macros')} />
+                <SettingInput label={translations.settings.macros.protein.label} id="protein" unit={translations.settings.macros.protein.unit} value={settings.goals.macros.protein} onChange={handleGoalChange('macros')} />
+                <SettingInput label={translations.settings.macros.carbs.label} id="carbs" unit={translations.settings.macros.carbs.unit} value={settings.goals.macros.carbs} onChange={handleGoalChange('macros')} />
+                <SettingInput label={translations.settings.macros.fats.label} id="fats" unit={translations.settings.macros.fats.unit} value={settings.goals.macros.fats} onChange={handleGoalChange('macros')} />
+                <SettingInput label={translations.settings.macros.fiber.label} id="fiber" unit={translations.settings.macros.fiber.unit} value={settings.goals.macros.fiber} onChange={handleGoalChange('macros')} />
             </CardContent>
         </Card>
 
@@ -176,17 +258,17 @@ export default function SettingsPage() {
                 <CardTitle>{translations.settings.micros.title}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-                <SettingInput label={translations.settings.micros.sugar.label} id="sugar" unit={translations.settings.micros.sugar.unit} defaultValue="50" />
-                <SettingInput label={translations.settings.micros.sodium.label} id="sodium" unit={translations.settings.micros.sodium.unit} defaultValue="2300" />
-                <SettingInput label={translations.settings.micros.potassium.label} id="potassium" unit={translations.settings.micros.potassium.unit} defaultValue="3500" />
-                <SettingInput label={translations.settings.micros.calcium.label} id="calcium" unit={translations.settings.micros.calcium.unit} defaultValue="1000" />
-                <SettingInput label={translations.settings.micros.iron.label} id="iron" unit={translations.settings.micros.iron.unit} defaultValue="18" />
-                <SettingInput label={translations.settings.micros.vitaminC.label} id="vitaminc" unit={translations.settings.micros.vitaminC.unit} defaultValue="90" />
+                <SettingInput label={translations.settings.micros.sugar.label} id="sugar" unit={translations.settings.micros.sugar.unit} value={settings.goals.micros.sugar} onChange={handleGoalChange('micros')} />
+                <SettingInput label={translations.settings.micros.sodium.label} id="sodium" unit={translations.settings.micros.sodium.unit} value={settings.goals.micros.sodium} onChange={handleGoalChange('micros')} />
+                <SettingInput label={translations.settings.micros.potassium.label} id="potassium" unit={translations.settings.micros.potassium.unit} value={settings.goals.micros.potassium} onChange={handleGoalChange('micros')} />
+                <SettingInput label={translations.settings.micros.calcium.label} id="calcium" unit={translations.settings.micros.calcium.unit} value={settings.goals.micros.calcium} onChange={handleGoalChange('micros')} />
+                <SettingInput label={translations.settings.micros.iron.label} id="iron" unit={translations.settings.micros.iron.unit} value={settings.goals.micros.iron} onChange={handleGoalChange('micros')} />
+                <SettingInput label={translations.settings.micros.vitaminC.label} id="vitaminC" unit={translations.settings.micros.vitaminC.unit} value={settings.goals.micros.vitaminC} onChange={handleGoalChange('micros')} />
             </CardContent>
         </Card>
         
         <div className="flex justify-end">
-            <Button size="lg">{translations.settings.saveButton}</Button>
+            <Button size="lg" onClick={handleSave}>{translations.settings.saveButton}</Button>
         </div>
       </div>
     </main>
